@@ -103,6 +103,16 @@ Then visit `http://localhost:8000` in your browser.
 - Install the **Live Server** extension.
 - Right-click `index.html` → Click **"Open with Live Server"**.
 
+### Option 3: Deploy to Render (Cloud Hosting)
+Render allows 100% free, fast, automatic SSL hosting for static websites:
+1. Push this repository to **GitHub**.
+2. Log into [dashboard.render.com](https://dashboard.render.com).
+3. Click **New +** → **Static Site**.
+4. Select your GitHub repository.
+5. Keep **Build Command** empty and set **Publish Directory** to `.`.
+6. Click **Create Static Site**. Render automatically builds and deploys a live URL (e.g. `https://lexiq-game.onrender.com`).
+*(A `render.yaml` Blueprint file is already included in the repository for one-click setup.)*
+
 ---
 
 ## 🧠 How AI Was Used During Development
