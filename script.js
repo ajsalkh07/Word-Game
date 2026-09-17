@@ -1,18 +1,3 @@
-/**
- * ==========================================================================
- * LEXIQ - Word Guessing Game Logic
- * College AI Tools Mini-Project
- * 
- * Clean, modular, beginner-friendly Vanilla JavaScript.
- * Contains:
- *  - State management
- *  - Wordle-style two-pass letter evaluation
- *  - Virtual & physical keyboard synchronization
- *  - Smart hints engine (letter position + semantic clues)
- *  - Scoring and streak tracking with localStorage
- *  - Web Audio API zero-dependency sound effects
- * ==========================================================================
- */
 
 // --- Game Configuration & Constants ---
 const WORD_LENGTH = 5;
