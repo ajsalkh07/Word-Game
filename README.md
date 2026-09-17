@@ -1,16 +1,16 @@
-# LEXIQ — 5-Letter Word Guessing Game
+# LexIQ — 5-Letter Word Guessing Game
 
 > **College Mini-Project | Course: AI Tools**  
 > **Tagline:** *Guess the word. Crack the puzzle.*
 
-LEXIQ is a modern, responsive, beginner-friendly word puzzle web application inspired by the mechanics of Wordle, featuring an original visual identity, custom branding, smart hint system, and pure vanilla web technologies.
+LexIQ is a modern, responsive, beginner-friendly word puzzle web application inspired by the mechanics of Wordle, featuring an original visual identity, custom branding, smart hint system, and pure vanilla web technologies.
 
 ---
 
 ## 📸 Overview & Visual Identity
 
-* **Name:** **LEXIQ** (Derived from *Lexicon* + *IQ* / Intelligence)
-* **Logo:** Geometric 4-tile monogram with high-contrast indicator colors (Emerald Green, Gold Yellow, Indigo, Sky Blue).
+* **Name:** **LexIQ** (Derived from *Lexicon* + *IQ* / Intelligence)
+* **Logo:** Minimalist, typography-based design pairing crisp neutral lettering (`Lex`) with the signature purple/blue indigo accent (`IQ`).
 * **Architecture:** Zero external frameworks, zero Node/npm dependencies, zero build steps. Runs directly in any web browser 100% offline.
 
 ---
