@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: lexiq-game
+    env: static
+    buildCommand: ""
+    staticPublishPath: "."
+    pullRequestPreviewsEnabled: false
