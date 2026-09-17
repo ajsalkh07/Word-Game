@@ -141,53 +141,93 @@
         <button class="modal-close" aria-label="Close modal">&times;</button>
       </div>
       <div class="modal-body">
-        <p class="guide-intro">Guess the secret <strong>5-letter word</strong> in <strong>6 attempts</strong> or fewer.</p>
-        <p>Each guess must be a valid 5-letter English word. Hit <strong>Enter</strong> to submit your guess.</p>
         
-        <div class="guide-divider"></div>
-        <h3>Letter Tile Feedback</h3>
-        <p class="guide-note">After each guess, the color of the tiles will reveal how close your guess was:</p>
-
-        <div class="example-tile-group">
-          <div class="example-row">
-            <div class="example-tile correct">B</div>
-            <div class="example-tile">R</div>
-            <div class="example-tile">A</div>
-            <div class="example-tile">V</div>
-            <div class="example-tile">E</div>
-          </div>
-          <p class="example-desc"><strong>Green:</strong> The letter <strong>B</strong> is in the word and in the <strong>exact correct spot</strong>.</p>
-        </div>
-
-        <div class="example-tile-group">
-          <div class="example-row">
-            <div class="example-tile">P</div>
-            <div class="example-tile present">I</div>
-            <div class="example-tile">A</div>
-            <div class="example-tile">N</div>
-            <div class="example-tile">O</div>
-          </div>
-          <p class="example-desc"><strong>Yellow:</strong> The letter <strong>I</strong> is in the word, but in the <strong>wrong spot</strong>.</p>
-        </div>
-
-        <div class="example-tile-group">
-          <div class="example-row">
-            <div class="example-tile">C</div>
-            <div class="example-tile">L</div>
-            <div class="example-tile">O</div>
-            <div class="example-tile absent">U</div>
-            <div class="example-tile">D</div>
-          </div>
-          <p class="example-desc"><strong>Gray:</strong> The letter <strong>U</strong> is <strong>not present</strong> anywhere in the secret word.</p>
-        </div>
+        <!-- 1. Goal -->
+        <section class="guide-section">
+          <h3 class="guide-heading">🎯 Goal</h3>
+          <p class="guide-text">Guess the hidden <strong>5-letter word</strong> in <strong>6 attempts</strong> or fewer.</p>
+        </section>
 
         <div class="guide-divider"></div>
-        <h3>Smart Hints System</h3>
-        <ul class="guide-list">
-          <li><strong>Hint 1:</strong> Reveals a correct letter and its exact position.</li>
-          <li><strong>Hint 2:</strong> Gives a contextual clue about the word's meaning.</li>
-          <li>Maximum <strong>2 hints</strong> allowed per game (each hint reduces the final score slightly).</li>
-        </ul>
+
+        <!-- 2. How to Play -->
+        <section class="guide-section">
+          <h3 class="guide-heading">⌨️ How to Play</h3>
+          <ul class="guide-bullet-list">
+            <li>Type a valid 5-letter word using your <strong>physical keyboard</strong> or the <strong>on-screen keyboard</strong>.</li>
+            <li>Press <strong>Enter</strong> to submit your guess.</li>
+          </ul>
+        </section>
+
+        <div class="guide-divider"></div>
+
+        <!-- 3. Tile Colors -->
+        <section class="guide-section">
+          <h3 class="guide-heading">🎨 Tile Colors</h3>
+          <p class="guide-subtext">After each guess, the tile colors reveal how close you are:</p>
+          <div class="color-rules-list">
+            <div class="color-rule-item">
+              <span class="rule-chip correct">GREEN</span>
+              <span><strong>Correct position:</strong> Letter is in the word and in the right spot.</span>
+            </div>
+            <div class="color-rule-item">
+              <span class="rule-chip present">YELLOW</span>
+              <span><strong>Wrong position:</strong> Letter is in the word, but in a different spot.</span>
+            </div>
+            <div class="color-rule-item">
+              <span class="rule-chip absent">GRAY</span>
+              <span><strong>Not in word:</strong> Letter does not appear anywhere in the hidden word.</span>
+            </div>
+          </div>
+        </section>
+
+        <div class="guide-divider"></div>
+
+        <!-- 4. Visual Example -->
+        <section class="guide-section">
+          <h3 class="guide-heading">🔍 Example</h3>
+          <p class="guide-subtext">Suppose the hidden word is <strong>PLANT</strong> and your guess is <strong>PLAYS</strong>:</p>
+          
+          <div class="example-box">
+            <div class="example-row">
+              <div class="example-tile correct">P</div>
+              <div class="example-tile correct">L</div>
+              <div class="example-tile correct">A</div>
+              <div class="example-tile absent">Y</div>
+              <div class="example-tile present">S</div>
+            </div>
+            <div class="example-explanation">
+              <p>🟩 <strong>P, L, A</strong> are green — in the word and in the <strong>exact correct spots</strong>.</p>
+              <p>⬜ <strong>Y</strong> is gray — not present in the hidden word at all.</p>
+              <p>🟨 <strong>S</strong> is yellow — present in the word, but in the <strong>wrong spot</strong>.</p>
+            </div>
+          </div>
+        </section>
+
+        <div class="guide-divider"></div>
+
+        <!-- 5. Hints & Scoring -->
+        <section class="guide-section">
+          <h3 class="guide-heading">💡 Hints & Scoring</h3>
+          <div class="hints-scoring-grid">
+            <div class="info-card">
+              <h4>Smart Hints (Max 2)</h4>
+              <ul class="compact-list">
+                <li><strong>Hint 1:</strong> Reveals one correct letter and its position.</li>
+                <li><strong>Hint 2:</strong> Gives a helpful clue about the word's meaning.</li>
+                <li><em>Penalty:</em> Each hint reduces your score by <strong>15 points</strong>.</li>
+              </ul>
+            </div>
+            <div class="info-card">
+              <h4>Scoring & Streak</h4>
+              <ul class="compact-list">
+                <li><strong>Fewer Attempts = Higher Score:</strong> Attempt 1 = 100 pts, down to Attempt 6 = 50 pts (0 on loss).</li>
+                <li><strong>Streak:</strong> Consecutive wins build your <strong>Current Streak</strong>. A loss resets it to 0.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
       </div>
     </div>
   </div>
