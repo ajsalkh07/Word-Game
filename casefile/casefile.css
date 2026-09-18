@@ -1712,3 +1712,412 @@ body {
     flex-direction: column;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   MOBILE & RESPONSIVE ADJUSTMENTS
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+
+  /* Main app */
+  .casefile-app {
+    width: 100%;
+    padding: 10px 12px;
+  }
+
+  /* Header */
+  .casefile-header {
+    padding: 6px 0 12px;
+    margin-bottom: 12px;
+  }
+
+  .brand-title-text {
+    font-size: 1.05rem;
+    letter-spacing: 1.5px;
+  }
+
+  .case-number-badge {
+    font-size: 0.6rem;
+    padding: 2px 6px;
+  }
+
+  .hub-back-btn {
+    height: 36px;
+    padding: 0 10px;
+  }
+
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+
+  /* Dossier */
+  .dossier-card {
+    padding: 20px 16px;
+    margin: 6px auto;
+  }
+
+  .dossier-header {
+    align-items: flex-start;
+  }
+
+  .case-meta-bar {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .case-main-title {
+    font-size: 1.9rem;
+  }
+
+  .case-incident-summary {
+    font-size: 0.95rem;
+  }
+
+  .case-secondary-summary {
+    font-size: 0.84rem;
+  }
+
+
+  /* Dossier specifications */
+  .briefing-specs-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+
+  /* Suspects preview */
+  .suspects-strip {
+    grid-template-columns: 1fr;
+  }
+
+
+  /* Investigate button */
+  .dossier-footer {
+    justify-content: stretch;
+  }
+
+  .btn-investigate-large {
+    width: 100%;
+    justify-content: center;
+  }
+
+
+  /* Investigation HUD */
+  .investigation-hud {
+    padding: 10px 12px;
+  }
+
+  .hud-left {
+    width: 100%;
+    gap: 7px;
+  }
+
+  .hud-stat-pill {
+    padding: 6px 9px;
+  }
+
+  .btn-accuse-action {
+    width: 100%;
+    justify-content: center;
+  }
+
+
+  /* Tabs */
+  .dashboard-tabs {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .dash-tab {
+    padding: 9px 12px;
+    font-size: 0.78rem;
+    flex-shrink: 0;
+  }
+
+
+  /* Crime scene */
+  .scene-container {
+    padding: 14px;
+  }
+
+  .scene-visual-room {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .scene-object-card {
+    padding: 14px 8px;
+  }
+
+  .object-icon {
+    font-size: 1.9rem;
+  }
+
+  .object-name {
+    font-size: 0.78rem;
+  }
+
+
+  /* Suspects */
+  .suspects-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  /* Evidence */
+  .evidence-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .evidence-header-row {
+    align-items: stretch;
+  }
+
+  .evidence-filter-group {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 2px;
+  }
+
+  .filter-btn {
+    flex-shrink: 0;
+  }
+
+
+  /* Timeline */
+  .timeline-events-list {
+    padding-left: 18px;
+  }
+
+  .timeline-item {
+    padding: 12px 14px;
+  }
+
+
+  /* Notes */
+  .notes-container {
+    width: 100%;
+  }
+
+  .notes-toolbar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .toolbar-left {
+    flex-wrap: wrap;
+  }
+
+  .notes-textarea {
+    height: 200px;
+  }
+
+
+  /* Verdict */
+  .verdict-card {
+    padding: 20px 16px;
+  }
+
+  .verdict-title {
+    font-size: 1.7rem;
+  }
+
+  .culprit-summary-box {
+    padding: 16px;
+  }
+
+  .resolution-breakdown-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .investigation-metrics-box {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+
+  /* Modals */
+  .modal-backdrop {
+    padding: 10px;
+  }
+
+  .modal-card {
+    max-width: 100%;
+    max-height: 90vh;
+    padding: 18px;
+  }
+
+  .suspect-select-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   SMALL PHONES
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 480px) {
+
+  .casefile-app {
+    padding: 8px 10px;
+  }
+
+
+  /* Header */
+  .hub-back-btn span {
+    display: none;
+  }
+
+  .hub-back-btn {
+    width: 36px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .casefile-brand {
+    gap: 7px;
+  }
+
+  .brand-title-text {
+    font-size: 0.95rem;
+  }
+
+  .case-number-badge {
+    display: none;
+  }
+
+
+  /* Dossier */
+  .dossier-card {
+    padding: 18px 14px;
+    border-radius: var(--radius-md);
+  }
+
+  .dossier-header {
+    gap: 8px;
+  }
+
+  .case-main-title {
+    font-size: 1.5rem;
+  }
+
+  .case-incident-summary {
+    font-size: 0.88rem;
+  }
+
+  .case-secondary-summary {
+    font-size: 0.8rem;
+  }
+
+
+  /* Specs */
+  .briefing-specs-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .spec-card {
+    padding: 10px;
+  }
+
+  .spec-val {
+    font-size: 0.8rem;
+  }
+
+
+  /* HUD */
+  .hud-left {
+    gap: 6px;
+  }
+
+  .hud-stat-pill {
+    flex: 1;
+    justify-content: center;
+    padding: 6px 7px;
+  }
+
+  .hud-label {
+    font-size: 0.6rem;
+  }
+
+  .hud-val {
+    font-size: 0.76rem;
+  }
+
+
+  /* Crime scene */
+  .scene-container {
+    padding: 12px;
+  }
+
+  .scene-visual-room {
+    gap: 7px;
+  }
+
+  .scene-object-card {
+    padding: 12px 6px;
+  }
+
+  .object-icon {
+    font-size: 1.7rem;
+    margin-bottom: 7px;
+  }
+
+  .object-name {
+    font-size: 0.72rem;
+  }
+
+  .object-status {
+    font-size: 0.6rem;
+  }
+
+
+  /* Suspect cards */
+  .suspect-card {
+    padding: 14px;
+  }
+
+  .suspect-header {
+    gap: 10px;
+  }
+
+  .suspect-avatar {
+    width: 46px;
+    height: 46px;
+  }
+
+
+  /* Evidence */
+  .clue-card {
+    padding: 14px;
+  }
+
+
+  /* Timeline */
+  .timeline-item-header {
+    align-items: flex-start;
+    gap: 6px;
+    flex-direction: column;
+  }
+
+
+  /* Verdict */
+  .verdict-actions {
+    flex-direction: column;
+  }
+
+  .btn-primary-action,
+  .btn-secondary-action {
+    width: 100%;
+    justify-content: center;
+  }
+
+
+  /* Footer */
+  .casefile-footer {
+    font-size: 0.65rem;
+  }
+}

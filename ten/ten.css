@@ -1126,3 +1126,1052 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+
+/* ==========================================================================
+   TEN - Full Mobile Responsive Layout
+   Part of SYNAPSE Mini-Game Platform
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Tablets / Mobile
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+
+  body {
+    justify-content: flex-start;
+  }
+
+  .ten-container {
+    width: 100%;
+    max-width: 100%;
+    min-height: 100dvh;
+    padding: 8px 12px;
+  }
+
+  /* Header */
+  .ten-header {
+    padding: 6px 0 8px;
+  }
+
+  .header-left,
+  .header-right {
+    gap: 6px;
+  }
+
+  .hub-back-btn {
+    height: 36px;
+    padding: 0 10px;
+    font-size: 0.72rem;
+  }
+
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .brand-badge {
+    padding: 4px 10px;
+  }
+
+  .brand-ten-logo {
+    font-size: 1rem;
+  }
+
+  .brand-ten-name {
+    font-size: 0.9rem;
+  }
+
+  /* Main */
+  .ten-main {
+    padding: 8px 0;
+  }
+
+  /* Start Screen */
+  .start-hero {
+    margin-bottom: 16px;
+  }
+
+  .ten-big-logo {
+    width: 82px;
+    height: 82px;
+    margin-bottom: 10px;
+  }
+
+  .number-10 {
+    font-size: 3rem;
+  }
+
+  .start-title {
+    font-size: 2rem;
+    letter-spacing: 2px;
+  }
+
+  .start-tagline {
+    font-size: 0.95rem;
+  }
+
+  .start-desc {
+    font-size: 0.82rem;
+    max-width: 340px;
+  }
+
+  .start-stats-pill {
+    padding: 7px 15px;
+    margin-bottom: 16px;
+  }
+
+  .start-rules-strip {
+    gap: 7px;
+    margin-bottom: 18px;
+  }
+
+  .rule-mini-item {
+    padding: 7px 9px;
+    font-size: 0.7rem;
+  }
+
+  .start-actions {
+    max-width: 100%;
+  }
+
+  .btn-primary-large {
+    padding: 13px 20px;
+    font-size: 0.95rem;
+  }
+
+  .btn-secondary {
+    padding: 11px 18px;
+    font-size: 0.82rem;
+  }
+
+  /* Game HUD */
+  .game-hud {
+    padding: 9px 10px;
+    margin-bottom: 9px;
+  }
+
+  .hud-label {
+    font-size: 0.58rem;
+  }
+
+  .hud-value {
+    font-size: 0.95rem;
+  }
+
+  .hud-badge {
+    font-size: 0.62rem;
+    padding: 2px 6px;
+  }
+
+  /* Timer */
+  .timer-wrapper {
+    margin-bottom: 10px;
+  }
+
+  .timer-tag {
+    font-size: 0.66rem;
+  }
+
+  .timer-digits {
+    font-size: 1.6rem;
+  }
+
+  .timer-bar-container {
+    height: 9px;
+  }
+
+  /* Challenge */
+  .challenge-card {
+    padding: 15px 13px;
+    min-height: 290px;
+    border-radius: var(--radius-md);
+  }
+
+  .challenge-header {
+    margin-bottom: 10px;
+  }
+
+  .challenge-badge {
+    font-size: 0.65rem;
+    padding: 3px 8px;
+  }
+
+  .challenge-instruction {
+    font-size: 1rem;
+  }
+
+  .challenge-arena {
+    padding: 5px 0;
+  }
+
+  /* Choices */
+  .choices-grid {
+    gap: 8px;
+  }
+
+  .choice-btn {
+    padding: 12px 8px;
+    font-size: 1.05rem;
+  }
+
+  /* Equation */
+  .equation-box {
+    font-size: 1.55rem;
+    padding: 11px 15px;
+    margin-bottom: 10px;
+  }
+
+  /* Symbol Grid */
+  .symbol-grid {
+    max-width: 290px;
+    gap: 7px;
+  }
+
+  .odd-symbol {
+    font-size: 28px !important;
+  }
+
+  /* Shapes */
+  .shapes-strip {
+    gap: 7px;
+    padding: 11px;
+    font-size: 1.45rem;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+  }
+
+  /* Sequence */
+  .sequence-box {
+    font-size: 1.3rem;
+    padding: 10px 12px;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+  }
+
+  /* Memory */
+  .memory-box {
+    padding: 13px;
+    font-size: 1.5rem;
+    letter-spacing: 6px;
+    margin-bottom: 10px;
+  }
+
+  /* Sorting */
+  .sort-container {
+    gap: 10px;
+  }
+
+  .sort-chips-grid {
+    gap: 7px;
+  }
+
+  .sort-chip {
+    padding: 10px 15px;
+    font-size: 1.15rem;
+  }
+
+  .sort-progress {
+    font-size: 0.72rem;
+  }
+
+  /* Reaction */
+  .reaction-container {
+    padding: 6px 0;
+  }
+
+  .reaction-btn {
+    width: 140px;
+    height: 140px;
+  }
+
+  .reaction-label {
+    font-size: 1rem;
+  }
+
+  .reaction-sub {
+    font-size: 0.66rem;
+  }
+
+  /* Feedback */
+  .feedback-banner {
+    padding: 13px 22px;
+  }
+
+  .feedback-icon {
+    font-size: 2rem;
+  }
+
+  .feedback-text {
+    font-size: 1.05rem;
+  }
+
+  .feedback-points {
+    font-size: 0.78rem;
+  }
+
+  /* Results */
+  .results-card {
+    padding: 20px 16px;
+    border-radius: var(--radius-md);
+  }
+
+  .results-header {
+    margin-bottom: 13px;
+  }
+
+  .results-medal {
+    font-size: 2.5rem;
+  }
+
+  .results-title {
+    font-size: 1.55rem;
+    letter-spacing: 1.5px;
+  }
+
+  .results-critique {
+    font-size: 0.84rem;
+  }
+
+  .results-score-box {
+    padding: 13px;
+    margin-bottom: 13px;
+  }
+
+  .score-number {
+    font-size: 2.4rem;
+  }
+
+  .results-grid {
+    gap: 7px;
+    margin-bottom: 15px;
+  }
+
+  .res-stat-box {
+    padding: 8px;
+  }
+
+  .res-stat-box .res-label {
+    font-size: 0.58rem;
+  }
+
+  .res-stat-box .res-val {
+    font-size: 1.1rem;
+  }
+
+  /* Footer */
+  .ten-footer {
+    font-size: 0.68rem;
+    padding: 4px 0;
+  }
+
+  /* Modal */
+  .modal-backdrop {
+    padding: 10px;
+  }
+
+  .modal-card {
+    max-width: 100%;
+    max-height: 90dvh;
+    padding: 18px;
+    border-radius: 15px;
+  }
+
+  .modal-header {
+    margin-bottom: 13px;
+  }
+
+  .modal-header h2 {
+    font-size: 1.15rem;
+  }
+
+  .guide-step-card {
+    gap: 9px;
+    padding: 9px 10px;
+    margin-bottom: 9px;
+  }
+
+  .step-num {
+    width: 24px;
+    height: 24px;
+    font-size: 0.72rem;
+  }
+
+  .step-content h4 {
+    font-size: 0.8rem;
+  }
+
+  .step-content p {
+    font-size: 0.74rem;
+  }
+
+  .types-grid {
+    gap: 6px;
+  }
+
+  .type-pill {
+    padding: 7px;
+    font-size: 0.68rem;
+  }
+
+  .guide-footer-note {
+    font-size: 0.76rem;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Normal Phones
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+
+  .ten-container {
+    padding: 6px 9px;
+  }
+
+  /* Header */
+  .ten-header {
+    padding-bottom: 7px;
+  }
+
+  .hub-back-btn {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .hub-back-btn span {
+    display: none;
+  }
+
+  .icon-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .brand-badge {
+    padding: 3px 8px;
+  }
+
+  .brand-ten-logo {
+    font-size: 0.9rem;
+  }
+
+  .brand-ten-name {
+    font-size: 0.8rem;
+  }
+
+  /* Start */
+  .ten-big-logo {
+    width: 72px;
+    height: 72px;
+  }
+
+  .number-10 {
+    font-size: 2.6rem;
+  }
+
+  .start-title {
+    font-size: 1.75rem;
+    letter-spacing: 1.5px;
+  }
+
+  .start-tagline {
+    font-size: 0.86rem;
+  }
+
+  .start-desc {
+    font-size: 0.76rem;
+    max-width: 310px;
+  }
+
+  .start-stats-pill {
+    padding: 6px 12px;
+    margin-bottom: 13px;
+  }
+
+  .pill-label {
+    font-size: 0.64rem;
+  }
+
+  .pill-val {
+    font-size: 0.88rem;
+  }
+
+  .start-rules-strip {
+    gap: 5px;
+    margin-bottom: 15px;
+  }
+
+  .rule-mini-item {
+    padding: 6px 7px;
+    font-size: 0.62rem;
+    gap: 4px;
+  }
+
+  .btn-primary-large {
+    padding: 12px 16px;
+    font-size: 0.88rem;
+  }
+
+  .btn-secondary {
+    padding: 10px 15px;
+    font-size: 0.76rem;
+  }
+
+  /* HUD */
+  .game-hud {
+    padding: 8px 7px;
+    margin-bottom: 8px;
+  }
+
+  .hud-label {
+    font-size: 0.52rem;
+  }
+
+  .hud-value {
+    font-size: 0.86rem;
+  }
+
+  .hud-badge {
+    font-size: 0.56rem;
+    padding: 2px 5px;
+  }
+
+  /* Timer */
+  .timer-wrapper {
+    margin-bottom: 8px;
+  }
+
+  .timer-tag {
+    font-size: 0.6rem;
+  }
+
+  .timer-digits {
+    font-size: 1.45rem;
+  }
+
+  .timer-bar-container {
+    height: 8px;
+  }
+
+  /* Challenge */
+  .challenge-card {
+    padding: 13px 10px;
+    min-height: 270px;
+  }
+
+  .challenge-header {
+    margin-bottom: 8px;
+  }
+
+  .challenge-badge {
+    font-size: 0.6rem;
+    padding: 2px 7px;
+  }
+
+  .challenge-instruction {
+    font-size: 0.9rem;
+  }
+
+  /* Choices */
+  .choices-grid {
+    gap: 6px;
+  }
+
+  .choice-btn {
+    padding: 10px 6px;
+    font-size: 0.95rem;
+  }
+
+  /* Equation */
+  .equation-box {
+    font-size: 1.3rem;
+    padding: 9px 10px;
+  }
+
+  /* Symbol Grid */
+  .symbol-grid {
+    max-width: 250px;
+    gap: 6px;
+  }
+
+  .odd-symbol {
+    font-size: 25px !important;
+  }
+
+  /* Shapes */
+  .shapes-strip {
+    gap: 5px;
+    padding: 9px;
+    font-size: 1.25rem;
+    letter-spacing: 2px;
+  }
+
+  /* Sequence */
+  .sequence-box {
+    font-size: 1.1rem;
+    padding: 9px 10px;
+    letter-spacing: 2px;
+  }
+
+  /* Memory */
+  .memory-box {
+    padding: 11px;
+    font-size: 1.25rem;
+    letter-spacing: 4px;
+  }
+
+  /* Sort */
+  .sort-chips-grid {
+    gap: 6px;
+  }
+
+  .sort-chip {
+    padding: 8px 12px;
+    font-size: 1rem;
+  }
+
+  .sort-progress {
+    font-size: 0.66rem;
+  }
+
+  /* Reaction */
+  .reaction-btn {
+    width: 125px;
+    height: 125px;
+    border-width: 4px;
+  }
+
+  .reaction-label {
+    font-size: 0.9rem;
+  }
+
+  .reaction-sub {
+    font-size: 0.6rem;
+  }
+
+  /* Feedback */
+  .feedback-banner {
+    padding: 11px 18px;
+  }
+
+  .feedback-icon {
+    font-size: 1.8rem;
+  }
+
+  .feedback-text {
+    font-size: 0.95rem;
+  }
+
+  .feedback-points {
+    font-size: 0.72rem;
+  }
+
+  /* Results */
+  .results-card {
+    padding: 17px 12px;
+  }
+
+  .results-medal {
+    font-size: 2.2rem;
+  }
+
+  .results-title {
+    font-size: 1.35rem;
+  }
+
+  .results-critique {
+    font-size: 0.76rem;
+  }
+
+  .score-caption {
+    font-size: 0.64rem;
+  }
+
+  .score-number {
+    font-size: 2.1rem;
+  }
+
+  .record-badge {
+    font-size: 0.62rem;
+  }
+
+  .results-grid {
+    gap: 5px;
+    margin-bottom: 13px;
+  }
+
+  .res-stat-box {
+    padding: 7px 5px;
+  }
+
+  .res-stat-box .res-label {
+    font-size: 0.52rem;
+  }
+
+  .res-stat-box .res-val {
+    font-size: 1rem;
+  }
+
+  /* Modal */
+  .modal-backdrop {
+    padding: 7px;
+  }
+
+  .modal-card {
+    padding: 14px;
+    max-height: 92dvh;
+  }
+
+  .modal-header {
+    margin-bottom: 10px;
+  }
+
+  .modal-header h2 {
+    font-size: 1rem;
+  }
+
+  .guide-step-card {
+    gap: 7px;
+    padding: 8px;
+  }
+
+  .step-num {
+    width: 22px;
+    height: 22px;
+    font-size: 0.68rem;
+  }
+
+  .step-content h4 {
+    font-size: 0.76rem;
+  }
+
+  .step-content p {
+    font-size: 0.7rem;
+  }
+
+  .types-grid {
+    gap: 5px;
+  }
+
+  .type-pill {
+    padding: 6px;
+    font-size: 0.63rem;
+  }
+
+  .guide-footer-note {
+    font-size: 0.7rem;
+  }
+
+  .ten-footer {
+    font-size: 0.62rem;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Very Small Phones
+   -------------------------------------------------------------------------- */
+@media (max-width: 360px) {
+
+  .ten-container {
+    padding: 5px 6px;
+  }
+
+  .brand-ten-name {
+    display: none;
+  }
+
+  .brand-badge {
+    padding: 3px 7px;
+  }
+
+  /* Start */
+  .ten-big-logo {
+    width: 64px;
+    height: 64px;
+  }
+
+  .number-10 {
+    font-size: 2.3rem;
+  }
+
+  .start-title {
+    font-size: 1.55rem;
+  }
+
+  .start-tagline {
+    font-size: 0.78rem;
+  }
+
+  .start-desc {
+    font-size: 0.7rem;
+    max-width: 280px;
+  }
+
+  .start-rules-strip {
+    gap: 3px;
+  }
+
+  .rule-mini-item {
+    padding: 5px 6px;
+    font-size: 0.56rem;
+  }
+
+  /* HUD */
+  .game-hud {
+    padding: 7px 5px;
+  }
+
+  .hud-label {
+    font-size: 0.48rem;
+  }
+
+  .hud-value {
+    font-size: 0.78rem;
+  }
+
+  .hud-badge {
+    font-size: 0.5rem;
+  }
+
+  /* Challenge */
+  .challenge-card {
+    padding: 11px 8px;
+    min-height: 250px;
+  }
+
+  .challenge-instruction {
+    font-size: 0.84rem;
+  }
+
+  /* Timer */
+  .timer-digits {
+    font-size: 1.3rem;
+  }
+
+  /* Choices */
+  .choice-btn {
+    padding: 9px 5px;
+    font-size: 0.88rem;
+  }
+
+  /* Equation */
+  .equation-box {
+    font-size: 1.15rem;
+  }
+
+  /* Symbols */
+  .symbol-grid {
+    max-width: 220px;
+    gap: 5px;
+  }
+
+  .odd-symbol {
+    font-size: 22px !important;
+  }
+
+  /* Reaction */
+  .reaction-btn {
+    width: 110px;
+    height: 110px;
+  }
+
+  .reaction-label {
+    font-size: 0.82rem;
+  }
+
+  /* Sort */
+  .sort-chip {
+    padding: 7px 9px;
+    font-size: 0.9rem;
+  }
+
+  /* Results */
+  .results-card {
+    padding: 14px 9px;
+  }
+
+  .results-title {
+    font-size: 1.2rem;
+  }
+
+  .score-number {
+    font-size: 1.9rem;
+  }
+
+  .res-stat-box .res-label {
+    font-size: 0.48rem;
+  }
+
+  .res-stat-box .res-val {
+    font-size: 0.9rem;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   Landscape Phones
+   -------------------------------------------------------------------------- */
+@media (max-height: 600px) and (orientation: landscape) {
+
+  .ten-container {
+    min-height: 100dvh;
+    padding: 4px 10px;
+  }
+
+  .ten-header {
+    padding: 3px 0 5px;
+  }
+
+  .brand-ten-name {
+    font-size: 0.8rem;
+  }
+
+  .ten-main {
+    padding: 3px 0;
+  }
+
+  /* Start */
+  .start-hero {
+    margin-bottom: 8px;
+  }
+
+  .ten-big-logo {
+    width: 55px;
+    height: 55px;
+    margin-bottom: 5px;
+  }
+
+  .number-10 {
+    font-size: 2rem;
+  }
+
+  .start-title {
+    font-size: 1.3rem;
+    margin-bottom: 2px;
+  }
+
+  .start-tagline {
+    font-size: 0.7rem;
+    margin-bottom: 3px;
+  }
+
+  .start-desc {
+    font-size: 0.62rem;
+  }
+
+  .start-stats-pill {
+    padding: 4px 10px;
+    margin-bottom: 7px;
+  }
+
+  .start-rules-strip {
+    margin-bottom: 8px;
+    gap: 4px;
+  }
+
+  .rule-mini-item {
+    padding: 4px 6px;
+    font-size: 0.58rem;
+  }
+
+  .btn-primary-large {
+    padding: 8px 14px;
+    font-size: 0.8rem;
+  }
+
+  .btn-secondary {
+    padding: 7px 12px;
+    font-size: 0.68rem;
+  }
+
+  /* Game */
+  .game-hud {
+    padding: 6px 9px;
+    margin-bottom: 5px;
+  }
+
+  .timer-wrapper {
+    margin-bottom: 5px;
+  }
+
+  .timer-digits {
+    font-size: 1.2rem;
+  }
+
+  .timer-bar-container {
+    height: 6px;
+  }
+
+  .challenge-card {
+    min-height: 210px;
+    padding: 9px 11px;
+  }
+
+  .challenge-header {
+    margin-bottom: 5px;
+  }
+
+  .challenge-instruction {
+    font-size: 0.82rem;
+  }
+
+  .challenge-arena {
+    padding: 2px 0;
+  }
+
+  .reaction-btn {
+    width: 95px;
+    height: 95px;
+  }
+
+  .symbol-grid {
+    max-width: 190px;
+  }
+
+  .odd-symbol {
+    font-size: 20px !important;
+  }
+
+  .choice-btn {
+    padding: 7px;
+    font-size: 0.8rem;
+  }
+
+  .equation-box {
+    font-size: 1rem;
+    padding: 7px 10px;
+    margin-bottom: 6px;
+  }
+
+  .shapes-strip {
+    padding: 7px;
+    margin-bottom: 6px;
+    font-size: 1rem;
+  }
+
+  .sequence-box {
+    padding: 7px;
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+  }
+
+  .memory-box {
+    padding: 8px;
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+
+  .sort-chip {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+
+  .ten-footer {
+    display: none;
+  }
+}
