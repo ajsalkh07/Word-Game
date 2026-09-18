@@ -283,6 +283,7 @@ const DOM = {
   btnSound: document.getElementById('btn-sound'),
   soundIconOn: document.getElementById('sound-icon-on'),
   soundIconOff: document.getElementById('sound-icon-off'),
+  bgMusic: document.getElementById('bg-music'),
   
   // HUD Counters
   hudEvidenceCount: document.getElementById('hud-evidence-count'),
@@ -891,20 +892,35 @@ function closeAllModals() {
   document.querySelectorAll('.modal-backdrop').forEach(m => m.classList.add('hidden'));
 }
 
+function startBackgroundMusic() {
+  if (!state.soundEnabled || !DOM.bgMusic) return;
+
+  DOM.bgMusic.volume = 0.10;
+
+  DOM.bgMusic.play().catch(() => {
+    console.log('Music waiting for user interaction.');
+  });
+}
+
+function stopBackgroundMusic() {
+  if (DOM.bgMusic) {
+    DOM.bgMusic.pause();
+  }
+}
+
 // ==========================================================================
 // Sound & Settings
 // ==========================================================================
 function initSound() {
   const saved = localStorage.getItem('casefile_sound');
-  state.soundEnabled = (saved !== 'false');
-  updateSoundUI();
 
-  DOM.btnSound.addEventListener('click', () => {
-    state.soundEnabled = !state.soundEnabled;
-    localStorage.setItem('casefile_sound', state.soundEnabled ? 'true' : 'false');
-    updateSoundUI();
-    if (state.soundEnabled) playSound('click');
-  });
+  state.soundEnabled = (saved !== 'false');
+
+  if (DOM.bgMusic) {
+    DOM.bgMusic.volume = 0.10;
+  }
+
+  updateSoundUI();
 }
 
 function updateSoundUI() {
@@ -950,10 +966,30 @@ function resetCase() {
 // Event Binding & Initialization
 // ==========================================================================
 function setupEventListeners() {
+  // Sound toggle
+DOM.btnSound.addEventListener('click', () => {
+  state.soundEnabled = !state.soundEnabled;
+
+  localStorage.setItem(
+    'casefile_sound',
+    state.soundEnabled ? 'true' : 'false'
+  );
+
+  updateSoundUI();
+
+  if (state.soundEnabled) {
+    initAudioContext();
+    playSound('click');
+    startBackgroundMusic();
+  } else {
+    stopBackgroundMusic();
+  }
+});
   // Screen transitions
   DOM.btnStartInvestigation.addEventListener('click', () => {
     initAudioContext();
     playSound('click');
+    startBackgroundMusic();
     showScreen('investigation');
   });
 

@@ -58,12 +58,18 @@ const DOM = {
   btnHintText: document.getElementById("btn-hint-text"),
   btnNewGame: document.getElementById("btn-new-game"),
   toastContainer: document.getElementById("toast-container"),
+
+  bgMusic: document.getElementById("bg-music"),
   
   // Modals
+  modalStart: document.getElementById("modal-start"),
   modalHelp: document.getElementById("modal-help"),
   modalStats: document.getElementById("modal-stats"),
   modalGameOver: document.getElementById("modal-gameover"),
   modalAbout: document.getElementById("modal-about"),
+
+
+  btnStartGame: document.getElementById("btn-start-game"),
   
   // Header Buttons
   btnHelp: document.getElementById("btn-help"),
@@ -726,45 +732,98 @@ function closeAllModals() {
 }
 
 function setupModals() {
-  // Triggers
-  DOM.btnHelp.addEventListener("click", () => openModal(DOM.modalHelp));
+
+  // ----------------------------------------------------------
+  // Start Game Instructions
+  // ----------------------------------------------------------
+  DOM.btnStartGame.addEventListener("click", () => {
+    closeModal(DOM.modalStart);
+
+    initAudioContext();
+    startBackgroundMusic();
+
+    startGame();
+  });
+
+
+  // ----------------------------------------------------------
+  // Header Buttons
+  // ----------------------------------------------------------
+  DOM.btnHelp.addEventListener("click", () => {
+    openModal(DOM.modalHelp);
+  });
+
   DOM.btnStats.addEventListener("click", () => {
     updateStatsDisplay();
     openModal(DOM.modalStats);
   });
-  DOM.btnAbout.addEventListener("click", () => openModal(DOM.modalAbout));
+
+  DOM.btnAbout.addEventListener("click", () => {
+    openModal(DOM.modalAbout);
+  });
+
+
+  // ----------------------------------------------------------
+  // Play Again
+  // ----------------------------------------------------------
   DOM.btnPlayAgain.addEventListener("click", () => {
     closeAllModals();
     startGame();
   });
 
-  // Close buttons inside modals
+
+  // ----------------------------------------------------------
+  // Close Buttons
+  // ----------------------------------------------------------
   document.querySelectorAll(".modal-close").forEach(btn => {
+
     btn.addEventListener("click", (e) => {
+
       const modal = e.target.closest(".modal-backdrop");
+
       closeModal(modal);
+
     });
+
   });
 
-  // Close on outside backdrop click
-  document.querySelectorAll(".modal-backdrop").forEach(modal => {
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) {
-        closeModal(modal);
-      }
-    });
-  });
 
-  // Escape key closes modals
+  // ----------------------------------------------------------
+  // Close Modal When Clicking Outside
+  // ----------------------------------------------------------
+  document.querySelectorAll(".modal-backdrop").forEach((modal) => {
+  modal.addEventListener("click", (e) => {
+    if (e.target !== modal) return;
+
+    // Start instructions must NOT close when clicking outside
+    if (modal.id === "modal-start") {
+      return;
+    }
+
+    closeModal(modal);
+  });
+});
+
+
+  // ----------------------------------------------------------
+  // Escape Key
+  // ----------------------------------------------------------
   window.addEventListener("keydown", (e) => {
+
     if (e.key === "Escape") {
       closeAllModals();
     }
+
   });
 
-  // Clear statistics button
+
+  // ----------------------------------------------------------
+  // Clear Statistics
+  // ----------------------------------------------------------
   DOM.btnStatsReset.addEventListener("click", () => {
+
     if (confirm("Reset all statistics and streaks?")) {
+
       state.stats = {
         played: 0,
         wins: 0,
@@ -773,10 +832,14 @@ function setupModals() {
         bestScore: 0,
         lastScore: 0
       };
+
       saveStats();
+
       showToast("Statistics reset successfully");
     }
+
   });
+
 }
 
 // ==========================================================================
@@ -807,17 +870,64 @@ function setTheme(theme) {
   }
 }
 
+function startBackgroundMusic() {
+
+  if (!state.soundEnabled || !DOM.bgMusic) return;
+
+  DOM.bgMusic.volume = 0.15;
+
+  DOM.bgMusic.play().catch(() => {
+    console.debug("Background music waiting for user interaction.");
+  });
+
+}
+
+function stopBackgroundMusic() {
+
+  if (DOM.bgMusic) {
+    DOM.bgMusic.pause();
+  }
+
+}
+
 function initSound() {
+
   const savedSound = localStorage.getItem("lexiq_sound");
+
   state.soundEnabled = savedSound !== "false";
+
+  if (DOM.bgMusic) {
+    DOM.bgMusic.volume = 0.15;
+  }
+
   updateSoundUI();
 
+
   DOM.btnSound.addEventListener("click", () => {
+
     state.soundEnabled = !state.soundEnabled;
-    localStorage.setItem("lexiq_sound", state.soundEnabled);
+
+    localStorage.setItem(
+      "lexiq_sound",
+      state.soundEnabled ? "true" : "false"
+    );
+
     updateSoundUI();
-    if (state.soundEnabled) playSound("type");
+
+
+    if (state.soundEnabled) {
+
+      playSound("type");
+      startBackgroundMusic();
+
+    } else {
+
+      stopBackgroundMusic();
+
+    }
+
   });
+
 }
 
 function updateSoundUI() {
@@ -860,6 +970,7 @@ function setupKeyboardListeners() {
 // ==========================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
+
   buildBoard();
   buildKeyboard();
   loadStats();
@@ -872,6 +983,7 @@ document.addEventListener("DOMContentLoaded", () => {
   DOM.btnHint.addEventListener("click", useHint);
   DOM.btnNewGame.addEventListener("click", startGame);
 
-  // Start fresh game session
-  startGame();
+  // Show instructions before starting the game
+  openModal(DOM.modalStart);
+
 });

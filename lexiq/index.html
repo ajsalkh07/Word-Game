@@ -7,355 +7,416 @@
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-  <!-- Toast Notification System -->
-  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
-
-  <div class="app-container">
-    <!-- Header Section -->
-    <header class="app-header">
-      <div class="header-left">
-        <a href="../index.html" class="hub-back-btn" title="Return to Game Hub" aria-label="Return to Game Hub">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-          <span>HUB</span>
-        </a>
-        <button id="btn-help" class="icon-btn" title="How to Play" aria-label="How to Play">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-            <line x1="12" y1="17" x2="12.01" y2="17"></line>
-          </svg>
-        </button>
-        <button id="btn-stats" class="icon-btn" title="Game Statistics" aria-label="Statistics">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="20" x2="18" y2="10"></line>
-            <line x1="12" y1="20" x2="12" y2="4"></line>
-            <line x1="6" y1="20" x2="6" y2="14"></line>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Typography-based Branding & Logo -->
-      <div class="brand-container">
-        <div class="logo-wrapper">
-          <h1 class="brand-title">Lex<span class="brand-accent">IQ</span></h1>
-        </div>
-        <p class="brand-subtitle">Guess the word. Crack the puzzle.</p>
-      </div>
-
-      <div class="header-right">
-        <button id="btn-sound" class="icon-btn" title="Toggle Sound" aria-label="Toggle Sound">
-          <svg id="sound-icon-on" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-          </svg>
-          <svg id="sound-icon-off" class="hidden" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-            <line x1="23" y1="9" x2="17" y2="15"></line>
-            <line x1="17" y1="9" x2="23" y2="15"></line>
-          </svg>
-        </button>
-        <button id="btn-theme" class="icon-btn" title="Toggle Theme" aria-label="Toggle Theme">
-          <svg id="theme-moon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-          <svg id="theme-sun" class="hidden" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-        </button>
-        <button id="btn-about" class="icon-btn" title="About Project" aria-label="About Project">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="12" y1="16" x2="12" y2="12"></line>
-            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-          </svg>
-        </button>
-      </div>
-    </header>
-
-    <!-- Quick Stats Bar -->
-    <section class="quick-stats" aria-label="Player Progress">
-      <div class="stat-pill">
-        <span class="stat-label">Attempt</span>
-        <span id="attempt-indicator" class="stat-value">1 / 6</span>
-      </div>
-      <div class="stat-pill">
-        <span class="stat-label">Streak</span>
-        <span id="streak-indicator" class="stat-value highlight">0</span>
-      </div>
-      <div class="stat-pill">
-        <span class="stat-label">Best</span>
-        <span id="best-indicator" class="stat-value">0</span>
-      </div>
-      <div class="stat-pill">
-        <span class="stat-label">Hints</span>
-        <span id="hint-indicator" class="stat-value">2</span>
-      </div>
-    </section>
-
-    <!-- Main Game Board Grid (6 rows x 5 columns) -->
-    <main class="game-main">
-      <div id="board" class="board" role="grid" aria-label="Word puzzle grid">
-        <!-- 6 rows generated dynamically or statically -->
-      </div>
-    </main>
-
-    <!-- Action Controls (Hints & New Game) -->
-    <section class="controls-section">
-      <button id="btn-hint" class="action-btn hint-btn" aria-label="Get a hint">
-        <span class="btn-icon">💡</span>
-        <span id="btn-hint-text">Hint (2)</span>
-      </button>
-      <button id="btn-new-game" class="action-btn new-game-btn" aria-label="Start a new game">
-        <span class="btn-icon">🔄</span>
-        <span>New Game</span>
-      </button>
-    </section>
-
-    <!-- Interactive On-Screen Virtual Keyboard -->
-    <nav class="keyboard-container" aria-label="Virtual on-screen keyboard">
-      <div class="keyboard-row" id="kb-row-1"></div>
-      <div class="keyboard-row" id="kb-row-2"></div>
-      <div class="keyboard-row" id="kb-row-3"></div>
-    </nav>
-
-    <!-- Subtle Footer -->
-    <footer class="app-footer">
-      <p>DONE BY • <strong>AJSAL AND SREENANDH</strong></p>
-    </footer>
-  </div>
-
-  <!-- MODALS -->
-
-  <!-- 1. How to Play Modal -->
-  <div id="modal-help" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="help-title">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h2 id="help-title">How to Play LexIQ</h2>
-        <button class="modal-close" aria-label="Close modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        
-        <!-- 1. Goal -->
-        <section class="guide-section">
-          <h3 class="guide-heading">🎯 Goal</h3>
-          <p class="guide-text">Guess the hidden <strong>5-letter word</strong> in <strong>6 attempts</strong> or fewer.</p>
-        </section>
-
-        <div class="guide-divider"></div>
-
-        <!-- 2. How to Play -->
-        <section class="guide-section">
-          <h3 class="guide-heading">⌨️ How to Play</h3>
-          <ul class="guide-bullet-list">
-            <li>Type a valid 5-letter word using your <strong>physical keyboard</strong> or the <strong>on-screen keyboard</strong>.</li>
-            <li>Press <strong>Enter</strong> to submit your guess.</li>
-          </ul>
-        </section>
-
-        <div class="guide-divider"></div>
-
-        <!-- 3. Tile Colors -->
-        <section class="guide-section">
-          <h3 class="guide-heading">🎨 Tile Colors</h3>
-          <p class="guide-subtext">After each guess, the tile colors reveal how close you are:</p>
-          <div class="color-rules-list">
-            <div class="color-rule-item">
-              <span class="rule-chip correct">GREEN</span>
-              <span><strong>Correct position:</strong> Letter is in the word and in the right spot.</span>
-            </div>
-            <div class="color-rule-item">
-              <span class="rule-chip present">YELLOW</span>
-              <span><strong>Wrong position:</strong> Letter is in the word, but in a different spot.</span>
-            </div>
-            <div class="color-rule-item">
-              <span class="rule-chip absent">GRAY</span>
-              <span><strong>Not in word:</strong> Letter does not appear anywhere in the hidden word.</span>
-            </div>
-          </div>
-        </section>
-
-        <div class="guide-divider"></div>
-
-        <!-- 4. Visual Example -->
-        <section class="guide-section">
-          <h3 class="guide-heading">🔍 Example</h3>
-          <p class="guide-subtext">Suppose the hidden word is <strong>PLANT</strong> and your guess is <strong>PLAYS</strong>:</p>
-          
-          <div class="example-box">
-            <div class="example-row">
-              <div class="example-tile correct">P</div>
-              <div class="example-tile correct">L</div>
-              <div class="example-tile correct">A</div>
-              <div class="example-tile absent">Y</div>
-              <div class="example-tile present">S</div>
-            </div>
-            <div class="example-explanation">
-              <p>🟩 <strong>P, L, A</strong> are green — in the word and in the <strong>exact correct spots</strong>.</p>
-              <p>⬜ <strong>Y</strong> is gray — not present in the hidden word at all.</p>
-              <p>🟨 <strong>S</strong> is yellow — present in the word, but in the <strong>wrong spot</strong>.</p>
-            </div>
-          </div>
-        </section>
-
-        <div class="guide-divider"></div>
-
-        <!-- 5. Hints & Scoring -->
-        <section class="guide-section">
-          <h3 class="guide-heading">💡 Hints & Scoring</h3>
-          <div class="hints-scoring-grid">
-            <div class="info-card">
-              <h4>Smart Hints (Max 2)</h4>
-              <ul class="compact-list">
-                <li><strong>Hint 1:</strong> Reveals one correct letter and its position.</li>
-                <li><strong>Hint 2:</strong> Gives a helpful clue about the word's meaning.</li>
-                <li><em>Penalty:</em> Each hint reduces your score by <strong>15 points</strong>.</li>
-              </ul>
-            </div>
-            <div class="info-card">
-              <h4>Scoring & Streak</h4>
-              <ul class="compact-list">
-                <li><strong>Fewer Attempts = Higher Score:</strong> Attempt 1 = 100 pts, down to Attempt 6 = 50 pts (0 on loss).</li>
-                <li><strong>Streak:</strong> Consecutive wins build your <strong>Current Streak</strong>. A loss resets it to 0.</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- 2. Statistics Modal -->
-  <div id="modal-stats" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="stats-title">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h2 id="stats-title">Game Statistics</h2>
-        <button class="modal-close" aria-label="Close modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="stats-grid">
-          <div class="stat-box">
-            <span id="stat-played" class="stat-num">0</span>
-            <span class="stat-label">Played</span>
-          </div>
-          <div class="stat-box">
-            <span id="stat-wins" class="stat-num">0</span>
-            <span class="stat-label">Won</span>
-          </div>
-          <div class="stat-box">
-            <span id="stat-win-pct" class="stat-num">0%</span>
-            <span class="stat-label">Win %</span>
-          </div>
-          <div class="stat-box">
-            <span id="stat-streak" class="stat-num">0</span>
-            <span class="stat-label">Streak</span>
-          </div>
-          <div class="stat-box">
-            <span id="stat-max-streak" class="stat-num">0</span>
-            <span class="stat-label">Best</span>
-          </div>
-        </div>
-
-        <div class="guide-divider"></div>
-        <h3>Score Distribution</h3>
-        <div class="score-summary">
-          <div class="score-row">
-            <span>Highest Single Score:</span>
-            <strong id="stat-best-score">0 pts</strong>
-          </div>
-          <div class="score-row">
-            <span>Last Game Score:</span>
-            <strong id="stat-last-score">0 pts</strong>
-          </div>
-        </div>
-
-        <div class="modal-actions">
-          <button id="btn-stats-reset" class="btn-subtle" title="Reset all game records">Clear Statistics</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 3. Game Over / Result Modal -->
-  <div id="modal-gameover" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="result-title">
-    <div class="modal-card celebration-card">
-      <div class="modal-header center-header">
-        <div id="result-emoji" class="result-emoji">🎉</div>
-        <h2 id="result-title">Brilliant!</h2>
-        <p id="result-subtitle" class="result-subtitle">You cracked the puzzle!</p>
-      </div>
-      <div class="modal-body">
-        <div class="word-reveal-box">
-          <span class="reveal-caption">The secret word was:</span>
-          <div id="result-word" class="revealed-word">APPLE</div>
-          <div id="result-clue" class="revealed-clue">A popular crisp fruit that keeps the doctor away.</div>
-        </div>
-
-        <div class="result-details-grid">
-          <div class="res-item">
-            <span class="res-val" id="res-attempts">3 / 6</span>
-            <span class="res-lbl">Attempts</span>
-          </div>
-          <div class="res-item">
-            <span class="res-val" id="res-score">80</span>
-            <span class="res-lbl">Points</span>
-          </div>
-          <div class="res-item">
-            <span class="res-val" id="res-streak">1</span>
-            <span class="res-lbl">Streak</span>
-          </div>
-        </div>
-
-        <div class="modal-actions">
-          <button id="btn-play-again" class="action-btn new-game-btn w-full">Play Next Word</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 4. About Modal -->
-  <div id="modal-about" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="about-title">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h2 id="about-title">About LexIQ</h2>
-        <button class="modal-close" aria-label="Close modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p><strong>LexIQ</strong> is an original, lightweight word guessing puzzle game designed for a college <strong>AI Tools Course Mini-Project</strong>.</p>
-        
-        <div class="guide-divider"></div>
-        <h3>Technology Stack</h3>
-        <ul class="tech-list">
-          <li><strong>HTML5:</strong> Semantic elements, ARIA accessibility, responsive viewports.</li>
-          <li><strong>CSS3:</strong> Custom theme variables, flex/grid layouts, smooth animations, accessible contrast.</li>
-          <li><strong>Vanilla JavaScript (ES6+):</strong> Two-pass letter validation logic, state machine, local storage persistence.</li>
-          <li><strong>Web Audio API:</strong> Pure algorithmic audio synthesizer for native, zero-dependency sound effects.</li>
-        </ul>
-
-        <div class="guide-divider"></div>
-        <h3>AI-Assisted Development</h3>
-        <p class="about-note">
-          This project was developed with the assistance of modern generative AI coding tools for ideation, UI styling suggestions, duplicate letter matching algorithms, and automated test design.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Scripts -->
-  <script src="words.js"></script>
-  <script src="script.js"></script>
-</body>
-</html>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet"> 
+</head> 
+<body> 
+ 
+  <audio id="bg-music" loop preload="auto"> 
+  <source src="audio/background.mp3" type="audio/mpeg"> 
+</audio> 
+ 
+  <!-- Toast Notification System --> 
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div> 
+ 
+  <div class="app-container"> 
+    <!-- Header Section --> 
+    <header class="app-header"> 
+      <div class="header-left"> 
+        <a href="../index.html" class="hub-back-btn" title="Return to Game Hub" aria-label="Return to Game Hub"> 
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"> 
+            <polyline points="15 18 9 12 15 6"></polyline> 
+          </svg> 
+          <span>HUB</span> 
+        </a> 
+        <button id="btn-help" class="icon-btn" title="How to Play" aria-label="How to Play"> 
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> 
+            <circle cx="12" cy="12" r="10"></circle> 
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path> 
+            <line x1="12" y1="17" x2="12.01" y2="17"></line> 
+          </svg> 
+        </button> 
+        <button id="btn-stats" class="icon-btn" title="Game Statistics" aria-label="Statistics"> 
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> 
+            <line x1="18" y1="20" x2="18" y2="10"></line> 
+            <line x1="12" y1="20" x2="12" y2="4"></line> 
+            <line x1="6" y1="20" x2="6" y2="14"></line> 
+          </svg> 
+        </button> 
+      </div> 
+ 
+      <!-- Typography-based Branding & Logo --> 
+      <div class="brand-container"> 
+        <div class="logo-wrapper"> 
+          <h1 class="brand-title">Lex<span class="brand-accent">IQ</span></h1> 
+        </div> 
+        <p class="brand-subtitle">Guess the word. Crack the puzzle.</p> 
+      </div> 
+ 
+      <div class="header-right"> 
+        <button id="btn-sound" class="icon-btn" title="Toggle Sound" aria-label="Toggle Sound"> 
+          <svg id="sound-icon-on" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> 
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon> 
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path> 
+          </svg> 
+          <svg id="sound-icon-off" class="hidden" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> 
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon> 
+            <line x1="23" y1="9" x2="17" y2="15"></line> 
+            <line x1="17" y1="9" x2="23" y2="15"></line> 
+          </svg> 
+        </button> 
+        <button id="btn-theme" class="icon-btn" title="Toggle Theme" aria-label="Toggle Theme"> 
+          <svg id="theme-moon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> 
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path> 
+          </svg> 
+          <svg id="theme-sun" class="hidden" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> 
+            <circle cx="12" cy="12" r="5"></circle> 
+            <line x1="12" y1="1" x2="12" y2="3"></line> 
+            <line x1="12" y1="21" x2="12" y2="23"></line> 
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line> 
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line> 
+            <line x1="1" y1="12" x2="3" y2="12"></line> 
+            <line x1="21" y1="12" x2="23" y2="12"></line> 
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line> 
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line> 
+          </svg> 
+        </button> 
+        <button id="btn-about" class="icon-btn" title="About Project" aria-label="About Project"> 
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"> 
+            <circle cx="12" cy="12" r="10"></circle> 
+            <line x1="12" y1="16" x2="12" y2="12"></line> 
+            <line x1="12" y1="8" x2="12.01" y2="8"></line> 
+          </svg> 
+        </button> 
+      </div> 
+    </header> 
+ 
+    <!-- Quick Stats Bar --> 
+    <section class="quick-stats" aria-label="Player Progress"> 
+      <div class="stat-pill"> 
+        <span class="stat-label">Attempt</span> 
+        <span id="attempt-indicator" class="stat-value">1 / 6</span> 
+      </div> 
+      <div class="stat-pill"> 
+        <span class="stat-label">Streak</span> 
+        <span id="streak-indicator" class="stat-value highlight">0</span> 
+      </div> 
+      <div class="stat-pill"> 
+        <span class="stat-label">Best</span> 
+        <span id="best-indicator" class="stat-value">0</span> 
+      </div> 
+      <div class="stat-pill"> 
+        <span class="stat-label">Hints</span> 
+        <span id="hint-indicator" class="stat-value">2</span> 
+      </div> 
+    </section> 
+ 
+    <!-- Main Game Board Grid (6 rows x 5 columns) --> 
+    <main class="game-main"> 
+      <div id="board" class="board" role="grid" aria-label="Word puzzle grid"> 
+        <!-- 6 rows generated dynamically or statically --> 
+      </div> 
+    </main> 
+ 
+    <!-- Action Controls (Hints & New Game) --> 
+    <section class="controls-section"> 
+      <button id="btn-hint" class="action-btn hint-btn" aria-label="Get a hint"> 
+        <span class="btn-icon">💡</span> 
+        <span id="btn-hint-text">Hint (2)</span> 
+      </button> 
+      <button id="btn-new-game" class="action-btn new-game-btn" aria-label="Start a new game"> 
+        <span class="btn-icon">🔄</span> 
+        <span>New Game</span> 
+      </button> 
+    </section> 
+ 
+    <!-- Interactive On-Screen Virtual Keyboard --> 
+    <nav class="keyboard-container" aria-label="Virtual on-screen keyboard"> 
+      <div class="keyboard-row" id="kb-row-1"></div> 
+      <div class="keyboard-row" id="kb-row-2"></div> 
+      <div class="keyboard-row" id="kb-row-3"></div> 
+    </nav> 
+ 
+    <!-- Subtle Footer --> 
+    <footer class="app-footer"> 
+      <p>DONE BY • <strong>AJSAL AND SREENANDH</strong></p> 
+    </footer> 
+  </div> 
+ 
+  <!-- 0. LexIQ Start Instructions Modal --> 
+<div id="modal-start" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="start-title"> 
+  <div class="modal-card start-modal-card"> 
+ 
+    <div class="modal-header center-header"> 
+      <div class="result-emoji">🧠</div> 
+      <h2 id="start-title">How to Play LexIQ</h2> 
+      <p class="result-subtitle">Guess the hidden word and crack the puzzle!</p> 
+    </div> 
+ 
+    <div class="modal-body"> 
+ 
+      <div class="start-rules"> 
+        <div class="start-rule"> 
+          <span class="rule-icon">🎯</span> 
+          <div> 
+            <strong>Guess the 5-letter word</strong> 
+            <p>You have 6 attempts to find the hidden word.</p> 
+          </div> 
+        </div> 
+ 
+        <div class="start-rule"> 
+          <span class="rule-icon">⌨️</span> 
+          <div> 
+            <strong>Enter your guess</strong> 
+            <p>Type using your keyboard or the on-screen keyboard.</p> 
+          </div> 
+        </div> 
+ 
+        <div class="start-rule"> 
+          <span class="rule-icon">🟩</span> 
+          <div> 
+            <strong>Use the colors</strong> 
+            <p>Green = correct position • Yellow = wrong position • Gray = not in the word.</p> 
+          </div> 
+        </div> 
+ 
+        <div class="start-rule"> 
+          <span class="rule-icon">💡</span> 
+          <div> 
+            <strong>Use hints wisely</strong> 
+            <p>You have 2 hints, but each hint reduces your score.</p> 
+          </div> 
+        </div> 
+      </div> 
+ 
+      <div class="modal-actions"> 
+        <button id="btn-start-game" class="action-btn new-game-btn w-full"> 
+          Start Game 
+        </button> 
+      </div> 
+ 
+    </div> 
+  </div> 
+</div> 
+ 
+  <!-- MODALS --> 
+ 
+  <!-- 1. How to Play Modal --> 
+  <div id="modal-help" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="help-title"> 
+    <div class="modal-card"> 
+      <div class="modal-header"> 
+        <h2 id="help-title">How to Play LexIQ</h2> 
+        <button class="modal-close" aria-label="Close modal">&times;</button> 
+      </div> 
+      <div class="modal-body"> 
+         
+        <!-- 1. Goal --> 
+        <section class="guide-section"> 
+          <h3 class="guide-heading">🎯 Goal</h3> 
+          <p class="guide-text">Guess the hidden <strong>5-letter word</strong> in <strong>6 attempts</strong> or fewer.</p> 
+        </section> 
+ 
+        <div class="guide-divider"></div> 
+ 
+        <!-- 2. How to Play --> 
+        <section class="guide-section"> 
+          <h3 class="guide-heading">⌨️ How to Play</h3> 
+          <ul class="guide-bullet-list"> 
+            <li>Type a valid 5-letter word using your <strong>physical keyboard</strong> or the <strong>on-screen keyboard</strong>.</li> 
+            <li>Press <strong>Enter</strong> to submit your guess.</li> 
+          </ul> 
+        </section> 
+ 
+        <div class="guide-divider"></div> 
+ 
+        <!-- 3. Tile Colors --> 
+        <section class="guide-section"> 
+          <h3 class="guide-heading">🎨 Tile Colors</h3> 
+          <p class="guide-subtext">After each guess, the tile colors reveal how close you are:</p> 
+          <div class="color-rules-list"> 
+            <div class="color-rule-item"> 
+              <span class="rule-chip correct">GREEN</span> 
+              <span><strong>Correct position:</strong> Letter is in the word and in the right spot.</span> 
+            </div> 
+            <div class="color-rule-item"> 
+              <span class="rule-chip present">YELLOW</span> 
+              <span><strong>Wrong position:</strong> Letter is in the word, but in a different spot.</span> 
+            </div> 
+            <div class="color-rule-item"> 
+              <span class="rule-chip absent">GRAY</span> 
+              <span><strong>Not in word:</strong> Letter does not appear anywhere in the hidden word.</span> 
+            </div> 
+          </div> 
+        </section> 
+ 
+        <div class="guide-divider"></div> 
+ 
+        <!-- 4. Visual Example --> 
+        <section class="guide-section"> 
+          <h3 class="guide-heading">🔍 Example</h3> 
+          <p class="guide-subtext">Suppose the hidden word is <strong>PLANT</strong> and your guess is <strong>PLAYS</strong>:</p> 
+           
+          <div class="example-box"> 
+            <div class="example-row"> 
+              <div class="example-tile correct">P</div> 
+              <div class="example-tile correct">L</div> 
+              <div class="example-tile correct">A</div> 
+              <div class="example-tile absent">Y</div> 
+              <div class="example-tile present">S</div> 
+            </div> 
+            <div class="example-explanation"> 
+              <p>🟩 <strong>P, L, A</strong> are green — in the word and in the <strong>exact correct spots</strong>.</p> 
+              <p>⬜ <strong>Y</strong> is gray — not present in the hidden word at all.</p> 
+              <p>🟨 <strong>S</strong> is yellow — present in the word, but in the <strong>wrong spot</strong>.</p> 
+            </div> 
+          </div> 
+        </section> 
+ 
+        <div class="guide-divider"></div> 
+ 
+        <!-- 5. Hints & Scoring --> 
+        <section class="guide-section"> 
+          <h3 class="guide-heading">💡 Hints & Scoring</h3> 
+          <div class="hints-scoring-grid"> 
+            <div class="info-card"> 
+              <h4>Smart Hints (Max 2)</h4> 
+              <ul class="compact-list"> 
+                <li><strong>Hint 1:</strong> Reveals one correct letter and its position.</li> 
+                <li><strong>Hint 2:</strong> Gives a helpful clue about the word's meaning.</li> 
+                <li><em>Penalty:</em> Each hint reduces your score by <strong>15 points</strong>.</li> 
+              </ul> 
+            </div> 
+            <div class="info-card"> 
+              <h4>Scoring & Streak</h4> 
+              <ul class="compact-list"> 
+                <li><strong>Fewer Attempts = Higher Score:</strong> Attempt 1 = 100 pts, down to Attempt 6 = 50 pts (0 on loss).</li> 
+                <li><strong>Streak:</strong> Consecutive wins build your <strong>Current Streak</strong>. A loss resets it to 0.</li> 
+              </ul> 
+            </div> 
+          </div> 
+        </section> 
+ 
+      </div> 
+    </div> 
+  </div> 
+ 
+  <!-- 2. Statistics Modal --> 
+  <div id="modal-stats" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="stats-title"> 
+    <div class="modal-card"> 
+      <div class="modal-header"> 
+        <h2 id="stats-title">Game Statistics</h2> 
+        <button class="modal-close" aria-label="Close modal">&times;</button> 
+      </div> 
+      <div class="modal-body"> 
+        <div class="stats-grid"> 
+          <div class="stat-box"> 
+            <span id="stat-played" class="stat-num">0</span> 
+            <span class="stat-label">Played</span> 
+          </div> 
+          <div class="stat-box"> 
+            <span id="stat-wins" class="stat-num">0</span> 
+            <span class="stat-label">Won</span> 
+          </div> 
+          <div class="stat-box"> 
+            <span id="stat-win-pct" class="stat-num">0%</span> 
+            <span class="stat-label">Win %</span> 
+          </div> 
+          <div class="stat-box"> 
+            <span id="stat-streak" class="stat-num">0</span> 
+            <span class="stat-label">Streak</span> 
+          </div> 
+          <div class="stat-box"> 
+            <span id="stat-max-streak" class="stat-num">0</span> 
+            <span class="stat-label">Best</span> 
+          </div> 
+        </div> 
+ 
+        <div class="guide-divider"></div> 
+        <h3>Score Distribution</h3> 
+        <div class="score-summary"> 
+          <div class="score-row"> 
+            <span>Highest Single Score:</span> 
+            <strong id="stat-best-score">0 pts</strong> 
+          </div> 
+          <div class="score-row"> 
+            <span>Last Game Score:</span> 
+            <strong id="stat-last-score">0 pts</strong> 
+          </div> 
+        </div> 
+ 
+        <div class="modal-actions"> 
+          <button id="btn-stats-reset" class="btn-subtle" title="Reset all game records">Clear Statistics</button> 
+        </div> 
+      </div> 
+    </div> 
+  </div> 
+ 
+  <!-- 3. Game Over / Result Modal --> 
+  <div id="modal-gameover" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="result-title"> 
+    <div class="modal-card celebration-card"> 
+      <div class="modal-header center-header"> 
+        <div id="result-emoji" class="result-emoji">🎉</div> 
+        <h2 id="result-title">Brilliant!</h2> 
+        <p id="result-subtitle" class="result-subtitle">You cracked the puzzle!</p> 
+      </div> 
+      <div class="modal-body"> 
+        <div class="word-reveal-box"> 
+          <span class="reveal-caption">The secret word was:</span> 
+          <div id="result-word" class="revealed-word">APPLE</div> 
+          <div id="result-clue" class="revealed-clue">A popular crisp fruit that keeps the doctor away.</div> 
+        </div> 
+ 
+        <div class="result-details-grid"> 
+          <div class="res-item"> 
+            <span class="res-val" id="res-attempts">3 / 6</span> 
+            <span class="res-lbl">Attempts</span> 
+          </div> 
+          <div class="res-item"> 
+            <span class="res-val" id="res-score">80</span> 
+            <span class="res-lbl">Points</span> 
+          </div> 
+          <div class="res-item"> 
+            <span class="res-val" id="res-streak">1</span> 
+            <span class="res-lbl">Streak</span> 
+          </div> 
+        </div> 
+ 
+        <div class="modal-actions"> 
+          <button id="btn-play-again" class="action-btn new-game-btn w-full">Play Next Word</button> 
+        </div> 
+      </div> 
+    </div> 
+  </div> 
+ 
+  <!-- 4. About Modal --> 
+  <div id="modal-about" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="about-title"> 
+    <div class="modal-card"> 
+      <div class="modal-header"> 
+        <h2 id="about-title">About LexIQ</h2> 
+        <button class="modal-close" aria-label="Close modal">&times;</button> 
+      </div> 
+      <div class="modal-body"> 
+        <p><strong>LexIQ</strong> is an original, lightweight word guessing puzzle game designed for a college <strong>AI Tools Course Mini-Project</strong>.</p> 
+         
+        <div class="guide-divider"></div> 
+        <h3>Technology Stack</h3> 
+        <ul class="tech-list"> 
+          <li><strong>HTML5:</strong> Semantic elements, ARIA accessibility, responsive viewports.</li> 
+          <li><strong>CSS3:</strong> Custom theme variables, flex/grid layouts, smooth animations, accessible contrast.</li> 
+          <li><strong>Vanilla JavaScript (ES6+):</strong> Two-pass letter validation logic, state machine, local storage persistence.</li> 
+          <li><strong>Web Audio API:</strong> Pure algorithmic audio synthesizer for native, zero-dependency sound effects.</li> 
+        </ul> 
+ 
+        <div class="guide-divider"></div> 
+        <h3>AI-Assisted Development</h3> 
+        <p class="about-note"> 
+          This project was developed with the assistance of modern generative AI coding tools for ideation, UI styling suggestions, duplicate letter matching algorithms, and automated test design. 
+        </p> 
+      </div> 
+    </div> 
+  </div> 
+ 
+  <!-- Scripts --> 
+  <script src="words.js"></script> 
+  <script src="script.js"></script> 
+</body> 
+</html> 
