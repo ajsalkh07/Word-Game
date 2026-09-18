@@ -591,21 +591,52 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  font-weight: 800;
   cursor: pointer;
-  transition: all 0.1s ease;
+  padding: 0;
+  transition: transform 0.1s ease, border-color 0.1s ease;
 }
 
+.odd-symbol {
+  display: block !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 32px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
+
+/* Hover only affects the BOX, NOT the symbol */
 .symbol-cell:hover:not(:disabled) {
   border-color: var(--color-accent);
   transform: scale(1.06);
 }
 
+/* Keep symbol WHITE on hover */
+.symbol-cell:hover:not(:disabled) .odd-symbol {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
+
 .symbol-cell.selected {
   background: rgba(34, 197, 94, 0.25);
   border-color: #22c55e;
-  color: #22c55e;
+}
+
+.symbol-cell.selected .odd-symbol {
+  color: #22c55e !important;
+  -webkit-text-fill-color: #22c55e !important;
+}
+
+@media (max-width: 600px) {
+  .symbol-grid {
+    max-width: 280px;
+    gap: 7px;
+  }
+
+  .odd-symbol {
+    font-size: 28px !important;
+  }
 }
 
 /* 3. Shape Display Strip (Count) */

@@ -313,11 +313,22 @@ function generateOddOneOut(diff) {
     { base: 'O', odd: 'Q' },
     { base: 'E', odd: 'F' }
   ];
+
   const pair = symbolPairs[Math.floor(Math.random() * symbolPairs.length)];
-  
-  let rows = 3, cols = 3;
-  if (diff === 'MEDIUM') { rows = 3; cols = 4; }
-  if (diff === 'HARD') { rows = 4; cols = 4; }
+
+  let rows = 3;
+  let cols = 3;
+
+  if (diff === 'MEDIUM') {
+    rows = 3;
+    cols = 4;
+  }
+
+  if (diff === 'HARD') {
+    rows = 4;
+    cols = 4;
+  }
+
   const total = rows * cols;
   const oddIndex = randInt(0, total - 1);
 
@@ -325,20 +336,35 @@ function generateOddOneOut(diff) {
     type: 'ODD_ONE_OUT',
     title: 'ODD ONE OUT',
     instruction: 'Tap the single symbol that is different:',
+
     render: (arena) => {
-      let gridHtml = `<div class="symbol-grid" style="grid-template-columns: repeat(${cols}, 1fr);">`;
+      let gridHtml = `
+        <div class="symbol-grid"
+             style="grid-template-columns: repeat(${cols}, 1fr);">
+      `;
+
       for (let i = 0; i < total; i++) {
-        const isOdd = (i === oddIndex);
+        const isOdd = i === oddIndex;
         const char = isOdd ? pair.odd : pair.base;
-        gridHtml += `<button class="symbol-cell" data-odd="${isOdd}">${char}</button>`;
+
+        gridHtml += `
+          <button
+            type="button"
+            class="symbol-cell"
+            data-odd="${isOdd}"
+          >
+            <span class="odd-symbol">${char}</span>
+          </button>
+        `;
       }
+
       gridHtml += `</div>`;
+
       arena.innerHTML = gridHtml;
 
       arena.querySelectorAll('.symbol-cell').forEach(btn => {
         btn.addEventListener('click', () => {
-          const isCorrect = btn.dataset.odd === 'true';
-          handleAnswer(isCorrect);
+          handleAnswer(btn.dataset.odd === 'true');
         });
       });
     }
