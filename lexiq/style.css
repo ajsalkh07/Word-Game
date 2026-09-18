@@ -185,6 +185,31 @@ body {
   transform: translateY(0);
 }
 
+.hub-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  height: 36px;
+  padding: 0 10px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-main);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.hub-back-btn:hover {
+  color: var(--text-main);
+  background: var(--bg-surface-hover);
+  border-color: var(--border-active);
+  transform: translateX(-1px);
+}
+
 .hidden {
   display: none !important;
 }

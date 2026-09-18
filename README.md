@@ -1,70 +1,53 @@
-# LexIQ — 5-Letter Word Guessing Game
+# SYNAPSE — Modern Web Mini-Game Hub
 
 > **College Mini-Project | Course: AI Tools**  
-> **Tagline:** *Guess the word. Crack the puzzle.*
+> **Tagline:** *PLAY. THINK. MASTER.*  
+> **Created by:** Ajsal & Sreenandh
 
-LexIQ is a modern, responsive, beginner-friendly word puzzle web application inspired by the mechanics of Wordle, featuring an original visual identity, custom branding, smart hint system, and pure vanilla web technologies.
-
----
-
-## 📸 Overview & Visual Identity
-
-* **Name:** **LexIQ** (Derived from *Lexicon* + *IQ* / Intelligence)
-* **Logo:** Minimalist, typography-based design pairing crisp neutral lettering (`Lex`) with the signature purple/blue indigo accent (`IQ`).
-* **Architecture:** Zero external frameworks, zero Node/npm dependencies, zero build steps. Runs directly in any web browser 100% offline.
+**SYNAPSE** is a modern, responsive web mini-game platform hosting three distinct browser games engineered with pure vanilla web technologies (HTML5, CSS3, ES6+ JavaScript). It features zero external framework dependencies, zero build steps, and runs 100% locally and offline.
 
 ---
 
-## 🌟 Key Features
+## 🎮 The Games Catalog
 
-1. **Classic 6-Attempt Word Puzzle:**
-   - Players have 6 attempts to guess a hidden 5-letter English word.
-   - Real-time letter feedback:
-     - 🟩 **Green (Correct):** Letter is in the exact position.
-     - 🟨 **Yellow (Present):** Letter exists elsewhere in the word.
-     - ⬜ **Gray (Absent):** Letter does not exist in the word.
+### 1. 🟩 LexIQ — 5-Letter Word Guessing Game
+* **Tagline:** *Guess the word. Crack the puzzle.*
+* **Category:** Vocabulary Strategy • Medium • 6 Attempts
+* **Key Features:**
+  - Classic Wordle-inspired mechanic with original branding and typography visual identity.
+  - Robust **two-pass evaluation algorithm** handling duplicate letters with mathematical accuracy.
+  - Dual input: on-screen touch keyboard and physical keyboard support.
+  - Two-stage smart hint system (positional reveal + semantic definition clue).
+  - Score weighting based on attempts and consecutive win streak counter.
 
-2. **Accurate Two-Pass Letter Evaluation:**
-   - Correctly resolves duplicate letters (e.g., guess `PUPPY` against secret word `APPLE` only highlights available occurrences without false duplicate yellows).
+### 2. ⚡ TEN — 10-Second Reflex & Brain Blitz
+* **Tagline:** *10 seconds. One challenge. Can you beat the clock?*
+* **Category:** Brain Agility & Reflex Speed • Fast • 10s per Round
+* **Key Features:**
+  - 10 randomized rounds from 8 cognitive challenge types (Math, Odd One Out, Shape Counting, Patterns, Memory Flash, Quick Sort, Target Click, Reaction Strike).
+  - High-precision countdown ring with color-coded urgency states (Calm Cyan → Warning Amber → Intense Red).
+  - Dynamic combo multiplier (1.0x to 2.5x) and speed bonus scoring.
 
-3. **Dual Input Methods:**
-   - On-screen touch-friendly QWERTY virtual keyboard with real-time key color updates.
-   - Physical keyboard listener for desktop and laptop computers (`A-Z`, `Enter`, `Backspace`).
-
-4. **Two-Stage Smart Hint Engine (Max 2 per game):**
-   - **Hint 1:** Discloses one unrevealed correct letter and its precise position (e.g., *"The 3rd letter is 'A'"*).
-   - **Hint 2:** Discloses a contextual semantic clue explaining the word's meaning.
-   - Dynamic button counter (`Hint (2)` → `Hint (1)` → `Hint (0)`) that disables when depleted.
-   - Applying hints applies a modest penalty (-15 pts each) to keep the game balanced.
-
-5. **Scoring & Streak Tracking:**
-   - Attempt-based score weighting (100 pts on 1st attempt down to 50 pts on 6th attempt).
-   - Streak counters (Current Streak & All-Time Best Streak).
-   - Clean statistics modal tracking Games Played, Wins, Win Percentage, Best Score, and Recent Score using `localStorage`.
-
-6. **Light & Dark Theme Toggle:**
-   - Seamless switch between sleek Dark Slate mode and crisp Light mode.
-   - Theme choice is automatically saved in `localStorage`.
-
-7. **Zero-Dependency Web Audio Synthesizer:**
-   - Pure browser **Web Audio API** sound synthesis (no external `.mp3` or `.wav` files needed).
-   - Audio feedback for keystrokes, tile reveals, invalid guesses, victory arpeggios, and game over cadences.
-   - Includes a one-click Sound Mute/Unmute toggle.
-
-8. **Subtle & Accessible Animations:**
-   - Letter pop-in on keypress, staggered tile 3D flip on evaluation, shake animation on invalid input, and bounce animation on victory.
-   - Full support for `prefers-reduced-motion`.
+### 3. 🔍 CASEFILE — Forensic Detective Investigation
+* **Tagline:** *Observe. Investigate. Solve.*
+* **Category:** Logic & Mystery • Case #001: The Missing Trophy
+* **Key Features:**
+  - **Interactive Crime Scene:** Clickable 3D-styled isometric room layout to inspect physical and forensic clues (desk drawer, trophy pedestal, camera feed, breaker panel, boot treads, etc.).
+  - **Suspect Cross-Examinations:** Question 4 distinct suspects to reveal motives, whereabouts, and contradictory statements.
+  - **Automated Evidence Board & Timeline:** Chronological timeline reconstruction tracking timestamps from 18:30 to 21:00.
+  - **In-Game Case Notes:** Persistent detective scratchpad saved automatically in browser `localStorage`.
+  - **Accusation System:** Solvable deterministic logic requiring the user to identify the true culprit and pair them with conclusive forensic proof.
 
 ---
 
-## 🛠️ Technology Stack
+## 🛠️ Architecture & Technology Stack
 
-| Technology | Purpose |
+| Technology | Implementation Details |
 | :--- | :--- |
-| **HTML5** | Semantic structure, accessible modals, SVG branding, ARIA live regions |
-| **CSS3** | Modern CSS variables, Flexbox & CSS Grid, keyframe animations, mobile responsiveness |
-| **Vanilla JavaScript (ES6+)** | State management, two-pass letter checking algorithm, keyboard sync, local persistence |
-| **Web Audio API** | Native algorithmic audio generation with zero external assets |
+| **HTML5** | Semantic markup, modal dialogs, accessible SVG iconography, ARIA live regions |
+| **CSS3** | CSS custom properties (design tokens), dark & light themes, CSS Grid, Flexbox, hardware-accelerated animations |
+| **Vanilla JavaScript (ES6+)** | Zero dependencies, modular game state controllers, deterministic verification, persistent `localStorage` |
+| **Web Audio API** | Algorithmic sound synthesis (keystrokes, chimes, timers, ticks, victory fanfares) without external `.mp3` files |
 
 ---
 
@@ -72,82 +55,72 @@ LexIQ is a modern, responsive, beginner-friendly word puzzle web application ins
 
 ```text
 word-guessing-game/
+├── index.html              # SYNAPSE Game Hub (Hero, Catalog, Guides, Features)
+├── hub.css                 # Platform styling, gaming dark/light themes, animations
+├── hub.js                  # Platform theme toggle, live stats aggregator, sound effects
 │
-├── index.html        # Main HTML layout, modals, header, board grid, SVG logo
-├── style.css         # Styling, light/dark themes, responsive layout, animations
-├── script.js         # Core game state engine, evaluation logic, audio & event listeners
-├── words.js          # Curated 5-letter target words with clues and valid guess bank
-└── README.md         # Project documentation and AI development breakdown
+├── lexiq/                  # Game 1: LexIQ Word Puzzle
+│   ├── index.html          # Game layout, grid, virtual keyboard, modals
+│   ├── style.css           # Board grid, tile animations, theme variables
+│   ├── script.js           # Two-pass evaluator, hint engine, stats manager
+│   └── words.js            # Target words database and valid dictionary bank
+│
+├── ten/                    # Game 2: TEN Reflex Blitz
+│   ├── index.html          # Blitz arena, progress ribbon, HUD, result cards
+│   ├── ten.css             # Countdown ring, combo meter, urgency states
+│   └── ten.js              # 8 challenge generators, 10s timer engine, SFX
+│
+├── casefile/               # Game 3: CASEFILE Detective Mystery
+│   ├── index.html          # Briefing, interactive room, suspect dossiers, notes
+│   ├── casefile.css        # Cinematic detective UI, pinboard, evidence cards
+│   └── casefile.js         # Case #001 engine, inspection logic, accusation validator
+│
+├── render.yaml             # Render cloud deployment blueprint
+└── README.md               # Platform documentation and AI development breakdown
 ```
 
 ---
 
-## 🚀 How to Run the Project
+## 🚀 How to Run Locally
 
-### Option 1: Direct File Launch (Quickest)
-1. Navigate to the `word-guessing-game` directory.
-2. Double-click **`index.html`** or right-click and open it with Google Chrome, Microsoft Edge, Mozilla Firefox, or Safari.
-3. The game starts immediately with no setup required!
+### Option 1: Direct Browser Launch (No Install Required)
+1. Open the project folder in File Explorer.
+2. Double-click **`index.html`** to launch the SYNAPSE Game Hub in any browser (Chrome, Edge, Firefox, Safari).
+3. Click any game card to launch into LexIQ, TEN, or CASEFILE.
 
-### Option 2: Using a Local HTTP Server
-If preferred (or for testing over a local network):
-
-**Using Python:**
+### Option 2: Local HTTP Server (Optional)
 ```bash
-# In the word-guessing-game directory:
+# Python 3
 python -m http.server 8000
+
+# Open http://localhost:8000 in your browser
 ```
-Then visit `http://localhost:8000` in your browser.
-
-**Using VS Code:**
-- Install the **Live Server** extension.
-- Right-click `index.html` → Click **"Open with Live Server"**.
-
-### Option 3: Deploy to Render (Cloud Hosting)
-Render allows 100% free, fast, automatic SSL hosting for static websites:
-1. Push this repository to **GitHub**.
-2. Log into [dashboard.render.com](https://dashboard.render.com).
-3. Click **New +** → **Static Site**.
-4. Select your GitHub repository.
-5. Keep **Build Command** empty and set **Publish Directory** to `.`.
-6. Click **Create Static Site**. Render automatically builds and deploys a live URL (e.g. `https://lexiq-game.onrender.com`).
-*(A `render.yaml` Blueprint file is already included in the repository for one-click setup.)*
 
 ---
 
-## 🧠 How AI Was Used During Development
+## ☁️ Deployment on Render
 
-As this project was developed for the **AI Tools course**, artificial intelligence assistance was actively incorporated throughout the development lifecycle:
-
-1. **Project Ideation & Branding:**
-   - Generative brainstorming of original names and concepts, avoiding trademarked terms like "Wordle" and selecting **LEXIQ**.
-2. **UI & Color Contrast Design:**
-   - AI recommendations for accessible color contrasts conforming to WCAG standards across both dark and light themes.
-3. **Algorithm Design:**
-   - Implementing the classic two-pass word evaluation logic to properly eliminate false duplicate yellow tiles when letters appear multiple times.
-4. **Zero-Dependency Audio Synthesis:**
-   - Generating standard Web Audio API oscillator frequencies and gain ramps to produce pleasant game sound effects without external audio files.
-5. **Testing & Edge Cases:**
-   - Automated testing matrices for edge-case words (such as multiple repeating vowels and consonants like `APPLE` vs `PUPPY`).
-6. **Documentation & Code Clarity:**
-   - Structuring beginner-friendly, clean, well-commented functions to make the project simple to explain during a college viva-voce or mini-project demonstration.
-
-*(Note: The game itself runs purely deterministic local client-side algorithms and does not query external AI APIs during active gameplay.)*
+This repository includes a `render.yaml` static site configuration:
+1. Push this repository to GitHub.
+2. Link your GitHub repo to [Render](https://dashboard.render.com).
+3. Choose **Static Site**, leave **Build Command** empty, and set **Publish Directory** to `.`.
+4. Deploy — Render will host the entire platform with free SSL at a custom live URL.
 
 ---
 
-## 🔮 Future Improvements
+## 🧠 AI-Assisted Development Breakdown
 
-- [ ] Daily Challenge Mode (seeded by calendar date).
-- [ ] Adjustable word length (4-letter, 5-letter, 6-letter modes).
-- [ ] Shareable emoji grid summary (e.g., `LEXIQ 3/6 🟩🟨⬜`).
-- [ ] High-contrast colorblind accessibility palette.
+Developed for the **AI Tools** academic course, AI techniques and tooling were utilized for:
+1. **System Architecture Design:** Structuring a multi-game hub with decoupled sub-applications that share a unified visual design system.
+2. **Algorithmic Correctness:** Formulating the two-pass letter frequency algorithm in LexIQ to handle edge cases like repeated letters.
+3. **Procedural Challenge Generation:** Crafting 8 distinct mathematical and pattern algorithms for the TEN reflex engine with dynamic difficulty scaling.
+4. **Logic Mystery Puzzle Construction:** Designing a coherent, non-contradictory forensic mystery graph for Case #001 with timestamps, suspect alibis, and conclusive proof triggers.
+5. **Zero-Asset Web Audio:** Designing purely algorithmic procedural audio waveforms using browser `AudioContext` nodes.
 
 ---
 
-## 👨‍🎓 Academic Submission Note
+## 👨‍🎓 Academic Course Submission
 
-* **Course:** AI Tools
-* **Semester:** Semester 5
-* **Project Type:** Mini-Project
-* **Author:** Student Demonstration Project
+* **Course:** AI Tools (Semester 5)
+* **Project:** Web Mini-Game Hub
+* **Developers:** Ajsal & Sreenandh

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CASEFILE | Observe. Investigate. Solve.</title>
+  <link rel="stylesheet" href="casefile.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Ambient Atmosphere Lighting -->
+  <div class="ambient-vignette"></div>
+  <div class="ambient-glow glow-detective"></div>
+
+  <!-- Toast System -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <div class="casefile-app">
+    <!-- Top Header Bar -->
+    <header class="casefile-header">
+      <div class="header-left">
+        <a href="../index.html" class="hub-back-btn" title="Return to SYNAPSE Hub" aria-label="Return to SYNAPSE Hub">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>BACK TO SYNAPSE</span>
+        </a>
+      </div>
+
+      <div class="header-center">
+        <div class="casefile-brand">
+          <div class="brand-badge-symbol">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <circle cx="10" cy="13" r="2"></circle>
+              <line x1="11.5" y1="14.5" x2="14" y2="17"></line>
+            </svg>
+          </div>
+          <span class="brand-title-text">CASEFILE</span>
+          <span class="case-number-badge">CASE #001</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button id="btn-sound" class="icon-btn" title="Toggle Sound" aria-label="Toggle Sound">
+          <svg id="sound-icon-on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <svg id="sound-icon-off" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+        </button>
+        <button id="btn-case-reset" class="icon-btn" title="Restart Investigation" aria-label="Restart Case">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Screens Container -->
+    <main class="casefile-main">
+      
+      <!-- ===================================================================
+           SCREEN 1: CASE BRIEFING
+           =================================================================== -->
+      <section id="screen-briefing" class="screen-view active">
+        <div class="dossier-card">
+          <div class="dossier-header">
+            <div class="stamp-confidential">CONFIDENTIAL INVESTIGATION</div>
+            <div class="case-meta-bar">
+              <span class="meta-tag">CASE NO: <strong>CF-001-GOLD</strong></span>
+              <span class="meta-tag">JURISDICTION: <strong>CAMPUS SECURITY</strong></span>
+              <span class="meta-tag date-tag">STATUS: <strong>UNSOLVED</strong></span>
+            </div>
+          </div>
+
+          <div class="dossier-body">
+            <h1 class="case-main-title">THE MISSING TROPHY</h1>
+            <p class="case-incident-summary">
+              At <strong>4:25 PM</strong>, just thirty-five minutes before the annual athletic awards ceremony, the prestigious 
+              <strong>Gold Championship Trophy</strong> was discovered missing from its locked glass display cabinet in the 
+              administration building trophy hall.
+            </p>
+            <p class="case-secondary-summary">
+              The display room was locked at 4:10 PM. There are no signs of forced glass breakage. Four individuals were present in the 
+              restricted east wing corridor during the 15-minute disappearance window. Examine the crime scene, interrogate the suspects, 
+              uncover the timeline, and find the contradiction to identify the culprit.
+            </p>
+
+            <div class="briefing-specs-grid">
+              <div class="spec-card">
+                <span class="spec-icon">📍</span>
+                <span class="spec-label">LOCATION</span>
+                <strong class="spec-val">East Wing Trophy Hall</strong>
+              </div>
+              <div class="spec-card">
+                <span class="spec-icon">⏱️</span>
+                <span class="spec-label">INCIDENT WINDOW</span>
+                <strong class="spec-val">4:10 PM – 4:25 PM</strong>
+              </div>
+              <div class="spec-card">
+                <span class="spec-icon">👥</span>
+                <span class="spec-label">PERSONS OF INTEREST</span>
+                <strong class="spec-val">4 Key Suspects</strong>
+              </div>
+              <div class="spec-card">
+                <span class="spec-icon">🔍</span>
+                <span class="spec-label">EVIDENCE TO COLLECT</span>
+                <strong class="spec-val">8 Physical & Digital Clues</strong>
+              </div>
+            </div>
+
+            <!-- Suspects Quick Preview Strip -->
+            <div class="suspects-strip">
+              <div class="suspect-pill">
+                <span class="suspect-avatar-mini">AM</span>
+                <div class="suspect-mini-info">
+                  <strong>Alex Morgan</strong>
+                  <span>Event Coordinator</span>
+                </div>
+              </div>
+              <div class="suspect-pill">
+                <span class="suspect-avatar-mini">MT</span>
+                <div class="suspect-mini-info">
+                  <strong>Maya Thomas</strong>
+                  <span>Team Captain</span>
+                </div>
+              </div>
+              <div class="suspect-pill">
+                <span class="suspect-avatar-mini">RJ</span>
+                <div class="suspect-mini-info">
+                  <strong>Ryan Joseph</strong>
+                  <span>Maintenance Assistant</span>
+                </div>
+              </div>
+              <div class="suspect-pill">
+                <span class="suspect-avatar-mini">DR</span>
+                <div class="suspect-mini-info">
+                  <strong>Daniel Roy</strong>
+                  <span>Event Photographer</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dossier-footer">
+            <button id="btn-start-investigation" class="btn-investigate-large">
+              <span>START INVESTIGATION</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SCREEN 2: INVESTIGATION DASHBOARD
+           =================================================================== -->
+      <section id="screen-investigation" class="screen-view">
+        
+        <!-- Live Investigation HUD -->
+        <div class="investigation-hud">
+          <div class="hud-left">
+            <div class="hud-stat-pill">
+              <span class="hud-label">EVIDENCE</span>
+              <span id="hud-evidence-count" class="hud-val">0 / 8</span>
+            </div>
+            <div class="hud-stat-pill">
+              <span class="hud-label">SUSPECTS</span>
+              <span id="hud-suspects-count" class="hud-val">0 / 4</span>
+            </div>
+            <div class="hud-stat-pill">
+              <span class="hud-label">TIMELINE</span>
+              <span id="hud-timeline-count" class="hud-val">0 / 5</span>
+            </div>
+          </div>
+
+          <div class="hud-right">
+            <button id="btn-open-accusation" class="btn-accuse-action" title="Ready to name the culprit?">
+              <span class="btn-accuse-icon">⚖️</span>
+              <span>MAKE ACCUSATION</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Dashboard Tab Navigation -->
+        <nav class="dashboard-tabs" role="tablist" aria-label="Investigation Sections">
+          <button class="dash-tab active" data-tab="scene" role="tab" aria-selected="true" aria-controls="tab-scene">
+            <span class="tab-icon">🔍</span>
+            <span>CRIME SCENE</span>
+          </button>
+          <button class="dash-tab" data-tab="suspects" role="tab" aria-selected="false" aria-controls="tab-suspects">
+            <span class="tab-icon">👥</span>
+            <span>SUSPECTS</span>
+          </button>
+          <button class="dash-tab" data-tab="evidence" role="tab" aria-selected="false" aria-controls="tab-evidence">
+            <span class="tab-icon">📁</span>
+            <span>EVIDENCE BOARD</span>
+          </button>
+          <button class="dash-tab" data-tab="timeline" role="tab" aria-selected="false" aria-controls="tab-timeline">
+            <span class="tab-icon">⏱️</span>
+            <span>TIMELINE</span>
+          </button>
+          <button class="dash-tab" data-tab="notes" role="tab" aria-selected="false" aria-controls="tab-notes">
+            <span class="tab-icon">📝</span>
+            <span>CASE NOTES</span>
+          </button>
+        </nav>
+
+        <!-- Tab Content Panes -->
+        <div class="tab-content-wrapper">
+          
+          <!-- TAB 1: SCENE (Interactive Crime Scene) -->
+          <div id="tab-scene" class="tab-pane active" role="tabpanel">
+            <div class="scene-container">
+              <div class="scene-header-bar">
+                <div class="scene-title-group">
+                  <h3>EAST WING TROPHY HALL — ROOM 104</h3>
+                  <p>Click highlighted objects to inspect and gather forensic evidence.</p>
+                </div>
+                <div class="scene-legend">
+                  <span class="legend-dot"></span>
+                  <span>8 Clues Available</span>
+                </div>
+              </div>
+
+              <!-- Interactive Visual Crime Scene Grid -->
+              <div class="scene-visual-room">
+                
+                <!-- Object 1: Display Cabinet -->
+                <button class="scene-object-card obj-cabinet" data-evidence-id="ev-01" aria-label="Inspect Display Cabinet">
+                  <div class="object-glow"></div>
+                  <div class="object-icon">🏆</div>
+                  <div class="object-info">
+                    <span class="object-name">Display Cabinet</span>
+                    <span class="object-status" id="status-ev-01">Inspect</span>
+                  </div>
+                </button>
+
+                <!-- Object 2: Door Lock -->
+                <button class="scene-object-card obj-door" data-evidence-id="ev-02" aria-label="Inspect Door & Electronic Card Scanner">
+                  <div class="object-glow"></div>
+                  <div class="object-icon">🚪</div>
+                  <div class="object-info">
+                    <span class="object-name">Door & Card Scanner</span>
+                    <span class="object-status" id="status-ev-02">Inspect</span>
+                  </div>
+                </button>
+
+                <!-- Object 3: Window -->
+                <button class="scene-object-card obj-window" data-evidence-id="ev-03" aria-label="Inspect Window Latch">
+                  <div class="object-glow"></div>
+                  <div class="object-icon">🪟</div>
+                  <div class="object-info">
+                    <span class="object-name">Casement Window</span>
+                    <span class="object-status" id="status-ev-03">Inspect</span>
+                  </div>
+                </button>
+
+                <!-- Object 4: Security Camera -->
+                <button class="scene-object-card obj-camera" data-evidence-id="ev-04" aria-label="Inspect Security Camera Footage">
+                  <div class="object-glow"></div>
+                  <div class="object-icon">📹</div>
+                  <div class="object-info">
+                    <span class="object-name">Security Camera</span>
+                    <span class="object-status" id="status-ev-04">Inspect</span>
+                  </div>
+                </button>
+
+                <!-- Object 5: Administrator Desk & Drawer -->
+                <button class="scene-object-card obj-desk" data-evidence-id="ev-05" aria-label="Inspect Desk & Key Drawer">
+                  <div class="object-glow"></div>
+                  <div class="object-icon">🗄️</div>
+                  <div class="object-info">
+                    <span class="object-name">Desk & Key Drawer</span>
+                    <span class="object-status" id="status-ev-05">Inspect</span>
+                  </div>
+                </button>
+
+                <!-- Object 6: Floor Tread Impression -->
+                <button class="scene-object-card obj-floor" data-evidence-id="ev-06" aria-label="Inspect Floor Scuff & Wax">
+                  <div class="object-glow"></div>
+                  <div class="object-icon">👣</div>
+                  <div class="object-info">
+                    <span class="object-name">Waxed Floor & Tread</span>
+                    <span class="object-status" id="status-ev-06">Inspect</span>
+                  </div>
+                </button>
+
+                <!-- Object 7: Circuit Breaker Panel -->
+                <button class="scene-object-card obj-breaker" data-evidence-id="ev-07" aria-label="Inspect Circuit Breaker Box">
+                  <div class="object-glow"></div>
+                  <div class="object-icon">⚡</div>
+                  <div class="object-info">
+                    <span class="object-name">Circuit Breaker Box</span>
+                    <span class="object-status" id="status-ev-07">Inspect</span>
+                  </div>
+                </button>
+
+                <!-- Object 8: Trash Bin -->
+                <button class="scene-object-card obj-trash" data-evidence-id="ev-08" aria-label="Inspect Wastebasket">
+                  <div class="object-glow"></div>
+                  <div class="object-icon">🗑️</div>
+                  <div class="object-info">
+                    <span class="object-name">Office Trash Bin</span>
+                    <span class="object-status" id="status-ev-08">Inspect</span>
+                  </div>
+                </button>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: SUSPECTS -->
+          <div id="tab-suspects" class="tab-pane" role="tabpanel">
+            <div class="suspects-container">
+              <div class="section-subhead">
+                <h3>PERSONS OF INTEREST (4)</h3>
+                <p>Click "QUESTION" to cross-examine suspects and uncover potential contradictions in their alibis.</p>
+              </div>
+
+              <div class="suspects-grid" id="suspects-grid">
+                <!-- Injected dynamically from casefile.js -->
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: EVIDENCE BOARD -->
+          <div id="tab-evidence" class="tab-pane" role="tabpanel">
+            <div class="evidence-container">
+              <div class="evidence-header-row">
+                <div class="section-subhead">
+                  <h3>COLLECTED CLUES & FORENSIC REPORTS</h3>
+                  <p>Inspect collected evidence to piece together the sequence of events.</p>
+                </div>
+                <div class="evidence-filter-group">
+                  <button class="filter-btn active" data-filter="all">ALL</button>
+                  <button class="filter-btn" data-filter="PHYSICAL">PHYSICAL</button>
+                  <button class="filter-btn" data-filter="DIGITAL">DIGITAL</button>
+                  <button class="filter-btn" data-filter="TIMELINE">TIMELINE</button>
+                </div>
+              </div>
+
+              <div class="evidence-grid" id="evidence-grid">
+                <!-- Injected dynamically by casefile.js -->
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 4: TIMELINE -->
+          <div id="tab-timeline" class="tab-pane" role="tabpanel">
+            <div class="timeline-container">
+              <div class="section-subhead">
+                <h3>RECONSTRUCTED INCIDENT TIMELINE</h3>
+                <p>Chronological sequence of verified movements and surveillance logs between 3:50 PM and 4:25 PM.</p>
+              </div>
+
+              <div class="timeline-events-list" id="timeline-events-list">
+                <!-- Injected dynamically by casefile.js -->
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 5: CASE NOTES -->
+          <div id="tab-notes" class="tab-pane" role="tabpanel">
+            <div class="notes-container">
+              <div class="section-subhead">
+                <h3>DETECTIVE'S WORKING NOTEBOOK</h3>
+                <p>Record observations, suspect contradictions, and theories. Notes automatically persist in local storage.</p>
+              </div>
+
+              <div class="notes-editor-box">
+                <div class="notes-toolbar">
+                  <div class="toolbar-left">
+                    <button id="btn-insert-timestamp" class="tool-btn">+ Timestamp</button>
+                    <button id="btn-clear-notes" class="tool-btn text-danger">Clear</button>
+                  </div>
+                  <div class="toolbar-right">
+                    <span id="notes-status" class="notes-status-text">All notes saved</span>
+                  </div>
+                </div>
+                <textarea id="case-notes-input" class="notes-textarea" placeholder="Type case observations, suspect inconsistencies, or potential motives here..."></textarea>
+                <div class="notes-footer">
+                  <button id="btn-save-notes" class="btn-primary-notes">SAVE NOTES</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SCREEN 3: VERDICT & CASE RESOLUTION
+           =================================================================== -->
+      <section id="screen-results" class="screen-view">
+        <div class="verdict-container">
+          
+          <!-- STATE A: CORRECT ACCUSATION -->
+          <div id="verdict-success" class="verdict-card success-card">
+            <div class="verdict-badge">CASE SOLVED</div>
+            <h2 class="verdict-title">CULPRIT IDENTIFIED</h2>
+            <p class="verdict-subtitle">Your forensic analysis and logic exposed the exact contradiction.</p>
+
+            <div class="culprit-summary-box">
+              <div class="culprit-header">
+                <div class="culprit-avatar">RJ</div>
+                <div class="culprit-details">
+                  <h3 id="solved-culprit-name">Ryan Joseph</h3>
+                  <span id="solved-culprit-role">Maintenance Assistant</span>
+                </div>
+              </div>
+
+              <div class="resolution-breakdown-grid">
+                <div class="breakdown-item">
+                  <span class="breakdown-lbl">MOTIVE</span>
+                  <p id="solved-motive">Greed. Attempted to steal the antique solid-gold trophy to sell to a private collector off-campus.</p>
+                </div>
+                <div class="breakdown-item">
+                  <span class="breakdown-lbl">METHOD</span>
+                  <p id="solved-method">Used a fabricated light repair work order to access the corridor. Pried the desk drawer for the cabinet key, killed the camera breaker, and concealed the disassembled trophy inside his heavy toolbox.</p>
+                </div>
+                <div class="breakdown-item full-width">
+                  <span class="breakdown-lbl">THE CRITICAL CONTRADICTION</span>
+                  <p id="solved-contradiction">
+                    Ryan claimed he <strong>never stepped inside the trophy room</strong> and only repaired an exterior corridor light. However:
+                    <br>• The facilities work-boot tread impression in the room wax matched his exact footwear.
+                    <br>• Industrial cart grease from his toolbox was smeared on the pried key drawer and cabinet lock.
+                    <br>• The circuit breaker was unlocked and manually flipped with a service key at 4:17 PM, disproving his claim of an accidental bulb power surge.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Detective Performance Rating -->
+            <div class="investigation-metrics-box">
+              <div class="rating-display">
+                <span class="rating-caption">INVESTIGATION RATING</span>
+                <div id="solved-rating" class="rating-text">PERFECT INVESTIGATION</div>
+              </div>
+              <div class="stats-mini-row">
+                <div class="metric-block">
+                  <span class="m-lbl">EVIDENCE</span>
+                  <strong id="final-ev-count" class="m-val">8 / 8</strong>
+                </div>
+                <div class="metric-block">
+                  <span class="m-lbl">SUSPECTS</span>
+                  <strong id="final-suspects-count" class="m-val">4 / 4</strong>
+                </div>
+                <div class="metric-block">
+                  <span class="m-lbl">TIMELINE</span>
+                  <strong id="final-timeline-count" class="m-val">5 / 5</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="verdict-actions">
+              <button id="btn-replay-case" class="btn-primary-action">REPLAY CASE</button>
+              <a href="../index.html" class="btn-secondary-action">← RETURN TO SYNAPSE</a>
+            </div>
+          </div>
+
+          <!-- STATE B: WRONG ACCUSATION -->
+          <div id="verdict-failure" class="verdict-card failure-card hidden">
+            <div class="verdict-badge error-badge">ACCUSATION INCORRECT</div>
+            <h2 class="verdict-title">INSUFFICIENT OR FLAWED PROOF</h2>
+            <p id="wrong-accusation-msg" class="verdict-subtitle">
+              The suspect's alibi holds up, or your chosen evidence fails to conclusively contradict their account.
+            </p>
+
+            <div class="wrong-tip-box">
+              <h4>Detective Advice:</h4>
+              <p>Re-examine the physical evidence left inside the room. Look closely at tool marks, footprints, and surveillance timestamps to find a statement that cannot be physically true.</p>
+            </div>
+
+            <div class="verdict-actions">
+              <button id="btn-review-evidence" class="btn-primary-action">REVIEW EVIDENCE</button>
+              <button id="btn-try-again" class="btn-secondary-action">TRY ANOTHER ACCUSATION</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- App Footer -->
+    <footer class="casefile-footer">
+      <p>CASEFILE • Part of <strong>SYNAPSE Mini-Game Platform</strong> • AI Tools Mini-Project</p>
+    </footer>
+  </div>
+
+  <!-- =====================================================================
+       MODAL 1: EVIDENCE INSPECTION DRAWER / MODAL
+       ===================================================================== -->
+  <div id="modal-evidence" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="ev-modal-title">
+    <div class="modal-card evidence-modal-card">
+      <div class="modal-header">
+        <div class="evidence-tag-row">
+          <span id="modal-ev-id" class="modal-stamp">EVIDENCE #01</span>
+          <span id="modal-ev-category" class="category-chip physical">PHYSICAL</span>
+        </div>
+        <button class="modal-close" aria-label="Close evidence inspection">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="evidence-visual-preview">
+          <div id="modal-ev-icon" class="evidence-big-icon">🏆</div>
+          <div class="evidence-preview-caption">FORENSIC EXHIBIT INSPECTION</div>
+        </div>
+        <h3 id="ev-modal-title" class="evidence-title">Exhibit Title</h3>
+        <p id="ev-modal-desc" class="evidence-description">Detailed forensic description.</p>
+
+        <div class="evidence-significance-box">
+          <span class="box-tag">INVESTIGATIVE SIGNIFICANCE</span>
+          <p id="ev-modal-significance">Key insight from this clue.</p>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-primary-modal modal-close-btn">RETURN TO DASHBOARD</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MODAL 2: SUSPECT INTERROGATION MODAL
+       ===================================================================== -->
+  <div id="modal-suspect" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="suspect-modal-name">
+    <div class="modal-card suspect-modal-card">
+      <div class="modal-header">
+        <span class="modal-stamp">OFFICIAL INTERROGATION RECORD</span>
+        <button class="modal-close" aria-label="Close interrogation record">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="suspect-profile-top">
+          <div id="suspect-modal-avatar" class="suspect-avatar-lg">AM</div>
+          <div class="suspect-profile-meta">
+            <h3 id="suspect-modal-name">Alex Morgan</h3>
+            <span id="suspect-modal-role" class="suspect-role-badge">Event Coordinator</span>
+          </div>
+        </div>
+
+        <div class="dossier-section">
+          <h4>INITIAL STATEMENT</h4>
+          <blockquote id="suspect-modal-statement" class="statement-quote">"Statement"</blockquote>
+        </div>
+
+        <div class="dossier-section">
+          <h4>CROSS-EXAMINATION Q&A</h4>
+          <div id="suspect-modal-qa" class="interrogation-dialogue-list">
+            <!-- Dynamic Q&A list injected -->
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-primary-modal modal-close-btn">CONCLUDE QUESTIONING</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MODAL 3: ACCUSATION MODAL
+       ===================================================================== -->
+  <div id="modal-accusation" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="accusation-title">
+    <div class="modal-card accusation-modal-card">
+      <div class="modal-header center-header">
+        <div class="gavel-icon">⚖️</div>
+        <h2 id="accusation-title">FORMAL ACCUSATION</h2>
+        <p class="accusation-subtitle">Name the perpetrator and substantiate your charge with key evidence.</p>
+      </div>
+      <div class="modal-body">
+        
+        <!-- Step 1: Select Suspect -->
+        <div class="accusation-step">
+          <label class="step-label">1. WHO COMMITTED THE THEFT?</label>
+          <div class="suspect-select-grid" id="accusation-suspects-grid">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+        <!-- Step 2: Select Supporting Clue -->
+        <div class="accusation-step">
+          <label class="step-label">2. WHAT EVIDENCE PROVES THE CONTRADICTION?</label>
+          <div class="evidence-select-list" id="accusation-evidence-list">
+            <!-- Injected dynamically based on collected clues -->
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-actions">
+        <button id="btn-submit-accusation" class="btn-primary-action w-full" disabled>SUBMIT ACCUSATION</button>
+        <button class="btn-secondary-action w-full modal-close-btn">CANCEL & RESUME INVESTIGATION</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="casefile.js"></script>
+</body>
+</html>

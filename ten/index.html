@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEN | 10-Second Reflex & Brain Blitz</title>
+  <link rel="stylesheet" href="ten.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Toast Notification System -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <div class="ten-container">
+    <!-- Top Bar Navigation -->
+    <header class="ten-header">
+      <div class="header-left">
+        <a href="../index.html" class="hub-back-btn" title="Back to Game Hub" aria-label="Return to Game Hub">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>GAME HUB</span>
+        </a>
+      </div>
+
+      <div class="header-center">
+        <div class="brand-badge">
+          <span class="brand-ten-logo">10</span>
+          <span class="brand-ten-name">TEN</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button id="btn-sound" class="icon-btn" title="Toggle Sound" aria-label="Toggle Sound">
+          <svg id="sound-icon-on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+          <svg id="sound-icon-off" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+        </button>
+        <button id="btn-help" class="icon-btn" title="How to Play" aria-label="How to Play">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Game Canvas / Screens -->
+    <main class="ten-main">
+      
+      <!-- SCREEN 1: START SCREEN -->
+      <section id="screen-start" class="screen-view active">
+        <div class="start-hero">
+          <div class="ten-big-logo">
+            <div class="outer-glow-ring"></div>
+            <span class="number-10">10</span>
+          </div>
+          <h1 class="start-title">TEN</h1>
+          <p class="start-tagline">10 seconds. One challenge. Can you beat the clock?</p>
+          <p class="start-desc">Solve fast-changing brain, logic and reflex mini-challenges before the countdown reaches zero.</p>
+        </div>
+
+        <div class="start-stats-pill">
+          <span class="pill-label">ALL-TIME BEST</span>
+          <span id="start-best-score" class="pill-val">0 PTS</span>
+        </div>
+
+        <div class="start-rules-strip">
+          <div class="rule-mini-item">
+            <span class="rule-icon">⚡</span>
+            <span>10 Rounds</span>
+          </div>
+          <div class="rule-mini-item">
+            <span class="rule-icon">⏱️</span>
+            <span>10s Per Round</span>
+          </div>
+          <div class="rule-mini-item">
+            <span class="rule-icon">🔥</span>
+            <span>Combo Multiplier</span>
+          </div>
+        </div>
+
+        <div class="start-actions">
+          <button id="btn-start-game" class="btn-primary-large">
+            <span>START GAME</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </button>
+          <button id="btn-start-help" class="btn-secondary">How to Play</button>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: GAMEPLAY SCREEN -->
+      <section id="screen-game" class="screen-view">
+        <!-- Live HUD Status -->
+        <div class="game-hud">
+          <div class="hud-item">
+            <span class="hud-label">ROUND</span>
+            <span id="hud-round" class="hud-value">1 / 10</span>
+          </div>
+          <div class="hud-item">
+            <span class="hud-label">DIFF</span>
+            <span id="hud-diff" class="hud-badge easy">EASY</span>
+          </div>
+          <div class="hud-item">
+            <span class="hud-label">COMBO</span>
+            <span id="hud-combo" class="hud-value highlight">🔥 0</span>
+          </div>
+          <div class="hud-item">
+            <span class="hud-label">SCORE</span>
+            <span id="hud-score" class="hud-value font-mono">0</span>
+          </div>
+        </div>
+
+        <!-- 10.0s Timer Bar & Countdown Readout -->
+        <div class="timer-wrapper">
+          <div class="timer-meta">
+            <span class="timer-tag">TIME REMAINING</span>
+            <span id="timer-readout" class="timer-digits">10.0s</span>
+          </div>
+          <div class="timer-bar-container">
+            <div id="timer-bar" class="timer-bar-fill state-calm"></div>
+          </div>
+        </div>
+
+        <!-- Challenge Container Card -->
+        <div class="challenge-card">
+          <div class="challenge-header">
+            <span id="challenge-type-badge" class="challenge-badge">MATH</span>
+            <h2 id="challenge-instruction" class="challenge-instruction">Solve the equation</h2>
+          </div>
+
+          <!-- Active Challenge Interactive Arena -->
+          <div id="challenge-arena" class="challenge-arena">
+            <!-- Dynamic elements injected by ten.js -->
+          </div>
+
+          <!-- Immediate Feedback Flash Banner -->
+          <div id="feedback-banner" class="feedback-banner hidden" aria-live="assertive">
+            <span id="feedback-icon" class="feedback-icon">✓</span>
+            <span id="feedback-text" class="feedback-text">CORRECT!</span>
+            <span id="feedback-points" class="feedback-points">+180 PTS</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 3: RESULTS SCREEN -->
+      <section id="screen-results" class="screen-view">
+        <div class="results-card">
+          <div class="results-header">
+            <div id="results-medal" class="results-medal">🏆</div>
+            <h2 class="results-title">SESSION COMPLETE</h2>
+            <p id="results-critique" class="results-critique">Sharp reflexes!</p>
+          </div>
+
+          <div class="results-score-box">
+            <span class="score-caption">FINAL SCORE</span>
+            <div id="results-final-score" class="score-number font-mono">1,840</div>
+            <div id="results-record-badge" class="record-badge hidden">★ NEW PERSONAL BEST! ★</div>
+          </div>
+
+          <div class="results-grid">
+            <div class="res-stat-box">
+              <span class="res-label">ACCURACY</span>
+              <span id="res-accuracy" class="res-val">80%</span>
+            </div>
+            <div class="res-stat-box">
+              <span class="res-label">MAX COMBO</span>
+              <span id="res-best-combo" class="res-val highlight">🔥 6</span>
+            </div>
+            <div class="res-stat-box">
+              <span class="res-label">AVG TIME</span>
+              <span id="res-avg-time" class="res-val">3.8s</span>
+            </div>
+            <div class="res-stat-box">
+              <span class="res-label">BEST ALL-TIME</span>
+              <span id="res-alltime-best" class="res-val">2,150</span>
+            </div>
+          </div>
+
+          <div class="results-actions">
+            <button id="btn-play-again" class="btn-primary-large">
+              <span>PLAY AGAIN</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+              </svg>
+            </button>
+            <a href="../index.html" class="btn-secondary w-full text-center">
+              <span>← RETURN TO GAME HUB</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Subtle Footer -->
+    <footer class="ten-footer">
+      <p>Part of <strong>SYNAPSE Mini-Game Platform</strong> • AI Tools Project</p>
+    </footer>
+  </div>
+
+  <!-- HOW TO PLAY MODAL -->
+  <div id="modal-help" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="help-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="help-title">How to Play TEN</h2>
+        <button class="modal-close" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="guide-step-card">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Start the Game</h4>
+            <p>Each session consists of exactly <strong>10 rounds</strong> of varied mini-challenges.</p>
+          </div>
+        </div>
+
+        <div class="guide-step-card">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>10 Seconds on the Clock</h4>
+            <p>You have exactly <strong>10.0 seconds</strong> per challenge. The timer counts down rapidly from 10.0 to 0.0.</p>
+          </div>
+        </div>
+
+        <div class="guide-step-card">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Solve as Fast as Possible</h4>
+            <p>Faster answers reward a generous <strong>Speed Bonus</strong> based on your remaining milliseconds.</p>
+          </div>
+        </div>
+
+        <div class="guide-step-card">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>Build Massive Combos</h4>
+            <p>Consecutive correct answers multiply your score. A mistake or timeout resets your combo to 0.</p>
+          </div>
+        </div>
+
+        <div class="guide-divider"></div>
+        <h3>The 8 Challenge Types</h3>
+        <div class="types-grid">
+          <div class="type-pill">⚡ <strong>Quick Math:</strong> Fast mental calculations</div>
+          <div class="type-pill">🔍 <strong>Odd One Out:</strong> Spot the distinct symbol</div>
+          <div class="type-pill">🔢 <strong>Count:</strong> Tally specific shapes</div>
+          <div class="type-pill">🧩 <strong>Pattern:</strong> Predict what comes next</div>
+          <div class="type-pill">🧠 <strong>Memory:</strong> Recall hidden sequences</div>
+          <div class="type-pill">📊 <strong>Sort:</strong> Order numbers ascending/descending</div>
+          <div class="type-pill">🎯 <strong>Target:</strong> Click all matching numbers</div>
+          <div class="type-pill">🚨 <strong>Reaction:</strong> Tap on the prompt cue</div>
+        </div>
+
+        <div class="guide-divider"></div>
+        <p class="guide-footer-note">Ready to test your focus and reflex speed? Jump in!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="ten.js"></script>
+</body>
+</html>
