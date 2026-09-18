@@ -247,5 +247,6 @@ const MORE_VALID_WORDS = [
 // Set of all valid guesses for fast O(1) lookup
 const VALID_WORD_SET = new Set([
   ...TARGET_WORDS.map(item => item.word.toUpperCase()),
-  ...EXTRA_VALID_WORDS.map(w => w.toUpperCase())
+  ...EXTRA_VALID_WORDS.map(w => w.toUpperCase()),
+  ...MORE_VALID_WORDS.map(w => w.toUpperCase())
 ]);
