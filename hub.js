@@ -69,11 +69,12 @@ function loadPlayerLiveStats() {
     // 3. CASEFILE Stats
     const case1Solved = localStorage.getItem('casefile_case001_solved') === 'true';
     const case2Solved = localStorage.getItem('casefile_case002_solved') === 'true';
-    const solvedCount = (case1Solved ? 1 : 0) + (case2Solved ? 1 : 0);
+    const case3Solved = localStorage.getItem('casefile_case003_solved') === 'true';
+    const solvedCount = (case1Solved ? 1 : 0) + (case2Solved ? 1 : 0) + (case3Solved ? 1 : 0);
     if (solvedCount > 0) {
       const casefileMeta = document.querySelector('.card-casefile .meta-val');
       if (casefileMeta) {
-        casefileMeta.textContent = `★ SOLVED (${solvedCount}/2 Cases)`;
+        casefileMeta.textContent = `★ SOLVED (${solvedCount}/3 Cases)`;
         casefileMeta.style.color = '#eab308';
       }
     }

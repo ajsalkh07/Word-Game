@@ -422,6 +422,208 @@ const CASES_DB = {
       ]
     }
   }
+,
+
+  case003: {
+    id: 'case003',
+    number: 'CASEFILE #03',
+    title: 'THE MISSING NECKLACE',
+    subtitle: 'A valuable necklace has disappeared from a hotel room. Three people had access.',
+    difficulty: 'EASY ⭐',
+    badgeClass: 'diff-easy',
+    location: 'Grand Azure Hotel — Suite 402',
+    timeWindow: '8:00 PM – 8:45 PM',
+    thumbIcon: '💎',
+    sceneTitle: 'GRAND AZURE HOTEL — SUITE 402',
+    sceneDesc: 'Examine the hotel suite to uncover who took the sapphire necklace.',
+
+    introBeats: [
+      '8:45 PM.',
+      'A necklace is missing.',
+      'Three people entered the room.',
+      'Only one of them took it.',
+      'INVESTIGATION BEGINS.'
+    ],
+    voiceIntro: 'Eight forty-five P M. A necklace is missing from Suite 402. Three people entered the room. Only one of them took it. Investigation begins.',
+
+    evidence: [
+      {
+        id: 'ev-c3-phone',
+        hotspotId: 'spot-c3-phone',
+        title: 'Smartphone Mirror Photo',
+        category: 'DIGITAL',
+        icon: '📱',
+        shortDesc: 'Mirror photo taken by the victim at the vanity.',
+        keyFact: 'Timestamped 8:20 PM; the necklace is clearly visible on the desk.',
+        timestamp: '8:20 PM'
+      },
+      {
+        id: 'ev-c3-door',
+        hotspotId: 'spot-c3-door',
+        title: 'Electronic Door Access Log',
+        category: 'DIGITAL',
+        icon: '🚪',
+        shortDesc: 'Hotel keycard audit log for Suite 402.',
+        keyFact: 'Mia entered 8:00 PM; Emma entered 8:05 PM, left 8:15 PM; Ryan entered 8:30 PM.',
+        timestamp: '8:35 PM'
+      },
+      {
+        id: 'ev-c3-tray',
+        hotspotId: 'spot-c3-tray',
+        title: 'Room-Service Receipt',
+        category: 'TIMELINE',
+        icon: '🍽️',
+        shortDesc: 'Printed receipt left beside the food cloche.',
+        keyFact: 'Receipt stamped 8:30 PM, signed and delivered by Ryan.',
+        timestamp: '8:30 PM'
+      },
+      {
+        id: 'ev-c3-cart',
+        hotspotId: 'spot-c3-cart',
+        title: 'Housekeeping Cart',
+        category: 'PHYSICAL',
+        icon: '🧹',
+        shortDesc: 'Linen cleaning cart parked outside Suite 402.',
+        keyFact: 'A small blue thread matching the necklace is caught on the cart.',
+        timestamp: '8:02 PM'
+      },
+      {
+        id: 'ev-c3-bed',
+        hotspotId: 'spot-c3-bed',
+        title: 'Silk Duvet Bed',
+        category: 'PHYSICAL',
+        icon: '🛏️',
+        shortDesc: 'Pillows and bed linens are smoothed and undisturbed.',
+        keyFact: 'Confirms no struggle or frantic search occurred inside the suite.',
+        timestamp: '8:40 PM'
+      },
+      {
+        id: 'ev-c3-bag',
+        hotspotId: 'spot-c3-bag',
+        title: 'Emma\'s Evening Handbag',
+        category: 'PHYSICAL',
+        icon: '👜',
+        shortDesc: 'Satin handbag resting on the side table.',
+        keyFact: 'Contains cosmetics, compact mirror, and keycard. No jewelry inside.',
+        timestamp: '8:15 PM'
+      },
+      {
+        id: 'ev-c3-mirror',
+        hotspotId: 'spot-c3-mirror',
+        title: 'Illuminated Vanity Mirror',
+        category: 'PHYSICAL',
+        icon: '🪞',
+        shortDesc: 'Open velvet jewelry case sitting under vanity lights.',
+        keyFact: 'Empty velvet indentation matches the missing sapphire necklace.',
+        timestamp: '8:42 PM'
+      },
+      {
+        id: 'ev-c3-window',
+        hotspotId: 'spot-c3-window',
+        title: 'Balcony French Window',
+        category: 'PHYSICAL',
+        icon: '🪟',
+        shortDesc: 'Double-glazed balcony window overlooking the garden.',
+        keyFact: 'Window latch is locked from the inside. Outside entry impossible.',
+        timestamp: '8:44 PM'
+      }
+    ],
+
+    suspects: [
+      {
+        id: 's-c3-emma',
+        name: 'Emma',
+        role: 'Victim\'s Friend',
+        avatarText: 'EM',
+        avatarBg: '#ec4899',
+        alibi: '"Left the room at 8:15 PM."',
+        suspicious: 'She had access to the room.'
+      },
+      {
+        id: 's-c3-ryan',
+        name: 'Ryan',
+        role: 'Room Service',
+        avatarText: 'RY',
+        avatarBg: '#3b82f6',
+        alibi: '"Entered at 8:30 PM to deliver food."',
+        suspicious: 'He was inside after the necklace disappeared.'
+      },
+      {
+        id: 's-c3-mia',
+        name: 'Mia',
+        role: 'Housekeeping',
+        avatarText: 'MI',
+        avatarBg: '#10b981',
+        alibi: '"Cleaned the room at 8:00 PM."',
+        suspicious: 'A blue thread matching the necklace was found on her cleaning cart.'
+      }
+    ],
+
+    timeline: [
+      {
+        id: 't-c3-1',
+        time: '8:00 PM',
+        title: 'Mia Enters Room',
+        text: 'Mia enters Suite 402 with housekeeping cart to clean room.',
+        locked: false
+      },
+      {
+        id: 't-c3-2',
+        time: '8:05 PM',
+        title: 'Emma Enters Room',
+        text: 'Emma enters Suite 402 to meet the victim before dinner.',
+        locked: false
+      },
+      {
+        id: 't-c3-3',
+        time: '8:15 PM',
+        title: 'Emma Leaves Room',
+        text: 'Emma leaves the room to head downstairs to the restaurant.',
+        locked: false
+      },
+      {
+        id: 't-c3-4',
+        time: '8:20 PM',
+        title: 'Necklace Visible in Photo',
+        text: 'Phone photo shows the necklace was clearly visible on vanity at 8:20 PM.',
+        locked: true,
+        unlockClue: 'ev-c3-phone'
+      },
+      {
+        id: 't-c3-5',
+        time: '8:30 PM',
+        title: 'Ryan Enters for Delivery',
+        text: 'Ryan enters Suite 402 to deliver room service meal and exits.',
+        locked: true,
+        unlockClue: 'ev-c3-tray'
+      }
+    ],
+
+    solution: {
+      culpritId: 's-c3-mia',
+      validEvidenceIds: ['ev-c3-cart'],
+      correctEvidenceId: 'ev-c3-cart',
+      correctTheoryId: 'th-c3-1',
+
+      evidenceOptions: [
+        { id: 'ev-c3-cart', text: 'Blue thread on housekeeping cart.' },
+        { id: 'ev-c3-phone', text: 'Phone photo showing necklace at 8:20 PM.' },
+        { id: 'ev-c3-tray', text: 'Room-service receipt stamped 8:30 PM.' }
+      ],
+      theoryOptions: [
+        { id: 'th-c3-1', text: 'Mia took the necklace while cleaning the room, and the blue thread caught on her cart.' },
+        { id: 'th-c3-2', text: 'Emma took the necklace in her handbag when leaving at 8:15 PM.' },
+        { id: 'th-c3-3', text: 'Ryan stole the necklace while dropping off the room-service food.' }
+      ],
+      revealSteps: [
+        'Necklace was visible at 8:20 PM.',
+        'Emma had already left.',
+        'Ryan arrived at 8:30 PM.',
+        'Blue thread matching the necklace was found on Mia\'s cleaning cart.',
+        'Mia took the necklace while cleaning the room.'
+      ]
+    }
+  }
 };
 
 // ==========================================================================
@@ -1125,9 +1327,14 @@ function evaluateDeduction() {
     const finalScore = Math.min(100, baseScore);
 
     let rank = 'NOVICE';
-    if (finalScore >= 95) rank = 'MASTER DETECTIVE';
-    else if (finalScore >= 85) rank = 'DETECTIVE';
-    else if (finalScore >= 70) rank = 'INVESTIGATOR';
+    if (c.id === 'case003') {
+      if (finalScore >= 85) rank = 'JUNIOR DETECTIVE';
+      else rank = 'ROOKIE';
+    } else {
+      if (finalScore >= 95) rank = 'MASTER DETECTIVE';
+      else if (finalScore >= 85) rank = 'DETECTIVE';
+      else if (finalScore >= 70) rank = 'INVESTIGATOR';
+    }
 
     localStorage.setItem(`casefile_${c.id}_score`, `${finalScore}%`);
     localStorage.setItem(`casefile_${c.id}_rank`, rank);

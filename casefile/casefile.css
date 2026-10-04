@@ -1727,3 +1727,24 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+
+.diff-easy {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--color-green);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.bg-case003 {
+  background: radial-gradient(circle at 50% 45%, rgba(45, 30, 60, 0.7) 0%, rgba(15, 23, 42, 0.98) 85%);
+}
+
+/* Hotspots Layout Positions: Case 3 */
+.theme-case003 .spot-c3-door    { top: 22%; left: 10%; }
+.theme-case003 .spot-c3-cart    { top: 36%; left: 20%; }
+.theme-case003 .spot-c3-bed     { top: 52%; left: 42%; }
+.theme-case003 .spot-c3-bag     { top: 76%; left: 32%; }
+.theme-case003 .spot-c3-window  { top: 16%; left: 52%; }
+.theme-case003 .spot-c3-mirror  { top: 26%; left: 74%; }
+.theme-case003 .spot-c3-phone   { top: 56%; left: 82%; }
+.theme-case003 .spot-c3-tray    { top: 76%; left: 62%; }
