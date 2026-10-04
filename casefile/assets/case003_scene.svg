@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="100%" height="100%">
+  <defs>
+    <linearGradient id="c3_wall" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="50%" stop-color="#172554"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="c3_carpet" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <linearGradient id="c3_gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="c3_silk" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <radialGradient id="c3_lamp" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(253, 224, 71, 0.3)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="420" fill="url(#c3_wall)"/>
+  <rect y="420" width="1200" height="255" fill="url(#c3_carpet)"/>
+
+  <!-- Suite French Balcony Window Center-Left -->
+  <rect x="520" y="70" width="220" height="260" rx="8" fill="#090d16" stroke="#475569" stroke-width="4"/>
+  <line x1="630" y1="70" x2="630" y2="330" stroke="#475569" stroke-width="3"/>
+  <circle cx="620" cy="200" r="5" fill="#fbbf24"/> <!-- Window lock -->
+  <!-- Night city sky through window -->
+  <circle cx="560" cy="110" r="2" fill="#ffffff" opacity="0.8"/>
+  <circle cx="680" cy="130" r="1.5" fill="#ffffff" opacity="0.8"/>
+
+  <!-- Left Suite Entrance Door (Slightly ajar) -->
+  <rect x="80" y="110" width="140" height="310" rx="4" fill="#0f172a" stroke="#78350f" stroke-width="4"/>
+  <!-- Electronic Door Keycard Lock -->
+  <rect x="200" y="250" width="14" height="28" rx="2" fill="#020617" stroke="#10b981" stroke-width="1.5"/>
+
+  <!-- Housekeeping Cart outside Door -->
+  <rect x="180" y="240" width="110" height="150" rx="6" fill="#334155" stroke="#64748b" stroke-width="2"/>
+  <rect x="190" y="255" width="90" height="40" fill="#f8fafc" rx="3"/> <!-- Folded White Towels -->
+  <circle cx="205" cy="400" r="10" fill="#1e293b" stroke="#94a3b8" stroke-width="2"/>
+  <circle cx="265" cy="400" r="10" fill="#1e293b" stroke="#94a3b8" stroke-width="2"/>
+  <!-- Blue Silk Thread on cart corner! -->
+  <path d="M 285 270 Q 295 285 290 300" stroke="#38bdf8" stroke-width="3" fill="none"/>
+  <circle cx="290" cy="300" r="3" fill="#0284c7"/>
+
+  <!-- King Size Hotel Bed Center -->
+  <rect x="360" y="340" width="340" height="90" rx="12" fill="#1e293b" stroke="#334155" stroke-width="3"/>
+  <!-- Two white pillows -->
+  <rect x="390" y="320" width="120" height="45" rx="8" fill="#f1f5f9"/>
+  <rect x="550" y="320" width="120" height="45" rx="8" fill="#f1f5f9"/>
+  <!-- Blue Silk Duvet -->
+  <polygon points="360,370 700,370 730,530 330,530" fill="url(#c3_silk)" stroke="#1d4ed8" stroke-width="2"/>
+
+  <!-- Emma's Evening Handbag on Bedside Stand -->
+  <rect x="290" y="440" width="60" height="60" rx="6" fill="#334155"/>
+  <ellipse cx="320" cy="460" rx="20" ry="14" fill="#ec4899" stroke="#be185d" stroke-width="2"/> <!-- Pink Clutch -->
+
+  <!-- Illuminated Vanity Desk Right -->
+  <polygon points="840,360 1080,360 1130,480 810,480" fill="#334155" stroke="#64748b" stroke-width="2"/>
+  <!-- Vanity Mirror with Glow -->
+  <ellipse cx="960" cy="230" rx="75" ry="110" fill="#0f172a" stroke="url(#c3_gold)" stroke-width="6"/>
+  <ellipse cx="960" cy="230" rx="75" ry="110" fill="url(#c3_lamp)"/>
+  
+  <!-- Open Velvet Jewelry Box (Empty slot!) -->
+  <rect x="920" y="380" width="55" height="40" rx="4" fill="#881337" stroke="#4c0519" stroke-width="2"/>
+  <ellipse cx="947" cy="400" rx="14" ry="7" fill="#4c0519"/> <!-- Empty Necklace Slot -->
+
+  <!-- Smartphone on Vanity Desk -->
+  <rect x="1000" y="385" width="45" height="24" rx="3" fill="#020617" stroke="#38bdf8" stroke-width="1.5" transform="rotate(-10 1000 385)"/>
+
+  <!-- Room-Service Table with Food Tray & Receipt -->
+  <ellipse cx="690" cy="540" rx="90" ry="45" fill="#334155" stroke="#475569" stroke-width="3"/>
+  <!-- Silver Cloche Cover -->
+  <path d="M 640 535 A 40 30 0 0 1 720 535 Z" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+  <circle cx="680" cy="505" r="4" fill="#94a3b8"/>
+  <!-- White Stamped Receipt -->
+  <rect x="715" y="525" width="30" height="20" fill="#ffffff" stroke="#cbd5e1" transform="rotate(12 715 525)"/>
+</svg>

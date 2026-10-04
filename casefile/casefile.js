@@ -16,9 +16,13 @@ const CASES_DB = {
     subtitle: 'A crime scene with no obvious way in or out.',
     difficulty: 'MEDIUM',
     badgeClass: 'diff-medium',
+    duration: '5–8 MIN',
+    hook: 'A reinforced vault. Intact glass. No badge swipe. What happened at 11:17 PM?',
     location: 'St. Jude Academy — Trophy Vault (Room 104)',
     timeWindow: '11:10 PM – 11:48 PM',
     thumbIcon: '🏛️',
+    thumbArt: 'assets/case001_scene.svg',
+    sceneArt: 'assets/case001_scene.svg',
     sceneTitle: 'TROPHY VAULT — ROOM 104',
     sceneDesc: 'Click highlighted objects across the room to gather forensic proof.',
     
@@ -39,6 +43,7 @@ const CASES_DB = {
         title: 'Reinforced Vault Door',
         category: 'DIGITAL',
         icon: '🚪',
+        clueImg: 'assets/clue_door_log.svg',
         shortDesc: 'Electronic bolt locked on schedule at 11:10 PM.',
         keyFact: 'No digital badge swipe was registered during the theft.',
         timestamp: '11:10 PM'
@@ -122,6 +127,7 @@ const CASES_DB = {
         role: 'Maintenance Assistant',
         avatarText: 'RJ',
         avatarBg: '#d97706',
+        avatarImg: 'assets/suspect_ryan_vault.svg',
         alibi: '"I was down in the basement replacing lighting fixtures during the blackout."',
         suspicious: 'Possesses the triangular breaker key, wears size 10 boots, and uses blue toolbox grease.'
       },
@@ -131,6 +137,7 @@ const CASES_DB = {
         role: 'Night Security Officer',
         avatarText: 'AV',
         avatarBg: '#2563eb',
+        avatarImg: 'assets/suspect_alex.svg',
         alibi: '"Patrolling the west campus perimeter gates between 11:00 and 11:30 PM."',
         suspicious: 'West gate electronic log verifies his badge, but his guard booth keys were left unattended.'
       },
@@ -140,6 +147,7 @@ const CASES_DB = {
         role: 'Lead Custodian',
         avatarText: 'ER',
         avatarBg: '#059669',
+        avatarImg: 'assets/suspect_elena.svg',
         alibi: '"Finished waxing the room floor at 10:45 PM, then locked up and went home."',
         suspicious: 'Wore smooth rubber-soled athletic sneakers, not heavy chevron work boots.'
       },
@@ -149,6 +157,7 @@ const CASES_DB = {
         role: 'Student Athlete (Runner-Up)',
         avatarText: 'JC',
         avatarBg: '#7c3aed',
+        avatarImg: 'assets/suspect_julian.svg',
         alibi: '"Studying in the central campus library with teammates until midnight."',
         suspicious: 'Library turnstile card records and study group confirm he never left the library.'
       }
@@ -227,9 +236,13 @@ const CASES_DB = {
     subtitle: 'Three passengers. One missing wallet. One impossible timeline.',
     difficulty: 'HARD',
     badgeClass: 'diff-hard',
+    duration: '5–8 MIN',
+    hook: 'A pitch-black tunnel. A sleeping passenger. A 12:58 AM draft text.',
     location: 'Midnight Express — Carriage B Compartment',
     timeWindow: '12:40 AM – 1:15 AM',
     thumbIcon: '🚆',
+    thumbArt: 'assets/case002_scene.svg',
+    sceneArt: 'assets/case002_scene.svg',
     sceneTitle: 'MIDNIGHT EXPRESS — CARRIAGE B',
     sceneDesc: 'Examine the train compartment to uncover who stole Arthur\'s wallet.',
 
@@ -301,6 +314,7 @@ const CASES_DB = {
         title: 'Dropped Smartphone',
         category: 'DIGITAL',
         icon: '📱',
+        clueImg: 'assets/clue_phone_selfie.svg',
         shortDesc: 'Smartphone lying face down beneath the center table.',
         keyFact: 'Unsent draft text written at 12:58 AM: "Got it. Meet me at terminal exit."',
         timestamp: '12:58 AM'
@@ -334,6 +348,7 @@ const CASES_DB = {
         role: 'Antiques Dealer',
         avatarText: 'CB',
         avatarBg: '#e11d48',
+        avatarImg: 'assets/suspect_clara.svg',
         alibi: '"I was reading my mystery novel under my reading lamp the entire trip without moving."',
         suspicious: 'Her dropped phone has the 12:58 AM draft "Got it", and her right cuff is smeared with window soot.'
       },
@@ -343,6 +358,7 @@ const CASES_DB = {
         role: 'Corporate Auditor',
         avatarText: 'VS',
         avatarBg: '#0284c7',
+        avatarImg: 'assets/suspect_victor.svg',
         alibi: '"I took a prescribed sleeping pill with tea at 12:30 AM and slept until arrival."',
         suspicious: 'His overhead duffel was unzipped, but his ticket and sleeping pill wrapper corroborate his sleep.'
       },
@@ -352,6 +368,7 @@ const CASES_DB = {
         role: 'Off-Duty Rail Porter',
         avatarText: 'LT',
         avatarBg: '#ca8a04',
+        avatarImg: 'assets/suspect_leo.svg',
         alibi: '"I spent the journey out in the drafty corridor vestibule smoking from 12:45 to 1:10 AM."',
         suspicious: 'Rang the attendant buzzer at 1:05 AM, but corridor witnesses confirm he never entered the compartment.'
       }
@@ -431,9 +448,13 @@ const CASES_DB = {
     subtitle: 'A valuable necklace has disappeared from a hotel room. Three people had access.',
     difficulty: 'EASY ⭐',
     badgeClass: 'diff-easy',
+    duration: '2–4 MIN',
+    hook: 'Three people entered Suite 402. An intact vanity photo at 8:20 PM. Who took the sapphire?',
     location: 'Grand Azure Hotel — Suite 402',
     timeWindow: '8:00 PM – 8:45 PM',
     thumbIcon: '💎',
+    thumbArt: 'assets/case003_scene.svg',
+    sceneArt: 'assets/case003_scene.svg',
     sceneTitle: 'GRAND AZURE HOTEL — SUITE 402',
     sceneDesc: 'Examine the hotel suite to uncover who took the sapphire necklace.',
 
@@ -453,6 +474,7 @@ const CASES_DB = {
         title: 'Smartphone Mirror Photo',
         category: 'DIGITAL',
         icon: '📱',
+        clueImg: 'assets/clue_phone_selfie.svg',
         shortDesc: 'Mirror photo taken by the victim at the vanity.',
         keyFact: 'Timestamped 8:20 PM; the necklace is clearly visible on the desk.',
         timestamp: '8:20 PM'
@@ -463,6 +485,7 @@ const CASES_DB = {
         title: 'Electronic Door Access Log',
         category: 'DIGITAL',
         icon: '🚪',
+        clueImg: 'assets/clue_door_log.svg',
         shortDesc: 'Hotel keycard audit log for Suite 402.',
         keyFact: 'Mia entered 8:00 PM; Emma entered 8:05 PM, left 8:15 PM; Ryan entered 8:30 PM.',
         timestamp: '8:35 PM'
@@ -473,6 +496,7 @@ const CASES_DB = {
         title: 'Room-Service Receipt',
         category: 'TIMELINE',
         icon: '🍽️',
+        clueImg: 'assets/clue_receipt.svg',
         shortDesc: 'Printed receipt left beside the food cloche.',
         keyFact: 'Receipt stamped 8:30 PM, signed and delivered by Ryan.',
         timestamp: '8:30 PM'
@@ -483,6 +507,7 @@ const CASES_DB = {
         title: 'Housekeeping Cart',
         category: 'PHYSICAL',
         icon: '🧹',
+        clueImg: 'assets/clue_thread_cart.svg',
         shortDesc: 'Linen cleaning cart parked outside Suite 402.',
         keyFact: 'A small blue thread matching the necklace is caught on the cart.',
         timestamp: '8:02 PM'
@@ -513,6 +538,7 @@ const CASES_DB = {
         title: 'Illuminated Vanity Mirror',
         category: 'PHYSICAL',
         icon: '🪞',
+        clueImg: 'assets/clue_necklace.svg',
         shortDesc: 'Open velvet jewelry case sitting under vanity lights.',
         keyFact: 'Empty velvet indentation matches the missing sapphire necklace.',
         timestamp: '8:42 PM'
@@ -536,6 +562,7 @@ const CASES_DB = {
         role: 'Victim\'s Friend',
         avatarText: 'EM',
         avatarBg: '#ec4899',
+        avatarImg: 'assets/suspect_emma.svg',
         alibi: '"Left the room at 8:15 PM."',
         suspicious: 'She had access to the room.'
       },
@@ -545,6 +572,7 @@ const CASES_DB = {
         role: 'Room Service',
         avatarText: 'RY',
         avatarBg: '#3b82f6',
+        avatarImg: 'assets/suspect_ryan_hotel.svg',
         alibi: '"Entered at 8:30 PM to deliver food."',
         suspicious: 'He was inside after the necklace disappeared.'
       },
@@ -554,6 +582,7 @@ const CASES_DB = {
         role: 'Housekeeping',
         avatarText: 'MI',
         avatarBg: '#10b981',
+        avatarImg: 'assets/suspect_mia.svg',
         alibi: '"Cleaned the room at 8:00 PM."',
         suspicious: 'A blue thread matching the necklace was found on her cleaning cart.'
       }
@@ -775,18 +804,23 @@ function renderCaseCards() {
     card.className = `case-select-card ${isSolved ? 'case-completed' : ''}`;
     card.innerHTML = `
       <div class="card-glow"></div>
-      <div class="case-card-top">
-        <span class="case-num-badge">${c.number}</span>
-        <span class="case-diff-badge ${c.badgeClass}">${c.difficulty}</span>
-      </div>
-
-      <div class="case-visual-preview">
-        <span class="preview-case-icon">${c.thumbIcon}</span>
-        <div class="preview-case-loc">${c.location.split('—')[0].trim()}</div>
+      
+      <div class="case-thumb-banner">
+        <img src="${c.thumbArt}" alt="${c.title}" class="case-banner-img" loading="lazy" />
+        <div class="case-card-overlay"></div>
+        <div class="banner-top-badges">
+          <span class="duration-pill">⏱️ ${c.duration}</span>
+          <span class="case-diff-badge ${c.badgeClass}">${c.difficulty}</span>
+        </div>
       </div>
 
       <div class="case-card-body">
+        <div class="case-card-top-meta">
+          <span class="case-num-badge">${c.number}</span>
+          <span class="case-loc-badge">📍 ${c.location.split('—')[0].trim()}</span>
+        </div>
         <h3 class="case-card-title">${c.title}</h3>
+        <p class="case-card-hook">"${c.hook}"</p>
         <p class="case-card-sub">${c.subtitle}</p>
       </div>
 
@@ -915,7 +949,15 @@ function renderCrimeScene(c) {
 
   const roomBackdrop = document.createElement('div');
   roomBackdrop.className = `scene-backdrop-canvas bg-${c.id}`;
+  if (c.sceneArt) {
+    roomBackdrop.innerHTML = `<img src="${c.sceneArt}" alt="${c.sceneTitle}" class="scene-canvas-art" />`;
+  }
   sceneArea.appendChild(roomBackdrop);
+
+  const objectsCountEl = document.getElementById('scene-objects-count');
+  if (objectsCountEl) {
+    objectsCountEl.textContent = `${c.evidence.length} INTERACTIVE OBJECTS`;
+  }
 
   c.evidence.forEach(ev => {
     const isDiscovered = state.discoveredClues.has(ev.id);
@@ -982,6 +1024,22 @@ function openClueModal(ev) {
   document.getElementById('modal-clue-obs').textContent = ev.shortDesc;
   document.getElementById('modal-clue-fact').textContent = ev.keyFact;
 
+  const artContainer = document.getElementById('modal-clue-art');
+  if (artContainer) {
+    if (ev.clueImg) {
+      artContainer.innerHTML = `<img src="${ev.clueImg}" alt="${ev.title}" class="modal-clue-img" />`;
+      artContainer.style.display = 'block';
+    } else {
+      artContainer.innerHTML = `
+        <div class="modal-clue-icon-fallback">
+          <span class="fallback-icon">${ev.icon}</span>
+          <span class="fallback-tag">FORENSIC ARTIFACT</span>
+        </div>
+      `;
+      artContainer.style.display = 'block';
+    }
+  }
+
   modal.classList.remove('hidden');
 }
 
@@ -1005,7 +1063,9 @@ function renderEvidenceBoard(c) {
 
     if (isFound) {
       card.innerHTML = `
-        <div class="evidence-icon-badge">${ev.icon}</div>
+        <div class="evidence-thumb-wrap">
+          ${ev.clueImg ? `<img src="${ev.clueImg}" alt="${ev.title}" class="evidence-thumb-img" />` : `<span class="evidence-icon-badge">${ev.icon}</span>`}
+        </div>
         <div class="evidence-details">
           <div class="evidence-meta">
             <span class="evidence-cat">${ev.category}</span>
@@ -1085,7 +1145,7 @@ function renderSuspects(c) {
     card.innerHTML = `
       <div class="suspect-card-header">
         <div class="suspect-avatar" style="background: ${s.avatarBg}">
-          ${s.avatarText}
+          ${s.avatarImg ? `<img src="${s.avatarImg}" alt="${s.name}" class="suspect-avatar-img" />` : s.avatarText}
         </div>
         <div class="suspect-meta">
           <h3 class="suspect-name">${s.name}</h3>
@@ -1142,6 +1202,17 @@ function updateHUD(c) {
   });
   const elTime = document.getElementById('hud-timeline-count');
   if (elTime) elTime.textContent = `${unlockedTime} / ${c.timeline.length}`;
+
+  const progressFill = document.getElementById('clue-progress-fill');
+  if (progressFill) {
+    const pct = totalClues > 0 ? Math.round((foundClues / totalClues) * 100) : 0;
+    progressFill.style.width = `${pct}%`;
+  }
+
+  const progressLabel = document.getElementById('clue-progress-label');
+  if (progressLabel) {
+    progressLabel.textContent = `${foundClues} / ${totalClues} CLUES DISCOVERED`;
+  }
 }
 
 function showClueToast(title) {
@@ -1208,7 +1279,9 @@ function renderDeductionStep1(c) {
     const btn = document.createElement('button');
     btn.className = 'deduction-option-card';
     btn.innerHTML = `
-      <div class="option-avatar" style="background: ${s.avatarBg}">${s.avatarText}</div>
+      <div class="option-avatar" style="background: ${s.avatarBg}">
+        ${s.avatarImg ? `<img src="${s.avatarImg}" alt="${s.name}" class="option-avatar-img" />` : s.avatarText}
+      </div>
       <div class="option-info">
         <strong>${s.name}</strong>
         <span>${s.role}</span>
@@ -1342,57 +1415,94 @@ function evaluateDeduction() {
     const m = Math.floor(timeSecs / 60).toString().padStart(2, '0');
     const s = (timeSecs % 60).toString().padStart(2, '0');
 
-    resultCard.className = 'verdict-card verdict-success';
-    resultCard.innerHTML = `
-      <div class="verdict-badge-banner">CASE SOLVED</div>
-      <h2 class="verdict-culprit">THE CULPRIT: ${c.suspects.find(s => s.id === c.solution.culpritId).name}</h2>
+      const nextCaseMap = {
+        case003: 'case001',
+        case001: 'case002',
+        case002: null
+      };
+      const nextCaseId = nextCaseMap[c.id];
+      const nextCaseTitle = nextCaseId && CASES_DB[nextCaseId] ? CASES_DB[nextCaseId].title : '';
 
-      <div class="reveal-steps-box">
-        <h4>FORENSIC RECONSTRUCTION</h4>
-        <ul class="reveal-list">
-          ${c.solution.revealSteps.map(step => `
-            <li class="reveal-item">
-              <span class="check-icon">✓</span>
-              <span>${step}</span>
-            </li>
-          `).join('')}
-        </ul>
-      </div>
+      resultCard.className = 'verdict-card verdict-success';
+      resultCard.innerHTML = `
+        <div class="verdict-badge-banner">CASE SOLVED</div>
+        <h2 class="verdict-culprit">THE CULPRIT: ${c.suspects.find(s => s.id === c.solution.culpritId).name}</h2>
 
-      <div class="verdict-score-grid">
-        <div class="score-pill">
-          <span class="score-label">EVIDENCE FOUND</span>
-          <strong class="score-val">${foundClues} / ${totalClues}</strong>
+        <div class="reveal-steps-box">
+          <h4>FORENSIC RECONSTRUCTION</h4>
+          <ul class="reveal-list">
+            ${c.solution.revealSteps.map(step => `
+              <li class="reveal-item">
+                <span class="check-icon">✓</span>
+                <span>${step}</span>
+              </li>
+            `).join('')}
+          </ul>
         </div>
-        <div class="score-pill">
-          <span class="score-label">ACCURACY</span>
-          <strong class="score-val">100%</strong>
-        </div>
-        <div class="score-pill">
-          <span class="score-label">INVESTIGATION TIME</span>
-          <strong class="score-val">${m}:${s}</strong>
-        </div>
-        <div class="score-pill rank-pill">
-          <span class="score-label">RANK</span>
-          <strong class="score-val">🕵️ ${rank}</strong>
-        </div>
-      </div>
 
-      <div class="verdict-actions">
-        <button id="btn-return-dashboard" class="btn-primary-action">
-          <span>RETURN TO CASE DASHBOARD</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </button>
-      </div>
-    `;
+        <div class="verdict-score-grid">
+          <div class="score-pill">
+            <span class="score-label">EVIDENCE FOUND</span>
+            <strong class="score-val">${foundClues} / ${totalClues}</strong>
+          </div>
+          <div class="score-pill">
+            <span class="score-label">ACCURACY</span>
+            <strong class="score-val">100%</strong>
+          </div>
+          <div class="score-pill">
+            <span class="score-label">INVESTIGATION TIME</span>
+            <strong class="score-val">${m}:${s}</strong>
+          </div>
+          <div class="score-pill rank-pill">
+            <span class="score-label">RANK</span>
+            <strong class="score-val">🕵️ ${rank}</strong>
+          </div>
+        </div>
 
-    document.getElementById('btn-return-dashboard').addEventListener('click', () => {
-      closeDeductionModal();
-      switchScreen('screen-dashboard');
-      renderCaseCards();
-    });
+        <div class="verdict-actions-grid">
+          <button id="btn-replay-case" class="btn-secondary-action">
+            <span>🔄 REPLAY CASE</span>
+          </button>
+          <button id="btn-view-board" class="btn-secondary-action">
+            <span>📁 EVIDENCE BOARD</span>
+          </button>
+          ${nextCaseId ? `
+          <button id="btn-next-case" class="btn-secondary-action btn-next-case-accent">
+            <span>NEXT: ${nextCaseTitle} ➔</span>
+          </button>
+          ` : ''}
+          <button id="btn-return-dashboard" class="btn-primary-action">
+            <span>RETURN TO DASHBOARD</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      `;
+
+      document.getElementById('btn-replay-case').addEventListener('click', () => {
+        closeDeductionModal();
+        launchInvestigationArena(c.id);
+      });
+
+      document.getElementById('btn-view-board').addEventListener('click', () => {
+        closeDeductionModal();
+        switchTab('evidence');
+      });
+
+      const nextBtn = document.getElementById('btn-next-case');
+      if (nextBtn && nextCaseId) {
+        nextBtn.addEventListener('click', () => {
+          closeDeductionModal();
+          startCaseIntro(nextCaseId);
+        });
+      }
+
+      document.getElementById('btn-return-dashboard').addEventListener('click', () => {
+        closeDeductionModal();
+        switchScreen('screen-dashboard');
+        renderCaseCards();
+      });
 
   } else {
     playSound('error');

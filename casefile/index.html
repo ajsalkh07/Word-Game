@@ -193,9 +193,17 @@
                 <h3 id="scene-name" class="scene-headline">CRIME SCENE</h3>
                 <p id="scene-tagline" class="scene-sub">Click highlighted objects to inspect forensic proof.</p>
               </div>
-              <div class="scene-legend-badge">
-                <span class="legend-pulse"></span>
-                <span>8 INTERACTIVE OBJECTS</span>
+              <div class="scene-header-controls">
+                <div class="scene-progress-container">
+                  <span id="clue-progress-label" class="scene-progress-text">0 / 8 CLUES DISCOVERED</span>
+                  <div class="scene-progress-track">
+                    <div id="clue-progress-fill" class="scene-progress-bar" style="width: 0%;"></div>
+                  </div>
+                </div>
+                <div class="scene-legend-badge">
+                  <span class="legend-pulse"></span>
+                  <span id="scene-objects-count">8 INTERACTIVE OBJECTS</span>
+                </div>
               </div>
             </div>
 
@@ -266,6 +274,8 @@
       </div>
 
       <div class="modal-clue-body">
+        <div id="modal-clue-art" class="modal-clue-art-wrap"></div>
+
         <div class="clue-info-row">
           <span class="info-label">OBSERVATION</span>
           <p id="modal-clue-obs" class="info-text"></p>
