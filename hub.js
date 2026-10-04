@@ -67,11 +67,13 @@ function loadPlayerLiveStats() {
     }
 
     // 3. CASEFILE Stats
-    const casefileSolved = localStorage.getItem('casefile_case001_solved');
-    if (casefileSolved === 'true') {
+    const case1Solved = localStorage.getItem('casefile_case001_solved') === 'true';
+    const case2Solved = localStorage.getItem('casefile_case002_solved') === 'true';
+    const solvedCount = (case1Solved ? 1 : 0) + (case2Solved ? 1 : 0);
+    if (solvedCount > 0) {
       const casefileMeta = document.querySelector('.card-casefile .meta-val');
       if (casefileMeta) {
-        casefileMeta.textContent = '★ SOLVED • Case #001';
+        casefileMeta.textContent = `★ SOLVED (${solvedCount}/2 Cases)`;
         casefileMeta.style.color = '#eab308';
       }
     }

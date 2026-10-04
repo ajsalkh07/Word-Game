@@ -1,1062 +1,1332 @@
 /**
  * ==========================================================================
- * CASEFILE - Detective Investigation Engine
+ * CASEFILE - Interactive Visual Detective Investigation Engine
  * Part of SYNAPSE Mini-Game Platform
- * 
- * Architecture:
- *  - Deterministic case database (Case #001: The Missing Trophy)
- *  - Interactive crime scene inspection
- *  - Suspect interrogation cross-examination dialogues
- *  - Categorized evidence board & chronological timeline
- *  - Persistent case notes with localStorage
- *  - Multi-step accusation system with forensic validation
- *  - Native Web Audio API sound synthesizer
  * ==========================================================================
  */
 
-// --- Case Database ---
-const CASE_DATA = {
-  id: 'case001',
-  caseNumber: 'CASE #001',
-  title: 'THE MISSING TROPHY',
-  location: 'East Wing Trophy Hall — Room 104',
-  incidentWindow: '4:10 PM – 4:25 PM',
-  
-  // Culprit configuration
-  culpritId: 'suspect-rj',
-  validEvidenceIds: ['ev-04', 'ev-05', 'ev-06', 'ev-07'],
+// ==========================================================================
+// 1. Cases Database
+// ==========================================================================
+const CASES_DB = {
+  case001: {
+    id: 'case001',
+    number: 'CASEFILE #01',
+    title: 'THE LOCKED ROOM',
+    subtitle: 'A crime scene with no obvious way in or out.',
+    difficulty: 'MEDIUM',
+    badgeClass: 'diff-medium',
+    location: 'St. Jude Academy — Trophy Vault (Room 104)',
+    timeWindow: '11:10 PM – 11:48 PM',
+    thumbIcon: '🏛️',
+    sceneTitle: 'TROPHY VAULT — ROOM 104',
+    sceneDesc: 'Click highlighted objects across the room to gather forensic proof.',
+    
+    introBeats: [
+      '11:48 PM.',
+      'A silent alarm flashes across campus security.',
+      'The 50-year-old Gold Championship Trophy is gone.',
+      'One reinforced door — locked from the inside.',
+      'No shattered glass. No broken windows.',
+      'INVESTIGATION BEGINS.'
+    ],
+    voiceIntro: 'Eleven forty-eight P M. A silent alarm flashes across campus security. The championship trophy is gone from the locked vault. Investigation begins.',
 
-  // Evidence Collection (8 Clues)
-  evidence: [
-    {
-      id: 'ev-01',
-      objectId: 'obj-cabinet',
-      title: 'Display Cabinet Lock Inspection',
-      category: 'PHYSICAL',
-      icon: '🏆',
-      shortDesc: 'Cabinet glass is intact. Lock was opened using a genuine key; blue lubricant residue was detected near the keyhole.',
-      fullDesc: 'Forensic inspection of the display case confirms no forced breakage. The tempered glass is entirely undamaged. The tumblers were unlocked smoothly using a genuine cabinet key. A tiny smear of industrial blue lithium grease was lifted from the keyhole collar.',
-      significance: 'The thief did not break the glass. They obtained the actual cabinet key and had grease on their hands or tools.'
-    },
-    {
-      id: 'ev-02',
-      objectId: 'obj-door',
-      title: 'Digital Door Access Log',
-      category: 'DIGITAL',
-      icon: '🚪',
-      shortDesc: 'Room door was locked electronically at 4:10 PM by Alex. No badge swipe occurred during the theft window.',
-      fullDesc: 'The electronic lock audit trail reveals Alex Morgan swiped in at 4:05 PM and the door contact sensor closed at 4:10 PM. No further digital card swipes were registered between 4:10 PM and 4:25 PM.',
-      significance: 'The intruder did not use a digital keycard to enter after 4:10 PM. They either bypassed the electronic latch or used physical tools.'
-    },
-    {
-      id: 'ev-03',
-      objectId: 'obj-window',
-      title: 'Casement Window Latch',
-      category: 'PHYSICAL',
-      icon: '🪟',
-      shortDesc: 'Window is locked from the inside with an undisturbed thick layer of dust on the sill.',
-      fullDesc: 'High casement window overlooking the campus courtyard. The brass turn-latch is fully locked from the interior. The exterior stone ledge and interior sill have a heavy, undisturbed coat of dust.',
-      significance: 'Entry and exit through the window is physically impossible. The culprit operated strictly from the interior corridor.'
-    },
-    {
-      id: 'ev-04',
-      objectId: 'obj-camera',
-      title: 'Hallway Surveillance Footage',
-      category: 'DIGITAL',
-      icon: '📹',
-      shortDesc: 'Camera captures Ryan entering with a toolbox at 4:12 PM, power blackout at 4:17 PM, and Ryan departing with a heavier box at 4:20 PM.',
-      fullDesc: 'Surveillance tape at 4:12 PM captures Ryan Joseph walking down the restricted corridor carrying a large blue steel maintenance toolbox. At 4:17 PM, the camera feed flickers out for exactly 2 minutes due to a localized power cut. At 4:20 PM, footage resumes, showing Ryan exiting the wing carrying the toolbox with noticeable physical strain.',
-      significance: 'Direct visual proof of Ryan near the room during the blackout, leaving with a significantly heavier toolbox.'
-    },
-    {
-      id: 'ev-05',
-      objectId: 'obj-desk',
-      title: 'Pried Desk Drawer & Key',
-      category: 'PHYSICAL',
-      icon: '🗄️',
-      shortDesc: 'The administrator desk drawer was pried open with a flathead tool; grease on the handle matches maintenance toolboxes.',
-      fullDesc: 'The wooden administrator desk drawer, where the spare cabinet key is stored in a velvet box, was forced open. Indentation marks match a 10mm flathead screwdriver. Smudges of industrial blue grease on the brass handle match facilities maintenance gear.',
-      significance: 'The thief forced the desk drawer to steal the cabinet key. Tool marks and grease tie directly to maintenance equipment.'
-    },
-    {
-      id: 'ev-06',
-      objectId: 'obj-floor',
-      title: 'Waxed Floor Boot Tread',
-      category: 'PHYSICAL',
-      icon: '👣',
-      shortDesc: 'Heavy work-boot tread impression in wet floor wax inside the room; matches facilities maintenance standard-issue boots.',
-      fullDesc: 'Custodial staff had waxed the perimeter of the room earlier in the afternoon. A distinct partial boot tread impression was pressed into the tacky wax right in front of the trophy cabinet. The chevron sole pattern matches size 10 facilities maintenance safety boots.',
-      significance: 'Proves conclusively that someone wearing campus maintenance boots walked directly in front of the trophy cabinet.'
-    },
-    {
-      id: 'ev-07',
-      objectId: 'obj-breaker',
-      title: 'Circuit Breaker Inspection',
-      category: 'TIMELINE',
-      icon: '⚡',
-      shortDesc: 'The camera circuit breaker was manually switched off using a facilities service key at 4:17 PM, not tripped by an electrical surge.',
-      fullDesc: 'Inspection of the electrical distribution box in the utility alcove shows the breaker controlling Room 104 camera circuits was manually toggled OFF at 4:17 PM and back ON at 4:19 PM. The metal box door was unlocked with a facilities service triangle key.',
-      significance: 'Refutes Ryan\'s alibi of an accidental power trip. The blackout was calculated and manually executed with maintenance keys.'
-    },
-    {
-      id: 'ev-08',
-      objectId: 'obj-trash',
-      title: 'Discarded Maintenance Work Order',
-      category: 'WITNESS',
-      icon: '🗑️',
-      shortDesc: 'A crumpled work order for corridor light replacement was scheduled for tomorrow morning, not today.',
-      fullDesc: 'Retrieved from the office wastebasket. A facilities dispatch order for "Inspect flickering emergency lamp - East Corridor" stamped with date: "TOMORROW, 09:00 AM".',
-      significance: 'Ryan had no legitimate authorized assignment to be working on the corridor lighting today. It was a pretext to be in the wing.'
+    evidence: [
+      {
+        id: 'ev-c1-door',
+        hotspotId: 'spot-c1-door',
+        title: 'Reinforced Vault Door',
+        category: 'DIGITAL',
+        icon: '🚪',
+        shortDesc: 'Electronic bolt locked on schedule at 11:10 PM.',
+        keyFact: 'No digital badge swipe was registered during the theft.',
+        timestamp: '11:10 PM'
+      },
+      {
+        id: 'ev-c1-pedestal',
+        hotspotId: 'spot-c1-pedestal',
+        title: 'Glass Display Pedestal',
+        category: 'PHYSICAL',
+        icon: '🏆',
+        shortDesc: 'Tempered glass is intact; lock was opened smoothly with a key.',
+        keyFact: 'Blue lithium grease residue lifted from the keyhole collar.',
+        timestamp: '11:18 PM'
+      },
+      {
+        id: 'ev-c1-desk',
+        hotspotId: 'spot-c1-desk',
+        title: 'Pried Office Desk',
+        category: 'PHYSICAL',
+        icon: '🗄️',
+        shortDesc: 'Admin drawer pried open with a 10mm flathead tool.',
+        keyFact: 'Spare vault key stolen; blue grease smudges found on handle.',
+        timestamp: '11:16 PM'
+      },
+      {
+        id: 'ev-c1-window',
+        hotspotId: 'spot-c1-window',
+        title: 'High Casement Window',
+        category: 'PHYSICAL',
+        icon: '🪟',
+        shortDesc: 'Window turn-latch firmly locked from inside.',
+        keyFact: 'Undisturbed dust confirms entry or exit from window is impossible.',
+        timestamp: '11:20 PM'
+      },
+      {
+        id: 'ev-c1-cctv',
+        hotspotId: 'spot-c1-cctv',
+        title: 'Hallway CCTV Monitor',
+        category: 'DIGITAL',
+        icon: '🎥',
+        shortDesc: 'Surveillance tape flickers out for exactly 2 minutes at 11:17 PM.',
+        keyFact: 'Ryan enters with toolbox at 11:12 PM, departs straining under heavy weight at 11:19 PM.',
+        timestamp: '11:17 PM'
+      },
+      {
+        id: 'ev-c1-breaker',
+        hotspotId: 'spot-c1-breaker',
+        title: 'Circuit Breaker Panel',
+        category: 'TIMELINE',
+        icon: '⚡',
+        shortDesc: 'Camera breaker was switched off manually, not tripped.',
+        keyFact: 'Unlocked using a triangular maintenance service key.',
+        timestamp: '11:17 PM'
+      },
+      {
+        id: 'ev-c1-boot',
+        hotspotId: 'spot-c1-boot',
+        title: 'Waxed Floor Boot Tread',
+        category: 'PHYSICAL',
+        icon: '👣',
+        shortDesc: 'Chevron boot impression pressed into tacky floor wax.',
+        keyFact: 'Sole pattern matches size 10 facilities maintenance safety boots.',
+        timestamp: '11:18 PM'
+      },
+      {
+        id: 'ev-c1-bin',
+        hotspotId: 'spot-c1-bin',
+        title: 'Oily Utility Rag in Trash',
+        category: 'PHYSICAL',
+        icon: '🧤',
+        shortDesc: 'Discarded rag found stuffed in the utility wastebasket.',
+        keyFact: 'Saturated with the same industrial blue grease found on the lock.',
+        timestamp: '11:19 PM'
+      }
+    ],
+
+    suspects: [
+      {
+        id: 's-c1-ryan',
+        name: 'Ryan Joseph',
+        role: 'Maintenance Assistant',
+        avatarText: 'RJ',
+        avatarBg: '#d97706',
+        alibi: '"I was down in the basement replacing lighting fixtures during the blackout."',
+        suspicious: 'Possesses the triangular breaker key, wears size 10 boots, and uses blue toolbox grease.'
+      },
+      {
+        id: 's-c1-alex',
+        name: 'Alex Vance',
+        role: 'Night Security Officer',
+        avatarText: 'AV',
+        avatarBg: '#2563eb',
+        alibi: '"Patrolling the west campus perimeter gates between 11:00 and 11:30 PM."',
+        suspicious: 'West gate electronic log verifies his badge, but his guard booth keys were left unattended.'
+      },
+      {
+        id: 's-c1-elena',
+        name: 'Elena Rostova',
+        role: 'Lead Custodian',
+        avatarText: 'ER',
+        avatarBg: '#059669',
+        alibi: '"Finished waxing the room floor at 10:45 PM, then locked up and went home."',
+        suspicious: 'Wore smooth rubber-soled athletic sneakers, not heavy chevron work boots.'
+      },
+      {
+        id: 's-c1-julian',
+        name: 'Julian Croft',
+        role: 'Student Athlete (Runner-Up)',
+        avatarText: 'JC',
+        avatarBg: '#7c3aed',
+        alibi: '"Studying in the central campus library with teammates until midnight."',
+        suspicious: 'Library turnstile card records and study group confirm he never left the library.'
+      }
+    ],
+
+    timeline: [
+      {
+        id: 't-c1-1',
+        time: '10:45 PM',
+        title: 'Floor Waxing Completed',
+        text: 'Elena finishes waxing Room 104 perimeter and exits building.',
+        locked: false
+      },
+      {
+        id: 't-c1-2',
+        time: '11:10 PM',
+        title: 'Scheduled Lockout',
+        text: 'Vault door electronic bolt activates automatically.',
+        locked: false
+      },
+      {
+        id: 't-c1-3',
+        time: '11:16 PM',
+        title: 'Office Desk Forced',
+        text: 'Drawer forced with flathead tool; spare key stolen.',
+        locked: true,
+        unlockClue: 'ev-c1-desk'
+      },
+      {
+        id: 't-c1-4',
+        time: '11:17 PM',
+        title: 'Camera Blackout',
+        text: 'Power breaker manually switched off using service triangle key.',
+        locked: true,
+        unlockClue: 'ev-c1-breaker'
+      },
+      {
+        id: 't-c1-5',
+        time: '11:19 PM',
+        title: 'Departing with Load',
+        text: 'CCTV captures Ryan exiting corridor carrying heavy toolbox.',
+        locked: true,
+        unlockClue: 'ev-c1-cctv'
+      }
+    ],
+
+    solution: {
+      culpritId: 's-c1-ryan',
+      validEvidenceIds: ['ev-c1-cctv', 'ev-c1-breaker', 'ev-c1-boot', 'ev-c1-pedestal'],
+      correctEvidenceId: 'ev-c1-cctv',
+      correctTheoryId: 'th-c1-1',
+      
+      evidenceOptions: [
+        { id: 'ev-c1-cctv', text: 'Hallway CCTV showing Ryan leaving with a heavily weighted toolbox after the blackout.' },
+        { id: 'ev-c1-window', text: 'Undisturbed dust layer on the high casement window.' },
+        { id: 'ev-c1-door', text: 'Electronic lock showing no badge swipe at 11:10 PM.' }
+      ],
+      theoryOptions: [
+        { id: 'th-c1-1', text: 'Ryan used his maintenance key to cut camera power, pried the desk for the vault key, and smuggled the trophy out inside his heavy toolbox.' },
+        { id: 'th-c1-2', text: 'An intruder entered from the courtyard window while security was patrolling the west gate.' },
+        { id: 'th-c1-3', text: 'Elena took the trophy before waxing the floors and concealed it in a custodian locker.' }
+      ],
+      revealSteps: [
+        'The camera circuit breaker was manually switched off using a maintenance service triangle key.',
+        'Footprints pressed into the wet floor wax match size 10 maintenance chevron boots.',
+        'Industrial blue lithium grease on the keyhole and pried drawer matches Ryan\'s toolkit.',
+        'CCTV recorded Ryan entering with an ordinary toolbox and leaving straining under heavy metal weight right after power restored.'
+      ]
     }
-  ],
+  },
 
-  // Suspects (4 Persons of Interest)
-  suspects: [
-    {
-      id: 'suspect-am',
-      name: 'Alex Morgan',
-      role: 'Event Coordinator',
-      avatar: 'AM',
-      statement: 'I set up the brochures and locked the trophy room at 4:10 PM before heading to the auditorium sound booth.',
-      dialogue: [
-        {
-          q: 'Did you verify the trophy was in the cabinet before you left?',
-          a: 'Yes, absolutely. The championship trophy was right in the center of the illuminated cabinet when I closed the display room door at 4:10 PM.'
-        },
-        {
-          q: 'Who else has keys to that room?',
-          a: 'I locked the heavy door with my master keycard. Only department heads have electronic cards, but facilities staff have physical master override keys for emergencies.'
-        },
-        {
-          q: 'Where did you go after locking up?',
-          a: 'I walked straight down to the auditorium sound booth. Three stage technicians were setting up audio and can verify I arrived around 4:13 PM and remained there.'
-        }
-      ]
-    },
-    {
-      id: 'suspect-mt',
-      name: 'Maya Thomas',
-      role: 'Team Captain',
-      avatar: 'MT',
-      statement: 'I was practicing free-throws in the athletic complex gym from 4:00 PM to 4:30 PM.',
-      dialogue: [
-        {
-          q: 'Did you step out of the gym during practice?',
-          a: 'Only between 4:14 and 4:20 PM to take a private phone call from our assistant coach. I walked onto the outdoor track bleachers right beside the gym.'
-        },
-        {
-          q: 'Were you upset about the trophy inscription earlier today?',
-          a: 'I complained to the committee because they misspelled our team\'s founding year on the base. But why would I steal the trophy we worked four years to win?'
-        },
-        {
-          q: 'Could you have run to the trophy hall during your phone call?',
-          a: 'The athletic complex is on the opposite side of campus. It\'s an 8 to 10-minute sprint just one-way. There is no way I could make that round trip in 6 minutes.'
-        }
-      ]
-    },
-    {
-      id: 'suspect-rj',
-      name: 'Ryan Joseph',
-      role: 'Maintenance Assistant',
-      avatar: 'RJ',
-      statement: 'I was replacing an emergency light bulb in the east corridor near the trophy room at 4:15 PM and never entered the room.',
-      dialogue: [
-        {
-          q: 'Why did you bring a heavy steel toolbox just to change a light bulb?',
-          a: 'Uh, standard facilities protocol. We always carry the complete kit with pliers, screwdrivers, and socket wrenches in case a fixture bracket is rusted.'
-        },
-        {
-          q: 'What caused the power blackout at 4:17 PM?',
-          a: 'The old ballast shorted out when I took the cover off! It tripped the breaker box in the utility closet, so I had to reset it. It was just an accidental surge, honest.'
-        },
-        {
-          q: 'Did you step inside the trophy display room at any point?',
-          a: 'Never! I swear on my job, I stayed entirely out in the corridor working on the ceiling fixture. I didn\'t touch that room door or anything inside.'
-        }
-      ]
-    },
-    {
-      id: 'suspect-dr',
-      name: 'Daniel Roy',
-      role: 'Event Photographer',
-      avatar: 'DR',
-      statement: 'I was taking venue wide-shots from the second-floor balcony between 4:05 PM and 4:25 PM.',
-      dialogue: [
-        {
-          q: 'Why is there a 10-minute gap in your camera photo timestamps between 4:10 and 4:20 PM?',
-          a: 'My primary 70-200mm lens jammed on the tripod collar. I went into the second-floor media booth to blow dust off the sensor and swap lenses.'
-        },
-        {
-          q: 'Did you see anyone moving in the east corridor from the balcony?',
-          a: 'Around 4:12 PM, I looked down toward the wing and saw the maintenance guy carrying his toolbox toward Room 104. Right after, the corridor lights went dark.'
-        },
-        {
-          q: 'Do you have physical access to the trophy display cabinet?',
-          a: 'No, my press pass only opens public media lounges and stage wings. I have zero access to administrative rooms or cabinet keys.'
-        }
+  case002: {
+    id: 'case002',
+    number: 'CASEFILE #02',
+    title: 'THE LAST TRAIN',
+    subtitle: 'Three passengers. One missing wallet. One impossible timeline.',
+    difficulty: 'HARD',
+    badgeClass: 'diff-hard',
+    location: 'Midnight Express — Carriage B Compartment',
+    timeWindow: '12:40 AM – 1:15 AM',
+    thumbIcon: '🚆',
+    sceneTitle: 'MIDNIGHT EXPRESS — CARRIAGE B',
+    sceneDesc: 'Examine the train compartment to uncover who stole Arthur\'s wallet.',
+
+    introBeats: [
+      '1:15 AM.',
+      'The Midnight Express glides to a stop at the misty terminal.',
+      'A passenger shouts: "My wallet and bearer bonds are gone!"',
+      'Carriage B was sealed through the 7-minute mountain tunnel.',
+      'Three passengers in the compartment.',
+      'Three conflicting stories.',
+      'INVESTIGATION BEGINS.'
+    ],
+    voiceIntro: 'One fifteen A M. The Midnight Express stops at the terminal. A valuable wallet has vanished from Carriage B during the mountain tunnel. Three passengers. One impossible timeline. Investigation begins.',
+
+    evidence: [
+      {
+        id: 'ev-c2-seat',
+        hotspotId: 'spot-c2-seat',
+        title: 'Victim\'s Passenger Seat (12A)',
+        category: 'PHYSICAL',
+        icon: '💺',
+        shortDesc: 'Deep leather seat where Arthur sat asleep.',
+        keyFact: 'Arthur fell asleep at 12:40 AM with his wallet in his outer coat pocket.',
+        timestamp: '12:40 AM'
+      },
+      {
+        id: 'ev-c2-clock',
+        hotspotId: 'spot-c2-clock',
+        title: 'Compartment Analog Clock',
+        category: 'TIMELINE',
+        icon: '🕒',
+        shortDesc: 'Analog train clock mounted on bulkhead.',
+        keyFact: 'Train plunged into the dark mountain tunnel at 12:55 AM for 7 full minutes.',
+        timestamp: '12:55 AM'
+      },
+      {
+        id: 'ev-c2-bag',
+        hotspotId: 'spot-c2-bag',
+        title: 'Overhead Duffel Bag',
+        category: 'PHYSICAL',
+        icon: '👜',
+        shortDesc: 'Victor\'s canvas duffel on the overhead luggage rack.',
+        keyFact: 'Zipper pulled open 2 inches; only books and business paperwork inside.',
+        timestamp: '1:00 AM'
+      },
+      {
+        id: 'ev-c2-ticket',
+        hotspotId: 'spot-c2-ticket',
+        title: 'Watermarked Ticket Stub',
+        category: 'PHYSICAL',
+        icon: '🎫',
+        shortDesc: 'First-class ticket stub lying near seat 14B.',
+        keyFact: 'Spotted with fresh rain droplets blown in from the exterior window.',
+        timestamp: '12:56 AM'
+      },
+      {
+        id: 'ev-c2-coat',
+        hotspotId: 'spot-c2-coat',
+        title: 'Damp Trench Coat (Seat 14B)',
+        category: 'PHYSICAL',
+        icon: '🧥',
+        shortDesc: 'Clara\'s trench coat hanging on the wall hook.',
+        keyFact: 'Right sleeve cuff is stained with dark tunnel soot and wet rail grime.',
+        timestamp: '1:02 AM'
+      },
+      {
+        id: 'ev-c2-phone',
+        hotspotId: 'spot-c2-phone',
+        title: 'Dropped Smartphone',
+        category: 'DIGITAL',
+        icon: '📱',
+        shortDesc: 'Smartphone lying face down beneath the center table.',
+        keyFact: 'Unsent draft text written at 12:58 AM: "Got it. Meet me at terminal exit."',
+        timestamp: '12:58 AM'
+      },
+      {
+        id: 'ev-c2-window',
+        hotspotId: 'spot-c2-window',
+        title: 'Sliding Carriage Window',
+        category: 'PHYSICAL',
+        icon: '🪟',
+        shortDesc: 'Window was slid open 3 inches during the storm.',
+        keyFact: 'Explains the wet rain spray across the table and soot on Clara\'s sleeve.',
+        timestamp: '12:56 AM'
+      },
+      {
+        id: 'ev-c2-buzzer',
+        hotspotId: 'spot-c2-buzzer',
+        title: 'Emergency Porter Bell',
+        category: 'DIGITAL',
+        icon: '🔔',
+        shortDesc: 'Carriage attendant bell log stamped at 1:05 AM.',
+        keyFact: 'Leo buzzed the attendant from the exterior vestibule to complain about ventilation.',
+        timestamp: '1:05 AM'
+      }
+    ],
+
+    suspects: [
+      {
+        id: 's-c2-clara',
+        name: 'Clara Bennett',
+        role: 'Antiques Dealer',
+        avatarText: 'CB',
+        avatarBg: '#e11d48',
+        alibi: '"I was reading my mystery novel under my reading lamp the entire trip without moving."',
+        suspicious: 'Her dropped phone has the 12:58 AM draft "Got it", and her right cuff is smeared with window soot.'
+      },
+      {
+        id: 's-c2-victor',
+        name: 'Victor Sterling',
+        role: 'Corporate Auditor',
+        avatarText: 'VS',
+        avatarBg: '#0284c7',
+        alibi: '"I took a prescribed sleeping pill with tea at 12:30 AM and slept until arrival."',
+        suspicious: 'His overhead duffel was unzipped, but his ticket and sleeping pill wrapper corroborate his sleep.'
+      },
+      {
+        id: 's-c2-leo',
+        name: 'Leo Thorne',
+        role: 'Off-Duty Rail Porter',
+        avatarText: 'LT',
+        avatarBg: '#ca8a04',
+        alibi: '"I spent the journey out in the drafty corridor vestibule smoking from 12:45 to 1:10 AM."',
+        suspicious: 'Rang the attendant buzzer at 1:05 AM, but corridor witnesses confirm he never entered the compartment.'
+      }
+    ],
+
+    timeline: [
+      {
+        id: 't-c2-1',
+        time: '12:30 AM',
+        title: 'Mountain Departure',
+        text: 'Midnight Express departs last stop in heavy mountain rain.',
+        locked: false
+      },
+      {
+        id: 't-c2-2',
+        time: '12:40 AM',
+        title: 'Arthur Falls Asleep',
+        text: 'Arthur dozes off in seat 12A with wallet tucked in coat.',
+        locked: false
+      },
+      {
+        id: 't-c2-3',
+        time: '12:55 AM',
+        title: 'Mountain Tunnel Plunge',
+        text: 'Train enters 7-minute dark tunnel; overhead lights dim.',
+        locked: true,
+        unlockClue: 'ev-c2-clock'
+      },
+      {
+        id: 't-c2-4',
+        time: '12:58 AM',
+        title: 'Accomplice Message',
+        text: 'Draft text "Got it. Meet me at terminal exit" typed on phone.',
+        locked: true,
+        unlockClue: 'ev-c2-phone'
+      },
+      {
+        id: 't-c2-5',
+        time: '1:05 AM',
+        title: 'Porter Call Ring',
+        text: 'Leo rings conductor buzzer from corridor vestibule.',
+        locked: true,
+        unlockClue: 'ev-c2-buzzer'
+      }
+    ],
+
+    solution: {
+      culpritId: 's-c2-clara',
+      validEvidenceIds: ['ev-c2-phone', 'ev-c2-coat', 'ev-c2-window'],
+      correctEvidenceId: 'ev-c2-phone',
+      correctTheoryId: 'th-c2-1',
+
+      evidenceOptions: [
+        { id: 'ev-c2-phone', text: 'Dropped phone beneath table with 12:58 AM draft: "Got it. Meet me at terminal exit."' },
+        { id: 'ev-c2-bag', text: 'Victor\'s duffel bag unzipped on the overhead rack.' },
+        { id: 'ev-c2-buzzer', text: 'Leo ringing the attendant bell from the corridor at 1:05 AM.' }
+      ],
+      theoryOptions: [
+        { id: 'th-c2-1', text: 'Clara took advantage of Arthur\'s sleep and the tunnel darkness to slip the wallet from his coat, then drafted a text to her accomplice.' },
+        { id: 'th-c2-2', text: 'Victor stole the wallet and hid it inside his overhead canvas luggage before feigning sleep.' },
+        { id: 'th-c2-3', text: 'Leo broke into the carriage through the exterior sliding window while the train was traveling at full speed.' }
+      ],
+      revealSteps: [
+        'The train entered the dark mountain tunnel at 12:55 AM, dimming the passenger compartment lights.',
+        'Tunnel soot and rain stains on Clara\'s trench coat prove she opened the window during the storm.',
+        'The dropped smartphone under the table belongs to Clara, timestamped with a 12:58 AM message: "Got it. Meet me at terminal exit."',
+        'While Arthur slept and the carriage was pitch black, Clara slipped the wallet into her pocket.'
       ]
     }
-  ],
-
-  // Chronological Timeline (5 Reconstructed Events)
-  timeline: [
-    {
-      id: 'tl-01',
-      time: '3:50 PM',
-      source: 'ATHLETIC DIRECTOR LOG',
-      title: 'Trophy Confirmed in Cabinet',
-      desc: 'Director of Athletics visually inspects and locks the solid-gold trophy inside the illuminated display case.'
-    },
-    {
-      id: 'tl-02',
-      time: '4:05 PM – 4:10 PM',
-      source: 'KEYCARD ACCESS LOG',
-      title: 'Alex Morgan Prepares Programs',
-      desc: 'Alex unlocks Room 104 with master keycard to drop off ceremony brochures. Leaves and securely locks door at 4:10 PM.'
-    },
-    {
-      id: 'tl-03',
-      time: '4:12 PM',
-      source: 'SURVEILLANCE CAM #3',
-      title: 'Ryan Joseph Enters Corridor',
-      desc: 'Maintenance Assistant Ryan Joseph enters restricted east wing corridor carrying a large blue steel toolbox.'
-    },
-    {
-      id: 'tl-04',
-      time: '4:17 PM – 4:19 PM',
-      source: 'ELECTRICAL PANEL AUDIT',
-      title: 'Deliberate Power Interruption',
-      desc: 'Circuit breaker for Room 104 cameras manually switched OFF using a maintenance service key. Corridor plunged into darkness.'
-    },
-    {
-      id: 'tl-05',
-      time: '4:20 PM – 4:25 PM',
-      source: 'SURVEILLANCE & DISCOVERY',
-      title: 'Theft Completed & Discovery',
-      desc: 'Ryan Joseph exits corridor carrying a noticeably heavier toolbox. At 4:25 PM, staff discover cabinet unlocked and trophy missing.'
-    }
-  ],
-
-  // Case Solution & Verdict Dossier
-  solution: {
-    culpritName: 'Ryan Joseph',
-    culpritRole: 'Maintenance Assistant',
-    motive: 'Financial gain. Ryan intended to dismantle and fence the antique solid-gold trophy to an underground antiquities collector.',
-    method: 'Fabricated an unauthorized bulb replacement to access the restricted corridor. Forced open the desk drawer with a flathead screwdriver to steal the spare cabinet key. Manually killed the breaker at 4:17 PM to blind surveillance cameras, unlocked the cabinet, concealed the trophy in his toolbox, and walked out.',
-    contradiction: 'Ryan claimed under questioning that he "never stepped inside the trophy room" and that the power cut was an "accidental bulb blowout". However, forensic evidence thoroughly disproves his statement:\n• Size 10 facilities boot tread in the floor wax proves he walked directly up to the cabinet.\n• Blue lithium grease from his toolbox was found on both the pried drawer and the cabinet lock.\n• The electrical box inspection proved the breaker was manually flipped with his service key, not tripped by a blown bulb.'
   }
 };
 
 // ==========================================================================
-// Application State
+// 2. Application State
 // ==========================================================================
 const state = {
-  activeScreen: 'briefing', // 'briefing' | 'investigation' | 'results'
-  activeTab: 'scene',       // 'scene' | 'suspects' | 'evidence' | 'timeline' | 'notes'
-  
-  discoveredEvidence: new Set(),
-  questionedSuspects: new Set(),
-  unlockedTimeline: new Set(),
-  
-  selectedAccusedSuspect: null,
-  selectedAccusedEvidence: null,
-  
-  soundEnabled: true
-};
+  currentCaseId: null,
+  discoveredClues: new Set(),
+  startTime: null,
+  elapsedSeconds: 0,
+  timerInterval: null,
+  soundEnabled: true,
+  narrationEnabled: true,
+  audioCtx: null,
 
-// Web Audio Context
-let audioCtx = null;
-
-// ==========================================================================
-// DOM Cache
-// ==========================================================================
-const DOM = {
-  // Screens
-  screenBriefing: document.getElementById('screen-briefing'),
-  screenInvestigation: document.getElementById('screen-investigation'),
-  screenResults: document.getElementById('screen-results'),
-  
-  // Navigation & Buttons
-  btnStartInvestigation: document.getElementById('btn-start-investigation'),
-  btnOpenAccusation: document.getElementById('btn-open-accusation'),
-  btnCaseReset: document.getElementById('btn-case-reset'),
-  btnSound: document.getElementById('btn-sound'),
-  soundIconOn: document.getElementById('sound-icon-on'),
-  soundIconOff: document.getElementById('sound-icon-off'),
-  bgMusic: document.getElementById('bg-music'),
-  
-  // HUD Counters
-  hudEvidenceCount: document.getElementById('hud-evidence-count'),
-  hudSuspectsCount: document.getElementById('hud-suspects-count'),
-  hudTimelineCount: document.getElementById('hud-timeline-count'),
-  
-  // Tabs
-  dashTabs: document.querySelectorAll('.dash-tab'),
-  tabPanes: document.querySelectorAll('.tab-pane'),
-  
-  // Containers
-  suspectsGrid: document.getElementById('suspects-grid'),
-  evidenceGrid: document.getElementById('evidence-grid'),
-  timelineEventsList: document.getElementById('timeline-events-list'),
-  evidenceFilterBtns: document.querySelectorAll('.filter-btn'),
-  
-  // Notes
-  caseNotesInput: document.getElementById('case-notes-input'),
-  btnSaveNotes: document.getElementById('btn-save-notes'),
-  btnInsertTimestamp: document.getElementById('btn-insert-timestamp'),
-  btnClearNotes: document.getElementById('btn-clear-notes'),
-  notesStatus: document.getElementById('notes-status'),
-  
-  // Modals
-  modalEvidence: document.getElementById('modal-evidence'),
-  modalEvId: document.getElementById('modal-ev-id'),
-  modalEvCategory: document.getElementById('modal-ev-category'),
-  modalEvIcon: document.getElementById('modal-ev-icon'),
-  evModalTitle: document.getElementById('ev-modal-title'),
-  evModalDesc: document.getElementById('ev-modal-desc'),
-  evModalSignificance: document.getElementById('ev-modal-significance'),
-  
-  modalSuspect: document.getElementById('modal-suspect'),
-  suspectModalAvatar: document.getElementById('suspect-modal-avatar'),
-  suspectModalName: document.getElementById('suspect-modal-name'),
-  suspectModalRole: document.getElementById('suspect-modal-role'),
-  suspectModalStatement: document.getElementById('suspect-modal-statement'),
-  suspectModalQa: document.getElementById('suspect-modal-qa'),
-  
-  modalAccusation: document.getElementById('modal-accusation'),
-  accusationSuspectsGrid: document.getElementById('accusation-suspects-grid'),
-  accusationEvidenceList: document.getElementById('accusation-evidence-list'),
-  btnSubmitAccusation: document.getElementById('btn-submit-accusation'),
-  
-  // Verdict Screen Elements
-  verdictSuccess: document.getElementById('verdict-success'),
-  verdictFailure: document.getElementById('verdict-failure'),
-  solvedRating: document.getElementById('solved-rating'),
-  finalEvCount: document.getElementById('final-ev-count'),
-  finalSuspectsCount: document.getElementById('final-suspects-count'),
-  finalTimelineCount: document.getElementById('final-timeline-count'),
-  btnReplayCase: document.getElementById('btn-replay-case'),
-  btnReviewEvidence: document.getElementById('btn-review-evidence'),
-  btnTryAgain: document.getElementById('btn-try-again'),
-  
-  // Toast Container
-  toastContainer: document.getElementById('toast-container')
-};
-
-// ==========================================================================
-// Web Audio Synthesizer
-// ==========================================================================
-function initAudioContext() {
-  if (!audioCtx) {
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    if (AudioContextClass) audioCtx = new AudioContextClass();
+  deduction: {
+    selectedSuspect: null,
+    selectedEvidence: null,
+    selectedTheory: null
   }
-  if (audioCtx && audioCtx.state === 'suspended') {
-    audioCtx.resume();
+};
+
+// ==========================================================================
+// 3. Audio & Voice Synthesizer
+// ==========================================================================
+function initAudio() {
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!state.audioCtx && AudioContextClass) {
+    state.audioCtx = new AudioContextClass();
+  }
+  if (state.audioCtx && state.audioCtx.state === 'suspended') {
+    state.audioCtx.resume();
   }
 }
 
 function playSound(type) {
   if (!state.soundEnabled) return;
   try {
-    initAudioContext();
-    if (!audioCtx) return;
-
-    const now = audioCtx.currentTime;
+    initAudio();
+    if (!state.audioCtx) return;
+    const now = state.audioCtx.currentTime;
 
     switch (type) {
-      case 'click': {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+      case 'clue': {
+        const osc = state.audioCtx.createOscillator();
+        const gain = state.audioCtx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(480, now);
-        osc.frequency.exponentialRampToValueAtTime(240, now + 0.04);
-        gain.gain.setValueAtTime(0.06, now);
+        osc.frequency.setValueAtTime(587.33, now);
+        osc.frequency.exponentialRampToValueAtTime(880, now + 0.12);
+        osc.frequency.exponentialRampToValueAtTime(1174.66, now + 0.28);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+        osc.connect(gain);
+        gain.connect(state.audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.35);
+        break;
+      }
+
+      case 'type': {
+        const osc = state.audioCtx.createOscillator();
+        const gain = state.audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(450, now);
+        osc.frequency.exponentialRampToValueAtTime(120, now + 0.04);
+        gain.gain.setValueAtTime(0.08, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
         osc.connect(gain);
-        gain.connect(audioCtx.destination);
+        gain.connect(state.audioCtx.destination);
         osc.start(now);
         osc.stop(now + 0.04);
         break;
       }
 
-      case 'clue': {
-        // Detective discovery chime
-        [587.33, 880.0].forEach((freq, i) => {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
+      case 'solve': {
+        [440, 554.37, 659.25, 880].forEach((freq, i) => {
+          const osc = state.audioCtx.createOscillator();
+          const gain = state.audioCtx.createGain();
           osc.type = 'triangle';
-          osc.frequency.setValueAtTime(freq, now + i * 0.07);
-          gain.gain.setValueAtTime(0.08, now + i * 0.07);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.07 + 0.18);
+          osc.frequency.setValueAtTime(freq, now + i * 0.1);
+          gain.gain.setValueAtTime(0.1, now + i * 0.1);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.5);
           osc.connect(gain);
-          gain.connect(audioCtx.destination);
-          osc.start(now + i * 0.07);
-          osc.stop(now + i * 0.07 + 0.2);
-        });
-        break;
-      }
-
-      case 'solved': {
-        // Grand victory cadence
-        [392.0, 523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, now + i * 0.09);
-          gain.gain.setValueAtTime(0.12, now + i * 0.09);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.09 + 0.35);
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-          osc.start(now + i * 0.09);
-          osc.stop(now + i * 0.09 + 0.4);
+          gain.connect(state.audioCtx.destination);
+          osc.start(now + i * 0.1);
+          osc.stop(now + i * 0.1 + 0.55);
         });
         break;
       }
 
       case 'error': {
-        // Deep low suspense tone
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+        const osc = state.audioCtx.createOscillator();
+        const gain = state.audioCtx.createGain();
         osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(130, now);
-        osc.frequency.setValueAtTime(100, now + 0.1);
-        gain.gain.setValueAtTime(0.14, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+        osc.frequency.setValueAtTime(160, now);
+        osc.frequency.exponentialRampToValueAtTime(90, now + 0.2);
+        gain.gain.setValueAtTime(0.1, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
         osc.connect(gain);
-        gain.connect(audioCtx.destination);
+        gain.connect(state.audioCtx.destination);
         osc.start(now);
-        osc.stop(now + 0.3);
+        osc.stop(now + 0.2);
         break;
       }
     }
   } catch (e) {
-    console.debug('Audio playback ignored:', e);
+    console.debug('Audio error:', e);
+  }
+}
+
+function speakText(text) {
+  if (!state.narrationEnabled) return;
+  if (!('speechSynthesis' in window)) return;
+  try {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.0;
+    utterance.pitch = 0.92;
+    window.speechSynthesis.speak(utterance);
+  } catch (e) {
+    console.debug('Speech error:', e);
+  }
+}
+
+function stopSpeaking() {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
   }
 }
 
 // ==========================================================================
-// Screen & Tab Switching
+// 4. Case Management & Navigation
 // ==========================================================================
-function showScreen(screenId) {
-  state.activeScreen = screenId;
-  DOM.screenBriefing.classList.remove('active');
-  DOM.screenInvestigation.classList.remove('active');
-  DOM.screenResults.classList.remove('active');
+function initDashboard() {
+  renderCaseCards();
+  initThemeAndSound();
+}
 
-  if (screenId === 'briefing') DOM.screenBriefing.classList.add('active');
-  if (screenId === 'investigation') DOM.screenInvestigation.classList.add('active');
-  if (screenId === 'results') DOM.screenResults.classList.add('active');
+function renderCaseCards() {
+  const container = document.getElementById('cases-grid');
+  if (!container) return;
+  container.innerHTML = '';
 
+  Object.values(CASES_DB).forEach(c => {
+    const isSolved = localStorage.getItem(`casefile_${c.id}_solved`) === 'true';
+    const rank = localStorage.getItem(`casefile_${c.id}_rank`) || '';
+
+    const card = document.createElement('article');
+    card.className = `case-select-card ${isSolved ? 'case-completed' : ''}`;
+    card.innerHTML = `
+      <div class="card-glow"></div>
+      <div class="case-card-top">
+        <span class="case-num-badge">${c.number}</span>
+        <span class="case-diff-badge ${c.badgeClass}">${c.difficulty}</span>
+      </div>
+
+      <div class="case-visual-preview">
+        <span class="preview-case-icon">${c.thumbIcon}</span>
+        <div class="preview-case-loc">${c.location.split('—')[0].trim()}</div>
+      </div>
+
+      <div class="case-card-body">
+        <h3 class="case-card-title">${c.title}</h3>
+        <p class="case-card-sub">${c.subtitle}</p>
+      </div>
+
+      <div class="case-card-footer">
+        <div class="case-status-indicator">
+          ${isSolved ? `<span class="badge-solved">★ SOLVED${rank ? ' • ' + rank : ''}</span>` : '<span class="badge-open">AVAILABLE</span>'}
+        </div>
+        <button class="btn-play-case" data-case-id="${c.id}">
+          <span>${isSolved ? 'RE-INVESTIGATE' : 'INVESTIGATE'}</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    `;
+
+    card.querySelector('.btn-play-case').addEventListener('click', () => {
+      startCaseIntro(c.id);
+    });
+
+    container.appendChild(card);
+  });
+}
+
+// ==========================================================================
+// 5. Cinematic Typewriter Introduction
+// ==========================================================================
+let introTimeout = null;
+
+function startCaseIntro(caseId) {
+  state.currentCaseId = caseId;
+  const c = CASES_DB[caseId];
+  if (!c) return;
+
+  switchScreen('screen-cinematic');
+  stopSpeaking();
+
+  const beatsContainer = document.getElementById('cinematic-beats');
+  const titleEl = document.getElementById('cinematic-case-title');
+  const numEl = document.getElementById('cinematic-case-num');
+
+  if (titleEl) titleEl.textContent = c.title;
+  if (numEl) numEl.textContent = c.number;
+  if (beatsContainer) beatsContainer.innerHTML = '';
+
+  speakText(c.voiceIntro);
+
+  let beatIndex = 0;
+
+  function nextBeat() {
+    if (beatIndex >= c.introBeats.length) {
+      document.getElementById('btn-cinematic-start').classList.add('pulse-ready');
+      return;
+    }
+
+    const text = c.introBeats[beatIndex];
+    const beatEl = document.createElement('div');
+    beatEl.className = 'cinematic-beat-line';
+    if (beatIndex === c.introBeats.length - 1) {
+      beatEl.classList.add('final-beat');
+    }
+    beatEl.textContent = text;
+    beatsContainer.appendChild(beatEl);
+    playSound('type');
+
+    beatIndex++;
+    introTimeout = setTimeout(nextBeat, 1100);
+  }
+
+  nextBeat();
+}
+
+function skipCinematic() {
+  if (introTimeout) clearTimeout(introTimeout);
+  stopSpeaking();
+  launchInvestigationArena(state.currentCaseId);
+}
+
+// ==========================================================================
+// 6. Investigation Arena Initialization
+// ==========================================================================
+function launchInvestigationArena(caseId) {
+  state.currentCaseId = caseId;
+  const c = CASES_DB[caseId];
+  if (!c) return;
+
+  switchScreen('screen-investigation');
+  stopSpeaking();
+
+  state.discoveredClues.clear();
+  state.elapsedSeconds = 0;
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  state.startTime = Date.now();
+  state.timerInterval = setInterval(updateInvestigationTimer, 1000);
+
+  document.getElementById('active-case-title').textContent = `${c.number}: ${c.title}`;
+  document.getElementById('scene-name').textContent = c.sceneTitle;
+  document.getElementById('scene-tagline').textContent = c.sceneDesc;
+
+  renderCrimeScene(c);
+  renderSuspects(c);
+  renderEvidenceBoard(c);
+  renderTimeline(c);
+  loadCaseNotes(c.id);
+  updateHUD(c);
+  switchTab('scene');
+}
+
+function updateInvestigationTimer() {
+  state.elapsedSeconds++;
+  const m = Math.floor(state.elapsedSeconds / 60).toString().padStart(2, '0');
+  const s = (state.elapsedSeconds % 60).toString().padStart(2, '0');
+  const el = document.getElementById('hud-time-val');
+  if (el) el.textContent = `${m}:${s}`;
+}
+
+// ==========================================================================
+// 7. Visual Crime Scene Renderer
+// ==========================================================================
+function renderCrimeScene(c) {
+  const sceneArea = document.getElementById('scene-interactive-area');
+  if (!sceneArea) return;
+
+  sceneArea.className = `scene-interactive-area theme-${c.id}`;
+  sceneArea.innerHTML = '';
+
+  const roomBackdrop = document.createElement('div');
+  roomBackdrop.className = `scene-backdrop-canvas bg-${c.id}`;
+  sceneArea.appendChild(roomBackdrop);
+
+  c.evidence.forEach(ev => {
+    const isDiscovered = state.discoveredClues.has(ev.id);
+    const spotBtn = document.createElement('button');
+    spotBtn.className = `scene-hotspot ${ev.hotspotId} ${isDiscovered ? 'discovered' : ''}`;
+    spotBtn.id = ev.hotspotId;
+    spotBtn.setAttribute('aria-label', `Inspect ${ev.title}`);
+    spotBtn.innerHTML = `
+      <div class="hotspot-pulse"></div>
+      <div class="hotspot-bubble">
+        <span class="hotspot-emoji">${ev.icon}</span>
+        <span class="hotspot-caption">${ev.title.split(' ')[0]}</span>
+      </div>
+    `;
+
+    spotBtn.addEventListener('click', () => {
+      inspectClue(ev.id);
+    });
+
+    sceneArea.appendChild(spotBtn);
+  });
+}
+
+// ==========================================================================
+// 8. Inspecting & Discovering Clues
+// ==========================================================================
+function inspectClue(clueId) {
+  const c = CASES_DB[state.currentCaseId];
+  if (!c) return;
+
+  const ev = c.evidence.find(e => e.id === clueId);
+  if (!ev) return;
+
+  const isFirstTime = !state.discoveredClues.has(ev.id);
+  state.discoveredClues.add(ev.id);
+
+  if (isFirstTime) {
+    playSound('clue');
+    showClueToast(ev.title);
+  }
+
+  const spotEl = document.getElementById(ev.hotspotId);
+  if (spotEl) spotEl.classList.add('discovered');
+
+  updateHUD(c);
+  renderEvidenceBoard(c);
+  renderTimeline(c);
+
+  openClueModal(ev);
+
+  if (isFirstTime) {
+    speakText(`Clue found: ${ev.title}. ${ev.keyFact}`);
+  }
+}
+
+function openClueModal(ev) {
+  const modal = document.getElementById('modal-clue-detail');
+  if (!modal) return;
+
+  document.getElementById('modal-clue-icon').textContent = ev.icon;
+  document.getElementById('modal-clue-title').textContent = ev.title;
+  document.getElementById('modal-clue-cat').textContent = ev.category;
+  document.getElementById('modal-clue-time').textContent = ev.timestamp;
+  document.getElementById('modal-clue-obs').textContent = ev.shortDesc;
+  document.getElementById('modal-clue-fact').textContent = ev.keyFact;
+
+  modal.classList.remove('hidden');
+}
+
+function closeClueModal() {
+  const modal = document.getElementById('modal-clue-detail');
+  if (modal) modal.classList.add('hidden');
+}
+
+// ==========================================================================
+// 9. Evidence Board Renderer
+// ==========================================================================
+function renderEvidenceBoard(c) {
+  const container = document.getElementById('evidence-grid');
+  if (!container) return;
+  container.innerHTML = '';
+
+  c.evidence.forEach(ev => {
+    const isFound = state.discoveredClues.has(ev.id);
+    const card = document.createElement('div');
+    card.className = `evidence-polaroid ${isFound ? 'found' : 'locked'}`;
+
+    if (isFound) {
+      card.innerHTML = `
+        <div class="evidence-icon-badge">${ev.icon}</div>
+        <div class="evidence-details">
+          <div class="evidence-meta">
+            <span class="evidence-cat">${ev.category}</span>
+            <span class="evidence-time">⏱️ ${ev.timestamp}</span>
+          </div>
+          <h4 class="evidence-title">${ev.title}</h4>
+          <p class="evidence-fact"><strong>Key Fact:</strong> ${ev.keyFact}</p>
+        </div>
+      `;
+      card.addEventListener('click', () => openClueModal(ev));
+    } else {
+      card.innerHTML = `
+        <div class="locked-clue-box">
+          <span class="locked-icon">🔒</span>
+          <span class="locked-title">UNDISCOVERED CLUE</span>
+          <span class="locked-sub">Inspect crime scene to uncover</span>
+        </div>
+      `;
+    }
+
+    container.appendChild(card);
+  });
+}
+
+// ==========================================================================
+// 10. Interactive Timeline
+// ==========================================================================
+function renderTimeline(c) {
+  const container = document.getElementById('timeline-list');
+  if (!container) return;
+  container.innerHTML = '';
+
+  c.timeline.forEach(t => {
+    let isUnlocked = !t.locked;
+    if (t.locked && t.unlockClue) {
+      isUnlocked = state.discoveredClues.has(t.unlockClue);
+    }
+
+    const item = document.createElement('div');
+    item.className = `timeline-item ${isUnlocked ? 'unlocked' : 'locked'}`;
+
+    item.innerHTML = `
+      <div class="timeline-marker">
+        <span class="marker-dot"></span>
+        <span class="marker-time">${t.time}</span>
+      </div>
+      <div class="timeline-card">
+        ${isUnlocked ? `
+          <h4 class="timeline-title">${t.title}</h4>
+          <p class="timeline-text">${t.text}</p>
+        ` : `
+          <div class="timeline-locked-state">
+            <span class="lock-icon">🔒</span>
+            <span class="lock-msg">LOCKED TIMELINE EVENT</span>
+            <span class="lock-hint">Discover related evidence to unlock timestamp</span>
+          </div>
+        `}
+      </div>
+    `;
+
+    container.appendChild(item);
+  });
+}
+
+// ==========================================================================
+// 11. Suspects Board
+// ==========================================================================
+function renderSuspects(c) {
+  const container = document.getElementById('suspects-grid');
+  if (!container) return;
+  container.innerHTML = '';
+
+  c.suspects.forEach(s => {
+    const card = document.createElement('article');
+    card.className = 'suspect-profile-card';
+
+    card.innerHTML = `
+      <div class="suspect-card-header">
+        <div class="suspect-avatar" style="background: ${s.avatarBg}">
+          ${s.avatarText}
+        </div>
+        <div class="suspect-meta">
+          <h3 class="suspect-name">${s.name}</h3>
+          <span class="suspect-role">${s.role}</span>
+        </div>
+      </div>
+      <div class="suspect-card-body">
+        <div class="suspect-data-row">
+          <span class="row-label">ALIBI:</span>
+          <p class="alibi-text">${s.alibi}</p>
+        </div>
+        <div class="suspect-data-row suspicious-row">
+          <span class="row-label">SUSPICIOUS:</span>
+          <p class="suspicious-text">${s.suspicious}</p>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+// ==========================================================================
+// 12. Case Notes with LocalStorage Persistence
+// ==========================================================================
+function loadCaseNotes(caseId) {
+  const textarea = document.getElementById('case-notes-input');
+  if (!textarea) return;
+
+  const saved = localStorage.getItem(`casefile_notes_${caseId}`) || '';
+  textarea.value = saved;
+
+  textarea.oninput = () => {
+    localStorage.setItem(`casefile_notes_${caseId}`, textarea.value);
+  };
+}
+
+// ==========================================================================
+// 13. HUD & Toast Helpers
+// ==========================================================================
+function updateHUD(c) {
+  const totalClues = c.evidence.length;
+  const foundClues = state.discoveredClues.size;
+
+  const elEv = document.getElementById('hud-evidence-count');
+  if (elEv) elEv.textContent = `${foundClues} / ${totalClues}`;
+
+  const elSusp = document.getElementById('hud-suspects-count');
+  if (elSusp) elSusp.textContent = `${c.suspects.length}`;
+
+  let unlockedTime = 0;
+  c.timeline.forEach(t => {
+    if (!t.locked || state.discoveredClues.has(t.unlockClue)) unlockedTime++;
+  });
+  const elTime = document.getElementById('hud-timeline-count');
+  if (elTime) elTime.textContent = `${unlockedTime} / ${c.timeline.length}`;
+}
+
+function showClueToast(title) {
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+
+  const toast = document.createElement('div');
+  toast.className = 'detective-toast';
+  toast.innerHTML = `
+    <span class="toast-badge">🔍 CLUE DISCOVERED</span>
+    <span class="toast-title">${title}</span>
+  `;
+
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.classList.add('fade-out');
+    setTimeout(() => toast.remove(), 400);
+  }, 2400);
+}
+
+// ==========================================================================
+// 14. Deduction Phase & Interactive Accusation Modal
+// ==========================================================================
+function openDeductionModal() {
+  const c = CASES_DB[state.currentCaseId];
+  if (!c) return;
+
+  const modal = document.getElementById('modal-deduction');
+  if (!modal) return;
+
+  state.deduction.selectedSuspect = null;
+  state.deduction.selectedEvidence = null;
+  state.deduction.selectedTheory = null;
+
+  renderDeductionStep1(c);
+  showDeductionStep(1);
+
+  modal.classList.remove('hidden');
+}
+
+function closeDeductionModal() {
+  const modal = document.getElementById('modal-deduction');
+  if (modal) modal.classList.add('hidden');
+}
+
+function showDeductionStep(stepNum) {
+  document.querySelectorAll('.deduction-step-pane').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById(`deduction-step-${stepNum}`);
+  if (target) target.classList.add('active');
+
+  document.querySelectorAll('.step-pip').forEach((pip, idx) => {
+    if (idx + 1 === stepNum) pip.classList.add('active');
+    else if (idx + 1 < stepNum) pip.classList.add('completed');
+    else pip.classList.remove('active', 'completed');
+  });
+}
+
+function renderDeductionStep1(c) {
+  const container = document.getElementById('step-1-suspects-list');
+  if (!container) return;
+  container.innerHTML = '';
+
+  c.suspects.forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'deduction-option-card';
+    btn.innerHTML = `
+      <div class="option-avatar" style="background: ${s.avatarBg}">${s.avatarText}</div>
+      <div class="option-info">
+        <strong>${s.name}</strong>
+        <span>${s.role}</span>
+      </div>
+    `;
+
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#step-1-suspects-list .deduction-option-card').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      state.deduction.selectedSuspect = s.id;
+      document.getElementById('btn-next-step-1').disabled = false;
+    });
+
+    container.appendChild(btn);
+  });
+
+  const nextBtn = document.getElementById('btn-next-step-1');
+  nextBtn.disabled = true;
+  nextBtn.onclick = () => {
+    renderDeductionStep2(c);
+    showDeductionStep(2);
+  };
+}
+
+function renderDeductionStep2(c) {
+  const container = document.getElementById('step-2-evidence-list');
+  if (!container) return;
+  container.innerHTML = '';
+
+  c.solution.evidenceOptions.forEach(evOpt => {
+    const btn = document.createElement('button');
+    btn.className = 'deduction-option-card';
+    btn.innerHTML = `
+      <div class="option-info">
+        <strong>${evOpt.text}</strong>
+      </div>
+    `;
+
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#step-2-evidence-list .deduction-option-card').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      state.deduction.selectedEvidence = evOpt.id;
+      document.getElementById('btn-next-step-2').disabled = false;
+    });
+
+    container.appendChild(btn);
+  });
+
+  const nextBtn = document.getElementById('btn-next-step-2');
+  nextBtn.disabled = true;
+  nextBtn.onclick = () => {
+    renderDeductionStep3(c);
+    showDeductionStep(3);
+  };
+}
+
+function renderDeductionStep3(c) {
+  const container = document.getElementById('step-3-theory-list');
+  if (!container) return;
+  container.innerHTML = '';
+
+  c.solution.theoryOptions.forEach(thOpt => {
+    const btn = document.createElement('button');
+    btn.className = 'deduction-option-card';
+    btn.innerHTML = `
+      <div class="option-info">
+        <p>${thOpt.text}</p>
+      </div>
+    `;
+
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#step-3-theory-list .deduction-option-card').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      state.deduction.selectedTheory = thOpt.id;
+      document.getElementById('btn-submit-verdict').disabled = false;
+    });
+
+    container.appendChild(btn);
+  });
+
+  const submitBtn = document.getElementById('btn-submit-verdict');
+  submitBtn.disabled = true;
+  submitBtn.onclick = evaluateDeduction;
+}
+
+// ==========================================================================
+// 15. Solution Reveal & Scoring
+// ==========================================================================
+function evaluateDeduction() {
+  const c = CASES_DB[state.currentCaseId];
+  if (!c) return;
+
+  const isCorrectSuspect = state.deduction.selectedSuspect === c.solution.culpritId;
+  const isCorrectEvidence = state.deduction.selectedEvidence === c.solution.correctEvidenceId;
+  const isCorrectTheory = state.deduction.selectedTheory === c.solution.correctTheoryId;
+
+  const isSolved = isCorrectSuspect && isCorrectEvidence && isCorrectTheory;
+
+  showDeductionStep(4);
+  const resultCard = document.getElementById('verdict-result-card');
+
+  if (isSolved) {
+    playSound('solve');
+    speakText('Case Solved! Outstanding deduction. You have uncovered the truth.');
+
+    localStorage.setItem(`casefile_${c.id}_solved`, 'true');
+
+    const totalClues = c.evidence.length;
+    const foundClues = state.discoveredClues.size;
+    const timeSecs = state.elapsedSeconds;
+
+    let baseScore = 60;
+    baseScore += Math.round((foundClues / totalClues) * 30);
+    if (timeSecs < 180) baseScore += 10;
+    else if (timeSecs < 300) baseScore += 5;
+    const finalScore = Math.min(100, baseScore);
+
+    let rank = 'NOVICE';
+    if (finalScore >= 95) rank = 'MASTER DETECTIVE';
+    else if (finalScore >= 85) rank = 'DETECTIVE';
+    else if (finalScore >= 70) rank = 'INVESTIGATOR';
+
+    localStorage.setItem(`casefile_${c.id}_score`, `${finalScore}%`);
+    localStorage.setItem(`casefile_${c.id}_rank`, rank);
+
+    const m = Math.floor(timeSecs / 60).toString().padStart(2, '0');
+    const s = (timeSecs % 60).toString().padStart(2, '0');
+
+    resultCard.className = 'verdict-card verdict-success';
+    resultCard.innerHTML = `
+      <div class="verdict-badge-banner">CASE SOLVED</div>
+      <h2 class="verdict-culprit">THE CULPRIT: ${c.suspects.find(s => s.id === c.solution.culpritId).name}</h2>
+
+      <div class="reveal-steps-box">
+        <h4>FORENSIC RECONSTRUCTION</h4>
+        <ul class="reveal-list">
+          ${c.solution.revealSteps.map(step => `
+            <li class="reveal-item">
+              <span class="check-icon">✓</span>
+              <span>${step}</span>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+
+      <div class="verdict-score-grid">
+        <div class="score-pill">
+          <span class="score-label">EVIDENCE FOUND</span>
+          <strong class="score-val">${foundClues} / ${totalClues}</strong>
+        </div>
+        <div class="score-pill">
+          <span class="score-label">ACCURACY</span>
+          <strong class="score-val">100%</strong>
+        </div>
+        <div class="score-pill">
+          <span class="score-label">INVESTIGATION TIME</span>
+          <strong class="score-val">${m}:${s}</strong>
+        </div>
+        <div class="score-pill rank-pill">
+          <span class="score-label">RANK</span>
+          <strong class="score-val">🕵️ ${rank}</strong>
+        </div>
+      </div>
+
+      <div class="verdict-actions">
+        <button id="btn-return-dashboard" class="btn-primary-action">
+          <span>RETURN TO CASE DASHBOARD</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    `;
+
+    document.getElementById('btn-return-dashboard').addEventListener('click', () => {
+      closeDeductionModal();
+      switchScreen('screen-dashboard');
+      renderCaseCards();
+    });
+
+  } else {
+    playSound('error');
+
+    let feedback = '';
+    if (!isCorrectSuspect) {
+      feedback = 'Your accusation points to an innocent person whose alibi is supported by forensic timestamps.';
+    } else if (!isCorrectEvidence) {
+      feedback = 'You identified the right suspect, but your chosen evidence does not conclusively shatter their alibi.';
+    } else {
+      feedback = 'Your theory of events contains logical flaws contradicted by crime scene physical proof.';
+    }
+
+    speakText('The deduction contains contradictions. Re-examine the clues.');
+
+    resultCard.className = 'verdict-card verdict-failure';
+    resultCard.innerHTML = `
+      <div class="verdict-badge-banner failure-banner">CONTRADICTION DETECTED</div>
+      <h2 class="verdict-culprit failure-title">INSUFFICIENT PROOF</h2>
+      <p class="failure-feedback">${feedback}</p>
+
+      <div class="verdict-actions">
+        <button id="btn-retry-deduction" class="btn-primary-action">
+          <span>RE-EXAMINE EVIDENCE</span>
+        </button>
+      </div>
+    `;
+
+    document.getElementById('btn-retry-deduction').addEventListener('click', () => {
+      closeDeductionModal();
+    });
+  }
+}
+
+// ==========================================================================
+// 16. Screen & Tab Navigation
+// ==========================================================================
+function switchScreen(screenId) {
+  document.querySelectorAll('.screen-view').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById(screenId);
+  if (target) target.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function switchTab(tabId) {
-  state.activeTab = tabId;
-  playSound('click');
-
-  DOM.dashTabs.forEach(tab => {
-    const isTarget = tab.dataset.tab === tabId;
-    tab.classList.toggle('active', isTarget);
-    tab.setAttribute('aria-selected', isTarget ? 'true' : 'false');
+function switchTab(tabName) {
+  document.querySelectorAll('.dash-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.tab === tabName);
   });
-
-  DOM.tabPanes.forEach(pane => {
-    pane.classList.toggle('active', pane.id === `tab-${tabId}`);
+  document.querySelectorAll('.tab-pane').forEach(p => {
+    p.classList.toggle('active', p.id === `tab-${tabName}`);
   });
 }
 
-// ==========================================================================
-// Crime Scene Inspection & Evidence Management
-// ==========================================================================
-function setupCrimeScene() {
-  document.querySelectorAll('.scene-object-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const evId = card.dataset.evidenceId;
-      inspectEvidence(evId);
-    });
-  });
-}
-
-function inspectEvidence(evId) {
-  const ev = CASE_DATA.evidence.find(item => item.id === evId);
-  if (!ev) return;
-
-  initAudioContext();
-
-  const isFirstDiscovery = !state.discoveredEvidence.has(evId);
-  if (isFirstDiscovery) {
-    state.discoveredEvidence.add(evId);
-    playSound('clue');
-    showToast(`🔍 Evidence Discovered: ${ev.title}`);
-    
-    // Check if discovering this clue unlocks timeline events
-    checkTimelineUnlocks();
-    updateHUD();
-    renderEvidenceBoard();
-    
-    // Update Scene Object Card style
-    const objCard = document.querySelector(`[data-evidence-id="${evId}"]`);
-    if (objCard) {
-      objCard.classList.add('inspected');
-      const statusEl = document.getElementById(`status-${evId}`);
-      if (statusEl) statusEl.textContent = 'Examined';
-    }
-  } else {
-    playSound('click');
-  }
-
-  // Populate and show evidence modal
-  DOM.modalEvId.textContent = ev.id.toUpperCase();
-  DOM.modalEvCategory.textContent = ev.category;
-  DOM.modalEvCategory.className = `category-chip ${ev.category.toLowerCase()}`;
-  DOM.modalEvIcon.textContent = ev.icon;
-  DOM.evModalTitle.textContent = ev.title;
-  DOM.evModalDesc.textContent = ev.fullDesc;
-  DOM.evModalSignificance.textContent = ev.significance;
-
-  openModal(DOM.modalEvidence);
-}
-
-function renderEvidenceBoard(filter = 'all') {
-  DOM.evidenceGrid.innerHTML = '';
-
-  if (state.discoveredEvidence.size === 0) {
-    DOM.evidenceGrid.innerHTML = `
-      <div class="evidence-empty-msg">
-        <p>No clues discovered yet. Return to the <strong>CRIME SCENE</strong> tab and inspect objects in the trophy hall.</p>
-      </div>
-    `;
-    return;
-  }
-
-  const collected = CASE_DATA.evidence.filter(ev => state.discoveredEvidence.has(ev.id));
-  const filtered = filter === 'all' ? collected : collected.filter(ev => ev.category === filter);
-
-  if (filtered.length === 0) {
-    DOM.evidenceGrid.innerHTML = `
-      <div class="evidence-empty-msg">
-        <p>No clues matching the <strong>${filter}</strong> category yet.</p>
-      </div>
-    `;
-    return;
-  }
-
-  filtered.forEach(ev => {
-    const card = document.createElement('div');
-    card.className = 'clue-card';
-    card.innerHTML = `
-      <div class="clue-top">
-        <span class="clue-stamp">${ev.id.toUpperCase()}</span>
-        <span class="category-chip ${ev.category.toLowerCase()}">${ev.category}</span>
-      </div>
-      <h4 class="clue-title">${ev.title}</h4>
-      <p class="clue-desc">${ev.shortDesc}</p>
-      <div class="clue-footer">
-        <span>Click to inspect</span>
-        <span class="clue-link">VIEW EXHIBIT →</span>
-      </div>
-    `;
-    card.addEventListener('click', () => inspectEvidence(ev.id));
-    DOM.evidenceGrid.appendChild(card);
-  });
-}
-
-// ==========================================================================
-// Suspects Interrogation
-// ==========================================================================
-function renderSuspects() {
-  DOM.suspectsGrid.innerHTML = '';
-
-  CASE_DATA.suspects.forEach(suspect => {
-    const card = document.createElement('div');
-    card.className = 'suspect-card';
-    const isQuestioned = state.questionedSuspects.has(suspect.id);
-
-    card.innerHTML = `
-      <div>
-        <div class="suspect-header">
-          <div class="suspect-avatar">${suspect.avatar}</div>
-          <div class="suspect-info">
-            <h4>${suspect.name}</h4>
-            <span class="suspect-role-badge">${suspect.role}</span>
-          </div>
-        </div>
-        <blockquote class="statement-quote">"${suspect.statement}"</blockquote>
-      </div>
-      <div class="suspect-card-footer">
-        <span class="suspect-interrogation-status ${isQuestioned ? 'questioned' : ''}">
-          ${isQuestioned ? '✓ Questioned' : 'Pending Interview'}
-        </span>
-        <button class="btn-question" data-suspect-id="${suspect.id}">QUESTION</button>
-      </div>
-    `;
-
-    card.querySelector('.btn-question').addEventListener('click', () => {
-      openSuspectModal(suspect.id);
-    });
-
-    DOM.suspectsGrid.appendChild(card);
-  });
-}
-
-function openSuspectModal(suspectId) {
-  const suspect = CASE_DATA.suspects.find(s => s.id === suspectId);
-  if (!suspect) return;
-
-  initAudioContext();
-  playSound('click');
-
-  if (!state.questionedSuspects.has(suspectId)) {
-    state.questionedSuspects.add(suspectId);
-    updateHUD();
-    renderSuspects();
-  }
-
-  DOM.suspectModalAvatar.textContent = suspect.avatar;
-  DOM.suspectModalName.textContent = suspect.name;
-  DOM.suspectModalRole.textContent = suspect.role;
-  DOM.suspectModalStatement.textContent = `"${suspect.statement}"`;
-
-  DOM.suspectModalQa.innerHTML = '';
-  suspect.dialogue.forEach(item => {
-    const qaDiv = document.createElement('div');
-    qaDiv.className = 'qa-item';
-    qaDiv.innerHTML = `
-      <div class="qa-question">Q: ${item.q}</div>
-      <div class="qa-answer">A: "${item.a}"</div>
-    `;
-    DOM.suspectModalQa.appendChild(qaDiv);
-  });
-
-  openModal(DOM.modalSuspect);
-}
-
-// ==========================================================================
-// Timeline Rebuilding
-// ==========================================================================
-function checkTimelineUnlocks() {
-  // Always unlock events 1 and 2
-  state.unlockedTimeline.add('tl-01');
-  state.unlockedTimeline.add('tl-02');
-
-  // If hallway camera discovered -> unlock event 3
-  if (state.discoveredEvidence.has('ev-04')) {
-    state.unlockedTimeline.add('tl-03');
-  }
-
-  // If breaker discovered -> unlock event 4
-  if (state.discoveredEvidence.has('ev-07')) {
-    state.unlockedTimeline.add('tl-04');
-  }
-
-  // If either camera or boot tread discovered -> unlock event 5
-  if (state.discoveredEvidence.has('ev-04') || state.discoveredEvidence.has('ev-06')) {
-    state.unlockedTimeline.add('tl-05');
-  }
-
-  renderTimeline();
-}
-
-function renderTimeline() {
-  DOM.timelineEventsList.innerHTML = '';
-
-  CASE_DATA.timeline.forEach(event => {
-    const isUnlocked = state.unlockedTimeline.has(event.id);
-    const item = document.createElement('div');
-    item.className = 'timeline-item';
-
-    if (isUnlocked) {
-      item.innerHTML = `
-        <div class="timeline-item-header">
-          <span class="timeline-time">${event.time}</span>
-          <span class="timeline-source">${event.source}</span>
-        </div>
-        <h4 class="timeline-item-title">${event.title}</h4>
-        <p class="timeline-item-desc">${event.desc}</p>
-      `;
-    } else {
-      item.innerHTML = `
-        <div class="timeline-item-header">
-          <span class="timeline-time">${event.time}</span>
-          <span class="timeline-source">UNRESOLVED</span>
-        </div>
-        <h4 class="timeline-item-title" style="color: var(--text-faint);">[ Pending Clue Discovery ]</h4>
-        <p class="timeline-item-desc" style="font-style: italic;">Continue investigating crime scene objects to unlock this chronological event.</p>
-      `;
-    }
-
-    DOM.timelineEventsList.appendChild(item);
-  });
-}
-
-// ==========================================================================
-// Case Notes with LocalStorage
-// ==========================================================================
-function initNotes() {
-  const savedNotes = localStorage.getItem('casefile_notes_case001');
-  if (savedNotes) {
-    DOM.caseNotesInput.value = savedNotes;
-  }
-
-  DOM.btnSaveNotes.addEventListener('click', () => {
-    saveNotes();
-  });
-
-  DOM.btnInsertTimestamp.addEventListener('click', () => {
-    const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const tag = `[${timeStr}] `;
-    const start = DOM.caseNotesInput.selectionStart;
-    const end = DOM.caseNotesInput.selectionEnd;
-    const text = DOM.caseNotesInput.value;
-    DOM.caseNotesInput.value = text.substring(0, start) + tag + text.substring(end);
-    DOM.caseNotesInput.focus();
-    DOM.caseNotesInput.selectionStart = DOM.caseNotesInput.selectionEnd = start + tag.length;
-  });
-
-  DOM.btnClearNotes.addEventListener('click', () => {
-    if (confirm('Clear all notes for this case?')) {
-      DOM.caseNotesInput.value = '';
-      saveNotes();
-    }
-  });
-
-  DOM.caseNotesInput.addEventListener('input', () => {
-    DOM.notesStatus.textContent = 'Unsaved changes...';
-  });
-}
-
-function saveNotes() {
-  const content = DOM.caseNotesInput.value;
-  localStorage.setItem('casefile_notes_case001', content);
-  DOM.notesStatus.textContent = 'All notes saved';
-  playSound('click');
-  showToast('📝 Notes saved successfully');
-}
-
-// ==========================================================================
-// Accusation Modal & Submission Flow
-// ==========================================================================
-function openAccusationModal() {
-  initAudioContext();
-  playSound('click');
-
-  state.selectedAccusedSuspect = null;
-  state.selectedAccusedEvidence = null;
-  DOM.btnSubmitAccusation.disabled = true;
-
-  // Render suspects choices
-  DOM.accusationSuspectsGrid.innerHTML = '';
-  CASE_DATA.suspects.forEach(suspect => {
-    const btn = document.createElement('button');
-    btn.className = 'suspect-choice-btn';
-    btn.dataset.id = suspect.id;
-    btn.innerHTML = `
-      <strong>${suspect.name}</strong>
-      <span>${suspect.role}</span>
-    `;
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.suspect-choice-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      state.selectedAccusedSuspect = suspect.id;
-      validateAccusationReady();
-      playSound('click');
-    });
-    DOM.accusationSuspectsGrid.appendChild(btn);
-  });
-
-  // Render discovered evidence choices
-  DOM.accusationEvidenceList.innerHTML = '';
-  if (state.discoveredEvidence.size === 0) {
-    DOM.accusationEvidenceList.innerHTML = '<p style="color: var(--text-muted); font-size: 0.8rem; padding: 10px;">You must discover evidence before submitting an accusation.</p>';
-  } else {
-    CASE_DATA.evidence
-      .filter(ev => state.discoveredEvidence.has(ev.id))
-      .forEach(ev => {
-        const item = document.createElement('button');
-        item.className = 'evidence-choice-item';
-        item.dataset.id = ev.id;
-        item.textContent = `${ev.id.toUpperCase()}: ${ev.title}`;
-        item.addEventListener('click', () => {
-          document.querySelectorAll('.evidence-choice-item').forEach(b => b.classList.remove('selected'));
-          item.classList.add('selected');
-          state.selectedAccusedEvidence = ev.id;
-          validateAccusationReady();
-          playSound('click');
-        });
-        DOM.accusationEvidenceList.appendChild(item);
-      });
-  }
-
-  openModal(DOM.modalAccusation);
-}
-
-function validateAccusationReady() {
-  const isReady = (state.selectedAccusedSuspect !== null && state.selectedAccusedEvidence !== null);
-  DOM.btnSubmitAccusation.disabled = !isReady;
-}
-
-function submitAccusation() {
-  closeAllModals();
-
-  const isCorrectCulprit = (state.selectedAccusedSuspect === CASE_DATA.culpritId);
-  const isCorrectProof = CASE_DATA.validEvidenceIds.includes(state.selectedAccusedEvidence);
-
-  showScreen('results');
-
-  if (isCorrectCulprit && isCorrectProof) {
-    // VICTORY: CASE SOLVED!
-    playSound('solved');
-    DOM.verdictSuccess.classList.remove('hidden');
-    DOM.verdictFailure.classList.add('hidden');
-
-    // Calculate rating based on completion
-    const evCount = state.discoveredEvidence.size;
-    const suspCount = state.questionedSuspects.size;
-    const tlCount = state.unlockedTimeline.size;
-
-    DOM.finalEvCount.textContent = `${evCount} / ${CASE_DATA.evidence.length}`;
-    DOM.finalSuspectsCount.textContent = `${suspCount} / ${CASE_DATA.suspects.length}`;
-    DOM.finalTimelineCount.textContent = `${tlCount} / ${CASE_DATA.timeline.length}`;
-
-    if (evCount === 8 && suspCount === 4) {
-      DOM.solvedRating.textContent = '★ PERFECT INVESTIGATION ★';
-      DOM.solvedRating.style.color = '#eab308';
-    } else {
-      DOM.solvedRating.textContent = 'CASE SOLVED';
-      DOM.solvedRating.style.color = '#22c55e';
-    }
-
-    // Save solved state
-    localStorage.setItem('casefile_case001_solved', 'true');
-
-  } else {
-    // INCORRECT ACCUSATION
-    playSound('error');
-    DOM.verdictSuccess.classList.add('hidden');
-    DOM.verdictFailure.classList.remove('hidden');
-
-    const wrongMsg = document.getElementById('wrong-accusation-msg');
-    if (!isCorrectCulprit) {
-      wrongMsg.textContent = 'Your accusation targets an innocent person. Their alibi remains corroborated by witness statements and physical timestamps.';
-    } else {
-      wrongMsg.textContent = 'You identified the right suspect, but your chosen evidence does not conclusively contradict their alibi. Find the piece of proof that exposes their physical presence or intentional blackout.';
-    }
-  }
-}
-
-// ==========================================================================
-// UI Helpers & HUD
-// ==========================================================================
-function updateHUD() {
-  DOM.hudEvidenceCount.textContent = `${state.discoveredEvidence.size} / ${CASE_DATA.evidence.length}`;
-  DOM.hudSuspectsCount.textContent = `${state.questionedSuspects.size} / ${CASE_DATA.suspects.length}`;
-  DOM.hudTimelineCount.textContent = `${state.unlockedTimeline.size} / ${CASE_DATA.timeline.length}`;
-}
-
-function showToast(message, duration = 2600) {
-  const toast = document.createElement('div');
-  toast.className = 'toast-msg';
-  toast.style.cssText = `
-    background: #0e1524;
-    color: #f8fafc;
-    border: 1px solid #2f446d;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-    margin-bottom: 8px;
-    animation: fadeIn 0.2s ease-out;
-  `;
-  toast.textContent = message;
-  DOM.toastContainer.appendChild(toast);
-
-  setTimeout(() => {
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateY(-10px)';
-    toast.style.transition = 'all 0.2s ease';
-    setTimeout(() => toast.remove(), 250);
-  }, duration);
-}
-
-function openModal(modalEl) {
-  if (modalEl) modalEl.classList.remove('hidden');
-}
-
-function closeModal(modalEl) {
-  if (modalEl) modalEl.classList.add('hidden');
-}
-
-function closeAllModals() {
-  document.querySelectorAll('.modal-backdrop').forEach(m => m.classList.add('hidden'));
-}
-
-function startBackgroundMusic() {
-  if (!state.soundEnabled || !DOM.bgMusic) return;
-
-  DOM.bgMusic.volume = 0.10;
-
-  DOM.bgMusic.play().catch(() => {
-    console.log('Music waiting for user interaction.');
-  });
-}
-
-function stopBackgroundMusic() {
-  if (DOM.bgMusic) {
-    DOM.bgMusic.pause();
-  }
-}
-
-// ==========================================================================
-// Sound & Settings
-// ==========================================================================
-function initSound() {
-  const saved = localStorage.getItem('casefile_sound');
-
-  state.soundEnabled = (saved !== 'false');
-
-  if (DOM.bgMusic) {
-    DOM.bgMusic.volume = 0.10;
-  }
-
+function initThemeAndSound() {
+  const btnSound = document.getElementById('btn-sound');
+  const btnVoice = document.getElementById('btn-voice');
+
+  const savedSound = localStorage.getItem('casefile_sound');
+  state.soundEnabled = savedSound !== 'false';
   updateSoundUI();
+
+  if (btnSound) {
+    btnSound.addEventListener('click', () => {
+      state.soundEnabled = !state.soundEnabled;
+      localStorage.setItem('casefile_sound', state.soundEnabled ? 'true' : 'false');
+      updateSoundUI();
+    });
+  }
+
+  const savedVoice = localStorage.getItem('casefile_narration');
+  state.narrationEnabled = savedVoice !== 'false';
+  updateVoiceUI();
+
+  if (btnVoice) {
+    btnVoice.addEventListener('click', () => {
+      state.narrationEnabled = !state.narrationEnabled;
+      localStorage.setItem('casefile_narration', state.narrationEnabled ? 'true' : 'false');
+      updateVoiceUI();
+      if (!state.narrationEnabled) stopSpeaking();
+      else speakText('Voice narration enabled.');
+    });
+  }
 }
 
 function updateSoundUI() {
-  if (state.soundEnabled) {
-    DOM.soundIconOn.classList.remove('hidden');
-    DOM.soundIconOff.classList.add('hidden');
-    DOM.btnSound.setAttribute('title', 'Sound: Enabled');
-  } else {
-    DOM.soundIconOn.classList.add('hidden');
-    DOM.soundIconOff.classList.remove('hidden');
-    DOM.btnSound.setAttribute('title', 'Sound: Muted');
+  const iconOn = document.getElementById('sound-icon-on');
+  const iconOff = document.getElementById('sound-icon-off');
+  if (iconOn && iconOff) {
+    iconOn.classList.toggle('hidden', !state.soundEnabled);
+    iconOff.classList.toggle('hidden', state.soundEnabled);
   }
 }
 
-// ==========================================================================
-// Reset & Replay
-// ==========================================================================
-function resetCase() {
-  if (confirm('Restart Case #001 investigation from the beginning? Your notes will be preserved.')) {
-    state.discoveredEvidence.clear();
-    state.questionedSuspects.clear();
-    state.unlockedTimeline.clear();
-    state.selectedAccusedSuspect = null;
-    state.selectedAccusedEvidence = null;
+function updateVoiceUI() {
+  const btnVoice = document.getElementById('btn-voice');
+  if (!btnVoice) return;
+  btnVoice.classList.toggle('voice-muted', !state.narrationEnabled);
+  btnVoice.setAttribute('title', state.narrationEnabled ? 'Voice Narration: ON' : 'Voice Narration: MUTED');
+}
 
-    document.querySelectorAll('.scene-object-card').forEach(card => {
-      card.classList.remove('inspected');
-      const statusEl = card.querySelector('.object-status');
-      if (statusEl) statusEl.textContent = 'Inspect';
+// ==========================================================================
+// 17. Initialization & Event Binding
+// ==========================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  initDashboard();
+
+  const btnSkip = document.getElementById('btn-cinematic-skip');
+  if (btnSkip) btnSkip.addEventListener('click', skipCinematic);
+
+  const btnStart = document.getElementById('btn-cinematic-start');
+  if (btnStart) btnStart.addEventListener('click', skipCinematic);
+
+  const btnBackCases = document.getElementById('btn-back-cases');
+  if (btnBackCases) {
+    btnBackCases.addEventListener('click', () => {
+      if (state.timerInterval) clearInterval(state.timerInterval);
+      stopSpeaking();
+      switchScreen('screen-dashboard');
+      renderCaseCards();
     });
-
-    checkTimelineUnlocks();
-    updateHUD();
-    renderEvidenceBoard();
-    renderSuspects();
-
-    showScreen('briefing');
-    showToast('Case investigation reset.');
   }
-}
 
-// ==========================================================================
-// Event Binding & Initialization
-// ==========================================================================
-function setupEventListeners() {
-  // Sound toggle
-DOM.btnSound.addEventListener('click', () => {
-  state.soundEnabled = !state.soundEnabled;
-
-  localStorage.setItem(
-    'casefile_sound',
-    state.soundEnabled ? 'true' : 'false'
-  );
-
-  updateSoundUI();
-
-  if (state.soundEnabled) {
-    initAudioContext();
-    playSound('click');
-    startBackgroundMusic();
-  } else {
-    stopBackgroundMusic();
-  }
-});
-  // Screen transitions
-  DOM.btnStartInvestigation.addEventListener('click', () => {
-    initAudioContext();
-    playSound('click');
-    startBackgroundMusic();
-    showScreen('investigation');
-  });
-
-  // Tab switching
-  DOM.dashTabs.forEach(tab => {
+  document.querySelectorAll('.dash-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       switchTab(tab.dataset.tab);
     });
   });
 
-  // Evidence filtering
-  DOM.evidenceFilterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      DOM.evidenceFilterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderEvidenceBoard(btn.dataset.filter);
+  const btnCloseClue = document.getElementById('btn-close-clue');
+  if (btnCloseClue) btnCloseClue.addEventListener('click', closeClueModal);
+
+  const clueModalBackdrop = document.getElementById('modal-clue-detail');
+  if (clueModalBackdrop) {
+    clueModalBackdrop.addEventListener('click', (e) => {
+      if (e.target === clueModalBackdrop) closeClueModal();
     });
-  });
+  }
 
-  // Accusation buttons
-  DOM.btnOpenAccusation.addEventListener('click', openAccusationModal);
-  DOM.btnSubmitAccusation.addEventListener('click', submitAccusation);
+  const btnOpenAccuse = document.getElementById('btn-open-accusation');
+  if (btnOpenAccuse) btnOpenAccuse.addEventListener('click', openDeductionModal);
 
-  // Results screen buttons
-  DOM.btnReplayCase.addEventListener('click', () => {
-    showScreen('briefing');
-  });
-
-  DOM.btnReviewEvidence.addEventListener('click', () => {
-    showScreen('investigation');
-    switchTab('evidence');
-  });
-
-  DOM.btnTryAgain.addEventListener('click', () => {
-    showScreen('investigation');
-    openAccusationModal();
-  });
-
-  // Reset case
-  DOM.btnCaseReset.addEventListener('click', resetCase);
-
-  // Close modals
-  document.querySelectorAll('.modal-close, .modal-close-btn').forEach(btn => {
-    btn.addEventListener('click', closeAllModals);
-  });
-
-  document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
-    backdrop.addEventListener('click', (e) => {
-      if (e.target === backdrop) closeAllModals();
-    });
-  });
-
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeAllModals();
-  });
-}
-
-// ==========================================================================
-// Entry Point
-// ==========================================================================
-document.addEventListener('DOMContentLoaded', () => {
-  setupCrimeScene();
-  renderSuspects();
-  checkTimelineUnlocks();
-  renderEvidenceBoard();
-  initNotes();
-  initSound();
-  setupEventListeners();
-  updateHUD();
+  const btnCloseDeduce = document.getElementById('btn-close-deduction');
+  if (btnCloseDeduce) btnCloseDeduce.addEventListener('click', closeDeductionModal);
 });
